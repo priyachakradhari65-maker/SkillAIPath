@@ -1,0 +1,21 @@
+{
+  "name": "10_OnDemand_Genie_Space_Creator",
+  "description": "Creates Genie spaces for Unity Catalog tables",
+  "tags": {
+    "Genie": "",
+    "OnDemand": "",
+    "Setup": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "Create_Genie_Spaces",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/4_Business_Intelligence/2_BI_Production/1_setup/02_genie_space_creation",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "09_Daily_Bronze_Silver_DLT",
+  "description": "\u2705 DLT Pipeline configured and ready to run.\n\nThis job runs the Bronze-Silver DLT Pipeline that:\n1. Ingests streaming data from test volumes (Bronze layer)\n2. Applies CDC transformations with SCD Type 2 (Silver layer)\n3. Handles watermarks, late arrivals, and checkpoints\n\nPipeline: Bronze-Silver DLT Pipeline (dev)\nPipeline ID: 395a5464-f34e-4081-b8f8-80661c3e0b53\nCatalog: sap_dev\nTarget Schema: silver\n\nTo view pipeline: https://your-workspace.cloud.databricks.com/pipelines/395a5464-f34e-4081-b8f8-80661c3e0b53",
+  "tags": {
+    "Daily": "",
+    "DLT": "",
+    "Medallion": "",
+    "Pipeline": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "DLT_Pipeline_Run",
+      "pipeline_task": {
+        "pipeline_id": "b111a433-e4f2-45e7-9faf-62372d0a5f0e"
+      }
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T27	Stock only 8 snapshots	P2	Gold		Rebuild vector index with correct embeddings, ensure knowledge base has > 500 chars per document	7/8 test queries return relevant results	Engineer_02	15	

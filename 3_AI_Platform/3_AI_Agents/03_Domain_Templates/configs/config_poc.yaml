@@ -1,0 +1,80 @@
+# ==========================================
+# POC CONFIGURATION: Dashboard Generator Test
+# ==========================================
+# Purpose: Validate YAML → Generator → Live Dashboard pattern
+# Scope: Minimal config to prove the concept works
+# Time: 4 hours to build, < 5 minutes to deploy
+
+domain:
+  name: poc
+  description: Proof of Concept - Dashboard Generator
+  catalog: sap_dev
+
+# ==========================================
+# DASHBOARDS: Lakeview Widget Specs
+# ==========================================
+dashboards:
+  - name: POC Executive Dashboard
+    description: Minimal dashboard to validate auto-generation
+    
+    # Data source (assumes this table exists)
+    table: sap_dev.gold.mart_account_health
+    
+    # Widgets to generate
+    widgets:
+      # Widget 1: Counter (Total Accounts)
+      - type: counter
+        title: Total Accounts
+        metric: COUNT(DISTINCT account_id)
+        position:
+          x: 0
+          y: 0
+          width: 2
+          height: 2
+      
+      # Widget 2: Counter (High Risk Accounts)
+      - type: counter
+        title: High Risk Accounts
+        metric: COUNT(DISTINCT account_id)
+        filter: churn_risk_score > 0.7
+        position:
+          x: 2
+          y: 0
+          width: 2
+          height: 2
+      
+      # Widget 3: Bar Chart (Revenue by Tier)
+      - type: bar
+        title: Total Spend by Account Tier
+        x_axis: account_tier
+        y_axis: SUM(total_spend)
+        position:
+          x: 0
+          y: 2
+          width: 3
+          height: 4
+      
+      # Widget 4: Line Chart (Transactions Over Time)
+      - type: line
+        title: Transaction Trend
+        x_axis: snapshot_date
+        y_axis: SUM(total_transactions)
+        color_by: account_tier
+        position:
+          x: 3
+          y: 2
+          width: 3
+          height: 4
+
+
+# ==========================================
+# SUCCESS CRITERIA FOR POC
+# ==========================================
+# ✅ Run: python generators/dashboard_generator.py
+# ✅ Verify: Dashboard "POC Executive Dashboard" created
+# ✅ Verify: 4 widgets visible (2 counters, 1 bar, 1 line)
+# ✅ Verify: Widgets show data from sap_dev.gold.mart_account_health
+# ✅ Time: < 5 minutes from YAML to live dashboard
+#
+# If this works, the pattern is validated!
+# Then replicate for 9 other generators.

@@ -1,0 +1,33 @@
+{
+  "name": "16_Weekly_Training_Data_Extraction",
+  "tags": {
+    "Data-Prep": "",
+    "Feature-Engineering": "",
+    "ML": "",
+    "Weekly": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "Chat_Extractor",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/3_AI_Agents/Knowledge_Hub/Training_Data_Extraction/log_collector/1_REAL_Chat_Extractor",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "Google_Drive_Extractor",
+      "depends_on": [
+        {
+          "task_key": "Chat_Extractor"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/3_AI_Agents/Knowledge_Hub/Training_Data_Extraction/log_collector/2_Google_Drive_Universal_Extractor",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

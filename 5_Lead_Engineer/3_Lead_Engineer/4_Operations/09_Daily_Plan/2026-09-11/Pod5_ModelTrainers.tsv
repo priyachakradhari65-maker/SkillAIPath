@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T03	Demand forecast 30% zero/negative, 5/78 products	P0	ML	T21	Retrain next purchase model with repeat purchase data (from T22), fix sigmoid output layer	AVG(score) between 0.1 and 0.9	Engineer_07	30	Demand forecast broken for 30pct of products. Inventory planning unreliable.

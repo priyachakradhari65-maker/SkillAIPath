@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T18	TaxRate bigint	P3	P3		Implement SCD2 on dim_customer, dim_product, dim_warehouse - Add: start_date, end_date, is_current columns	SCD2 columns exist and at least 1 historical record per dimension	Engineer_09	15	

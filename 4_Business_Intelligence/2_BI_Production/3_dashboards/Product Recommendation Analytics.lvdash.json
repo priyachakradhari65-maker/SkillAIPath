@@ -1,0 +1,784 @@
+{
+  "datasets": [
+    {
+      "name": "product_recommendations",
+      "displayName": "Product Recommendations",
+      "config": {
+        "version": "1.1",
+        "source": "sap_dev.gold.product_recommendations",
+        "dimensions": [
+          {
+            "name": "customer_id",
+            "expr": "customer_id"
+          },
+          {
+            "name": "recommended_product_id",
+            "expr": "recommended_product_id"
+          },
+          {
+            "name": "recommended_product_name",
+            "expr": "recommended_product_name"
+          },
+          {
+            "name": "recommendation_score",
+            "expr": "recommendation_score"
+          },
+          {
+            "name": "prediction_date",
+            "expr": "prediction_date"
+          },
+          {
+            "name": "recommendation_rank",
+            "expr": "recommendation_rank"
+          }
+        ],
+        "measures": [
+          {
+            "name": "total_customers",
+            "expr": "COUNT(DISTINCT customer_id)"
+          },
+          {
+            "name": "total_recommendations",
+            "expr": "COUNT(*)"
+          },
+          {
+            "name": "unique_products",
+            "expr": "COUNT(DISTINCT recommended_product_id)"
+          },
+          {
+            "name": "avg_recommendation_score",
+            "expr": "AVG(recommendation_score)"
+          },
+          {
+            "name": "total_score",
+            "expr": "SUM(recommendation_score)"
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "c99efaef",
+      "displayName": "Overview",
+      "layout": [
+        {
+          "widget": {
+            "name": "top_products",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "product_recommendations",
+                  "fields": [
+                    {
+                      "name": "recommended_product_name",
+                      "expression": "`recommended_product_name`"
+                    },
+                    {
+                      "name": "measure(total_recommendations)",
+                      "expression": "MEASURE(`total_recommendations`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top 10 Recommended Products",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "recommended_product_name",
+                  "displayName": "Product Name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_recommendations)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact"
+                  },
+                  "displayName": "Total Recommendations",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "recommended_product_name",
+                  "displayName": "Product Name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "customer_recommendations",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "product_recommendations",
+                  "fields": [
+                    {
+                      "name": "customer_id",
+                      "expression": "`customer_id`"
+                    },
+                    {
+                      "name": "recommended_product_name",
+                      "expression": "`recommended_product_name`"
+                    },
+                    {
+                      "name": "recommendation_score",
+                      "expression": "`recommendation_score`"
+                    },
+                    {
+                      "name": "recommendation_rank",
+                      "expression": "`recommendation_rank`"
+                    },
+                    {
+                      "name": "prediction_date",
+                      "expression": "`prediction_date`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Top 10 Customer Recommendations",
+                "showTitle": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "customer_id",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none"
+                    },
+                    "displayName": "Customer ID"
+                  },
+                  {
+                    "fieldName": "recommended_product_name",
+                    "displayName": "Product Name"
+                  },
+                  {
+                    "fieldName": "recommendation_score",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 3
+                      }
+                    },
+                    "displayName": "Recommendation Score"
+                  },
+                  {
+                    "fieldName": "recommendation_rank",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none"
+                    },
+                    "displayName": "Rank"
+                  },
+                  {
+                    "fieldName": "prediction_date",
+                    "displayName": "Prediction Date"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 13,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "total_customers",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "product_recommendations",
+                  "fields": [
+                    {
+                      "name": "measure(total_customers)",
+                      "expression": "MEASURE(`total_customers`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Customers",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_customers)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "total_recommendations",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "product_recommendations",
+                  "fields": [
+                    {
+                      "name": "measure(total_recommendations)",
+                      "expression": "MEASURE(`total_recommendations`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Recommendations",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_recommendations)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "rank_distribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "product_recommendations",
+                  "fields": [
+                    {
+                      "name": "recommendation_rank",
+                      "expression": "`recommendation_rank`"
+                    },
+                    {
+                      "name": "measure(total_recommendations)",
+                      "expression": "MEASURE(`total_recommendations`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Recommendation Rank Distribution",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "recommendation_rank",
+                  "displayName": "Recommendation Rank",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_recommendations)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact"
+                  },
+                  "displayName": "Total Recommendations",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "recommendation_rank",
+                  "displayName": "Recommendation Rank",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 5,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "unique_products",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "product_recommendations",
+                  "fields": [
+                    {
+                      "name": "measure(unique_products)",
+                      "expression": "MEASURE(`unique_products`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Unique Recommended Products",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(unique_products)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "avg_score",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "product_recommendations",
+                  "fields": [
+                    {
+                      "name": "measure(avg_recommendation_score)",
+                      "expression": "MEASURE(`avg_recommendation_score`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Avg Recommendation Score",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(avg_recommendation_score)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "score_distribution_chart",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "product_recommendations",
+                  "fields": [
+                    {
+                      "name": "recommendation_score",
+                      "expression": "`recommendation_score`"
+                    },
+                    {
+                      "name": "measure(total_recommendations)",
+                      "expression": "MEASURE(`total_recommendations`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Recommendation Score Distribution",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "recommendation_score",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Recommendation Score",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_recommendations)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact"
+                  },
+                  "displayName": "Count",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 21,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "dashboard_header",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Product Recommendation Analytics\n",
+                "Explore customer product recommendations with key metrics, product popularity analysis, and recommendation quality insights. Use global filters to drill down by customer, product, date, or recommendation rank."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "global_filters",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "customer_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f19cb57997104fb4b266b4f0d0b3da/datasets/01f19cb5b1341b3aac98b8cb992b6572_customer_id",
+                "query": {
+                  "datasetName": "product_recommendations",
+                  "fields": [
+                    {
+                      "name": "customer_id",
+                      "expression": "`customer_id`"
+                    },
+                    {
+                      "name": "customer_id_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Customer ID",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "customer_id",
+                    "queryName": "dashboards/01f19cb57997104fb4b266b4f0d0b3da/datasets/01f19cb5b1341b3aac98b8cb992b6572_customer_id"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "product_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f19cb57997104fb4b266b4f0d0b3da/datasets/01f19cb5b1341b3aac98b8cb992b6572_recommended_product_name",
+                "query": {
+                  "datasetName": "product_recommendations",
+                  "fields": [
+                    {
+                      "name": "recommended_product_name",
+                      "expression": "`recommended_product_name`"
+                    },
+                    {
+                      "name": "recommended_product_name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Product",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "recommended_product_name",
+                    "queryName": "dashboards/01f19cb57997104fb4b266b4f0d0b3da/datasets/01f19cb5b1341b3aac98b8cb992b6572_recommended_product_name"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "date_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f19cb57997104fb4b266b4f0d0b3da/datasets/01f19cb5b1341b3aac98b8cb992b6572_prediction_date",
+                "query": {
+                  "datasetName": "product_recommendations",
+                  "fields": [
+                    {
+                      "name": "prediction_date",
+                      "expression": "`prediction_date`"
+                    },
+                    {
+                      "name": "prediction_date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Prediction Date",
+                "showTitle": true
+              },
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "prediction_date",
+                    "queryName": "dashboards/01f19cb57997104fb4b266b4f0d0b3da/datasets/01f19cb5b1341b3aac98b8cb992b6572_prediction_date"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "rank_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f19cb57997104fb4b266b4f0d0b3da/datasets/01f19cb5b1341b3aac98b8cb992b6572_recommendation_rank",
+                "query": {
+                  "datasetName": "product_recommendations",
+                  "fields": [
+                    {
+                      "name": "recommendation_rank",
+                      "expression": "`recommendation_rank`"
+                    },
+                    {
+                      "name": "recommendation_rank_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Recommendation Rank",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "recommendation_rank",
+                    "queryName": "dashboards/01f19cb57997104fb4b266b4f0d0b3da/datasets/01f19cb5b1341b3aac98b8cb992b6572_recommendation_rank"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "selectionColor": {
+        "light": "#6366F1",
+        "dark": "#6366F1"
+      },
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED",
+      "fontFamily": "Inter",
+      "widgetPadding": 16,
+      "widgetMargin": 12,
+      "widgetCornerRadius": 8,
+      "widgetShadow": 60
+    },
+    "applyModeEnabled": false
+  }
+}

@@ -1,0 +1,7 @@
+Date	Pod	Work_ID	Title	Priority	Engineer
+2026-09-12	Pod1_DataHunters	T26	Enrichment tables missing	P1	Engineer_01
+2026-09-12	Pod2_Architects	T11	No liquid clustering	P2	Engineer_02
+2026-09-12	Pod4_AgentMakers	T44	Add LLM Review Loop post-Creation phase	P1	Engineer_05
+2026-09-12	Pod5_ModelTrainers	T25	next_purchase_predictions all scores ~1e	P0	Engineer_07
+2026-09-12	Pod6_StoryBuilders	T08	Dashboard MoM -66%	P2	Engineer_08
+2026-09-12	Pod8_Gatekeepers	T17	No CI/CD	P3	Engineer_09

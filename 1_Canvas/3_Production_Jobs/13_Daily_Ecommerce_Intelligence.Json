@@ -1,0 +1,21 @@
+{
+  "name": "13_Daily_Ecommerce_Intelligence",
+  "tags": {
+    "AI": "",
+    "Daily": "",
+    "Ecommerce": "",
+    "Analytics": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "11DailyEcommerceIntelligence",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/2_Rag_Pipeline/ecommerce_intelligence",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

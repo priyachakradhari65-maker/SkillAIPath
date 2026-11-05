@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T25	next_purchase_predictions all scores ~1e-15, 15/78 products	P0	ML	T21	Increase snapshot frequency to daily, add scheduled job for inventory snapshot	SELECT COUNT(DISTINCT snapshot_date) FROM sap_dev.gold.mart_inventory_health > 30	Engineer_07	30	Next purchase predictions all near-zero. Student retention prediction useless.

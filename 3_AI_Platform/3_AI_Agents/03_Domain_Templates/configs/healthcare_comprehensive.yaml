@@ -1,0 +1,78 @@
+domain:
+  name: Healthcare Analytics
+  catalog: healthcare_prod
+  description: Production healthcare analytics platform
+patterns_from_skillaipath:
+  dimensions:
+  - name: dim_patient
+    source_pattern: dim_customer_scd2
+    type: SCD2
+  - name: dim_provider
+    source_pattern: dim_agent
+    type: SCD1
+  - name: dim_facility
+    source_pattern: dim_warehouse
+    type: Simple
+  - name: dim_diagnosis
+    source_pattern: dim_product_category
+    type: Simple
+  - name: dim_date
+    source_pattern: dim_date
+    type: Simple
+  facts:
+  - name: fact_encounter
+    source_pattern: fact_sales
+    joins:
+    - dim_patient
+    - dim_provider
+    - dim_facility
+  - name: fact_prescription
+    source_pattern: fact_purchases
+    joins:
+    - dim_patient
+    - dim_provider
+  - name: fact_lab_results
+    source_pattern: fact_inventory
+    joins:
+    - dim_patient
+    - dim_facility
+  streaming:
+  - name: stream_vitals
+    source_pattern: streaming_bronze_autoloader
+  - name: stream_patient_events
+    source_pattern: streaming_silver_transforms
+  gold:
+  - name: patient_360
+    source_pattern: mart_customer_360
+  - name: provider_performance
+    source_pattern: mart_product_performance
+  - name: facility_utilization
+    source_pattern: mart_inventory_health
+  mlops:
+  - name: readmission_prediction
+    source_pattern: churn_prediction
+  - name: length_of_stay_forecast
+    source_pattern: demand_forecasting
+  monitoring:
+  - name: data_quality_monitor
+    source_pattern: data_quality_checks
+  - name: model_drift_detector
+    source_pattern: model_drift_detection
+  dashboards:
+  - name: Executive KPI Dashboard
+    widgets: 10
+  - name: Clinical Analytics
+    widgets: 8
+  - name: Financial Performance
+    widgets: 6
+deployment:
+  layers:
+  - bronze
+  - silver
+  - gold
+  enable_streaming: true
+  enable_mlops: true
+  enable_monitoring: true
+scheduling:
+  frequency: hourly
+  retry_policy: 3

@@ -1,0 +1,48 @@
+Asset Name	Asset Type	Status	Category	Description
+01_OnDemand_DevOps	Job	Configured	CI/CD	DevOps pipeline setup and GitHub integration
+02_OnDemand_EduFin_Core_Analytics	Job	Active	Analytics	Education and Finance core analytics
+03_Daily_Lakehouse_Full_Load	Job	Active	ETL	Daily full data lake refresh
+04_Daily_Lakehouse_Incremental	Job	Active	ETL	Incremental data lake updates
+05_Daily_DBT_Full_Transformation	Job	Active	DBT	Full DBT transformation run
+06_Daily_DBT_Incremental	Job	Active	DBT	Incremental DBT transformations
+07_OnDemand_Genie_Space_Creator	Job	Configured	Genie	Automated Genie Space creation
+08_Daily_Streaming_CDC	Job	Active	CDC	Change data capture streaming
+09_Daily_Bronze_Silver_DLT	Job	Configured	DLT	Medallion pipeline Bronze to Silver
+10_Daily_Knowledge_Retrieval_System	Job	Active	AI	RAG knowledge retrieval pipeline
+11_Daily_Ecommerce_Intelligence	Job	Active	Analytics	Ecommerce BI analytics
+12_Daily_Customer_360	Job	Active	Analytics	Customer 360 view generation
+13_Daily_Auto_Documentation	Job	Active	Automation	Automated documentation generation
+14_Weekly_Training_Data_Extraction	Job	Active	ML	ML training data preparation
+15_Weekly_Churn_Prediction	Job	Active	ML	Customer churn prediction model
+16_Weekly_Product_Recommendation	Job	Active	ML	Product recommendation engine
+17_Weekly_Demand_Forecasting	Job	Active	ML	Demand forecasting model
+18_Weekly_Next_Purchase_Prediction	Job	Active	ML	Next purchase prediction model
+19_Daily_Incremental_Refresh	Job	Active	ETL	Incremental refresh orchestration
+20_Weekly_App_Deployment	Job	Active	DevOps	App deployment automation
+21_Daily_Lakebase_Sync	Job	Active	Integration	Lakebase Postgres sync
+22_Master_SkillAI_Weekly	Job	Active	Orchestration	Master orchestration workflow
+23_Monthly_Portfolio_GitHub_AutoCommit	Job	Configured	DevOps	Portfolio GitHub auto-commit
+Sales - Performance & Revenue Analytics	Dashboard	Active	Sales	Revenue, products, sales trends by region/agent
+Operations - Inventory & Stock Management	Dashboard	Active	Operations	Stock levels, alerts, reorder management
+Customer - 360 & Behavioral Analytics	Dashboard	Active	Customer	RFM segmentation, churn risk, LTV
+Sales - Channel & Agent Performance	Dashboard	Active	Sales	Agent/retailer/wholesaler performance
+Operations - Purchase Orders & Vendors	Dashboard	Active	Operations	PO status, vendor performance, delivery
+Executive - KPI & Strategic Metrics	Dashboard	Active	Executive	Revenue, margins, growth metrics
+Platform - Cost & Usage Analytics	Dashboard	Active	Monitoring	Databricks cost and usage tracking
+Demo - Educational Loan Investigation	Dashboard	Active	Demo	Educational loan investigation
+ML - Churn Prediction Performance	Dashboard	Created - Needs Config	ML Model	Churn model metrics, predictions, drift monitoring
+ML - Product Recommendation Engine	Dashboard	Created - Needs Config	ML Model	Recommendation quality, hit rate, user engagement
+ML - Demand Forecasting Analytics	Dashboard	Created - Needs Config	ML Model	Forecast accuracy, MAPE, demand vs actual
+ML - Next Purchase Prediction	Dashboard	Created - Needs Config	ML Model	Purchase prediction accuracy, conversion rates
+ML - Training Pipeline & Feature Store	Dashboard	Created - Needs Config	ML Model	Training runs, feature health, data quality
+Sales & Revenue Q&A	Genie Space	Active	Sales	Natural language sales analytics
+Inventory Q&A	Genie Space	Active	Operations	Natural language inventory queries
+Customer Insights Q&A	Genie Space	Active	Customer	Natural language customer analytics
+5-Days Core Analytics	Genie Space	Active	Demo	Educational loan analytics
+sap_dev.bronze	Catalog Schema	Active	Bronze Layer	6 staging tables: stg_sales, stg_inventory, stg_customers, stg_products, stg_agents, stg_purchases
+sap_dev.silver	Catalog Schema	Active	Silver Layer	3 fact tables, 6 dimension tables (sales, inventory, customer, product, agent, warehouse, retailer, wholesaler)
+sap_dev.gold	Catalog Schema	Active	Gold Layer	3 mart tables: mart_customer_360, mart_rfm_analysis, mart_product_performance
+Intelligence Hub App	App	Not Created	P0 Priority	RAG-driven analytics app with chat interface
+Agents Dashboard App	App	Not Created	P0 Priority	Live agent monitoring and management
+Inventory Management App	App	Not Created	P1 Priority	Interactive inventory control
+Customer 360 App	App	Not Created	P1 Priority	Comprehensive customer view

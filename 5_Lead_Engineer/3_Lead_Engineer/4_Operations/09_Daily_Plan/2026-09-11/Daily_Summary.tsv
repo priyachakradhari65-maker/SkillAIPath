@@ -1,0 +1,8 @@
+Date	Pod	Work_ID	Title	Priority	Engineer
+2026-09-11	Pod1_DataHunters	T23	Value distribution mean 5x median	P1	Engineer_01
+2026-09-11	Pod2_Architects	T09	No column comments	P2	Engineer_02
+2026-09-11	Pod2_Architects	T10	DBT tests ~40% (only 2 custom)	P2	Engineer_03
+2026-09-11	Pod4_AgentMakers	T29	Knowledge base too thin (203/134 chars)	P1	Engineer_05
+2026-09-11	Pod5_ModelTrainers	T03	Demand forecast 30% zero/negative, 5/78 	P0	Engineer_07
+2026-09-11	Pod6_StoryBuilders	T37	6 dashboards defined but never deployed	P1	Engineer_08
+2026-09-11	Pod8_Gatekeepers	T16	RAG queries minimal	P3	Engineer_09

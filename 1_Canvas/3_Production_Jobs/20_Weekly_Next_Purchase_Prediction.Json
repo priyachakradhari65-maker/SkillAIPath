@@ -1,0 +1,21 @@
+{
+  "name": "20_Weekly_Next_Purchase_Prediction",
+  "tags": {
+    "Customer": "",
+    "ML": "",
+    "Prediction": "",
+    "Weekly": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "18WeeklyNextPurchasePrediction",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/1_MLOps/04_Next_Purchase_Prediction_Training",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

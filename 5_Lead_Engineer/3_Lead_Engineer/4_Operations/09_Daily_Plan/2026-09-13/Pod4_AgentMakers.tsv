@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T39	3 Live Apps status unknown	P2	Apps		Validate AI Gateway configuration for all endpoints - Test routing, guardrails, and caching	All gateway endpoints return 200 on test request	Engineer_05	15	

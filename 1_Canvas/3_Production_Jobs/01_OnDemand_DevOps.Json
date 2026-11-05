@@ -1,0 +1,47 @@
+{
+  "name": "01_OnDemand_DevOps",
+  "description": "\ud83d\ude80 DevOps GitHub Auto Setup - Creates GitHub repo with branches (main + dev), forks SkillAI template, and creates first PR.",
+  "tags": {
+    "OnDemand": "true",
+    "DevOps": "true",
+    "CI/CD": "true",
+    "GitHub": "true",
+    "Setup": "true"
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "parameters": [
+    {
+      "name": "github_token",
+      "default": ""
+    },
+    {
+      "name": "secret_scope",
+      "default": "skillai-students"
+    },
+    {
+      "name": "secret_key",
+      "default": "github-token"
+    },
+    {
+      "name": "repo_name",
+      "default": ""
+    },
+    {
+      "name": "github_username",
+      "default": ""
+    }
+  ],
+  "tasks": [
+    {
+      "task_key": "GitHub_Auto_Setup",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/1_Canvas/0_DevOps/Production/GitHub_Auto_Setup",
+        "source": "WORKSPACE"
+      },
+      "timeout_seconds": 0,
+      "max_retries": 0
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+
+    
+    
+
+with child as (
+    select CustomerSK as from_field
+    from `sap_dev`.`silver`.`fact_sales`
+    where CustomerSK is not null
+),
+
+parent as (
+    select CustomerSK as to_field
+    from `sap_dev`.`silver`.`dim_customer`
+)
+
+select
+    from_field
+
+from child
+left join parent
+    on child.from_field = parent.to_field
+
+where parent.to_field is null
+
+

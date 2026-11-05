@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T43	content_studio 0 tables	P3	P3		Add Review phase to 01_Autonomous_Pipeline.py after Creation: 1) Add retry_count column to work_queue (ALTER TABLE ADD C	SELECT work_id, retry_count, status FROM sap_dev.autonomous.work_queue WHERE retry_count > 0 (shows retry mechanism acti	Engineer_09	15	

@@ -1,0 +1,120 @@
+Task_ID	Core_Team	Pod	Module	Task	Objective	Priority	Blocks_Task_IDs	File_Path	Reviewer
+ING-001	Data Production	Pod1_DataHunters	Data Ingestion	Sample Data Generation	30-day synthetic dataset for bronze layer	🔴 P0		/2_Data_Production/01_Data_Generation/	Instructor Lead
+ING-002	Data Production	Pod1_DataHunters	Data Ingestion	REST API Ingestion	Ingest data from external REST APIs	🟡 P1		/2_Data_Production/01_Data_Generation/	Instructor Lead
+ING-003	Data Production	Pod1_DataHunters	Data Ingestion	Marketplace Data Sources	Connect free Databricks Marketplace datasets	🟡 P1		/2_Data_Production/01_Data_Generation/	Instructor Lead
+ING-004	Data Production	Pod1_DataHunters	Data Ingestion	Volume Upload Patterns	CSV/JSON/Parquet → Bronze ingestion	🔴 P0		/2_Data_Production/01_Data_Generation/	Instructor Lead
+ING-005	Data Production	Pod1_DataHunters	Data Ingestion	Auto Loader Setup	Incremental file ingestion with Auto Loader	🔴 P0		/2_Data_Production/01_Data_Generation/	Instructor Lead
+ING-006	Data Production	Pod1_DataHunters	Data Ingestion	Free Catalog Integration	Community catalogs → Bronze layer	⚪ P2		/2_Data_Production/01_Data_Generation/	Instructor Lead
+ING-007	Data Production	Pod1_DataHunters	Data Ingestion	Incremental Ingestion Patterns	Watermark tracking for new data	🟡 P1	ING-001	/2_Data_Production/01_Data_Generation/	Instructor Lead
+MED-001	Data Production	Pod2_Architects	Foundation Setup	Config Widgets & Env Detection	DEV/UAT/PROD auto-detection, catalog switching	🔴 P0		/1_Canvas/StartHere	Instructor Lead
+MED-002	Data Production	Pod2_Architects	Bronze Layer	Bronze Layer Setup	Raw data landing zone with schema validation	🔴 P0	ING-001	/2_Data_Production/02_Medallion_Architecture/00_Bronze/	Instructor Lead
+MED-003	Data Production	Pod2_Architects	Silver Dimensions	Dim Product Bronze → Silver	Clean product dimension with data quality checks	🔴 P0	MED-002	/2_Data_Production/02_Medallion_Architecture/01_Dimensions/07_dim_product_nb	Instructor Lead
+MED-004	Data Production	Pod2_Architects	Silver Dimensions	Complete Dimension Suite	All 9 dimensions (Customer, Warehouse, Date, Category, Retailer, Agent, Payment, Wholesaler)	🔴 P0	MED-003	/2_Data_Production/02_Medallion_Architecture/01_Dimensions/	Instructor Lead
+MED-005	Data Production	Pod2_Architects	Silver Facts	Fact Sales Silver	Incremental sales fact processing with SCD tracking	🔴 P0	MED-004	/2_Data_Production/02_Medallion_Architecture/02_Facts/01_fact_sales	Instructor Lead
+MED-006	Data Production	Pod2_Architects	Silver Facts	Fact Purchases Silver	Purchase fact processing	🟡 P1	MED-004	/2_Data_Production/02_Medallion_Architecture/02_Facts/02_fact_purchases	Instructor Lead
+MED-007	Data Production	Pod2_Architects	Silver Facts	Fact Inventory Silver	Inventory fact processing	🟡 P1	MED-004	/2_Data_Production/02_Medallion_Architecture/02_Facts/03_fact_inventory	Instructor Lead
+MED-008	Data Production	Pod2_Architects	Gold Layer	Customer 360 Gold Mart	Unified customer analytics (orders, returns, LTV)	🔴 P0	MED-005	/2_Data_Production/02_Medallion_Architecture/04_Gold/01_mart_customer_360	Instructor Lead
+MED-009	Data Production	Pod2_Architects	Gold Layer	Product Performance Gold	Product-level KPIs (sell-through, margin, velocity)	🔴 P0	MED-005	/2_Data_Production/02_Medallion_Architecture/04_Gold/03_mart_product_performance	Instructor Lead
+MED-010	Data Production	Pod2_Architects	Gold Layer	RFM Analysis Gold	Customer segmentation (Recency, Frequency, Monetary)	🔴 P0	MED-005	/2_Data_Production/02_Medallion_Architecture/04_Gold/02_mart_rfm_analysis	Instructor Lead
+MED-011	Data Production	Pod3_QualityGuardians	Data Quality	Validation Suite	Data quality checks for all dimensions	🔴 P0	MED-004	/2_Data_Production/02_Medallion_Architecture/03_Data_Quality/	Instructor Lead
+MED-012	Data Production	Pod3_QualityGuardians	Monitoring	Monitoring & Alerts	Pipeline health monitoring, error alerts	🔴 P0	MED-010	/4_Business_Intelligence/4_Monitoring_Observability/	Instructor Lead
+MED-013	Data Production	Pod2_Architects	Silver Advanced	Territory Performance Silver	Regional sales aggregations	⚪ P2	MED-005	/2_Data_Production/02_Medallion_Architecture/01_Dimensions/	Instructor Lead
+MED-014	Data Production	Pod2_Architects	Silver Advanced	Warehouse Efficiency Silver	Inventory turnover, fulfillment metrics	⚪ P2	MED-007	/2_Data_Production/02_Medallion_Architecture/01_Dimensions/	Instructor Lead
+MED-015	Data Production	Pod3_QualityGuardians	Data Quality	Null Investigation & Cleanup	Fix data quality issues across marts	🟡 P1	MED-010	/2_Data_Production/02_Medallion_Architecture/03_Data_Quality/	Instructor Lead
+DBT-001	Data Production	Pod2_Architects	DBT Core	DBT Project Setup	Initialize DBT project in Databricks	🔴 P0	MED-008	/2_Data_Production/04_DBT/	Instructor Lead
+DBT-002	Data Production	Pod2_Architects	DBT Core	Convert Silver Transforms to DBT	Migrate SQL transforms to DBT models	🔴 P0	DBT-001	/2_Data_Production/04_DBT/models/	Instructor Lead
+DBT-003	Data Production	Pod2_Architects	DBT Core	DBT Testing Framework	Schema.yml, generic tests, custom tests	🔴 P0	DBT-002	/2_Data_Production/04_DBT/tests/	Instructor Lead
+DBT-004	Data Production	Pod2_Architects	DBT Core	Multi-Environment Profiles	DEV/UAT/PROD profiles, auto-detection	🔴 P0	DBT-001	/2_Data_Production/04_DBT/profiles.yml	Instructor Lead
+DBT-005	Data Production	Pod2_Architects	DBT Advanced	DBT Documentation Generation	Auto-generate data lineage and docs	🟡 P1	DBT-003	/2_Data_Production/04_DBT/	Instructor Lead
+DBT-006	Data Production	Pod2_Architects	Content	DBT Best Practices Video	Tutorial on DBT patterns in Medallion	🟡 P1	DBT-005	5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/Session_06_Order_Corrections.md	Instructor Lead
+STR-001	Data Production	Pod2_Architects	Streaming Core	Streaming Fact Sales	Real-time sales processing with CDC	🟡 P1	MED-005	/2_Data_Production/03_Streaming_CDC/	Instructor Lead
+STR-002	Data Production	Pod2_Architects	Streaming Core	Customer CDC Silver	Change data capture for dim_customer	🟡 P1	MED-004	/2_Data_Production/03_Streaming_CDC/	Instructor Lead
+STR-003	Data Production	Pod2_Architects	Streaming Core	Streaming Inventory Real-Time	Live inventory updates with CDC	🟡 P1	MED-007	/2_Data_Production/03_Streaming_CDC/	Instructor Lead
+STR-004	Data Production	Pod2_Architects	Streaming Core	Late Arriving Data Handling	Watermark strategies for out-of-order events	🟡 P1	STR-001	/2_Data_Production/03_Streaming_CDC/	Instructor Lead
+STR-005	Data Production	Pod2_Architects	Streaming Advanced	Event Time Processing	Window aggregations (tumbling, sliding)	⚪ P2	STR-001	/2_Data_Production/03_Streaming_CDC/	Instructor Lead
+STR-006	Data Production	Pod2_Architects	Streaming Advanced	Exactly-Once Semantics	Idempotent writes, deduplication	⚪ P2	STR-001	/2_Data_Production/03_Streaming_CDC/	Instructor Lead
+STR-007	Data Production	Pod8_Gatekeepers	Monitoring	Stream Monitoring & Alerting	Lag metrics, failure notifications	🔴 P0	STR-003	/4_Business_Intelligence/4_Monitoring_Observability/	Instructor Lead
+STR-008	Data Production	Pod2_Architects	Streaming Advanced	Backfill Strategy	Historical data replay, checkpoint reset	⚪ P2	STR-007	/2_Data_Production/03_Streaming_CDC/	Instructor Lead
+STR-009	Data Production	Pod2_Architects	Streaming Advanced	Stream Optimization	Trigger intervals, shuffle partitions, checkpoints	⚪ P2	STR-007	/2_Data_Production/03_Streaming_CDC/	Instructor Lead
+ML-001	AI/BI	Pod5_ModelTrainers	MLOps Core	Feature Store Setup	Unity Catalog feature tables	🔴 P0	MED-010	/3_AI_Platform/1_MLOps/	Instructor Lead
+ML-002	AI/BI	Pod5_ModelTrainers	MLOps Core	Churn Model Training	Predict customer churn with XGBoost	🔴 P0	ML-001	/3_AI_Platform/1_MLOps/notebooks/01_feature_engineering	Instructor Lead
+ML-003	AI/BI	Pod5_ModelTrainers	MLOps Core	Demand Forecast Model Training	Predict product demand with Prophet	🟡 P1	ML-001	/3_AI_Platform/1_MLOps/notebooks/	Instructor Lead
+ML-004	AI/BI	Pod5_ModelTrainers	MLOps Advanced	Recommendation Model Training	Product recommendations with ALS	⚪ P2	ML-001	/3_AI_Platform/1_MLOps/notebooks/	Instructor Lead
+ML-005	AI/BI	Pod4_AgentMakers	Model Serving	Deploy Churn Prediction Endpoint	REST API for churn scoring	🔴 P0	ML-002	/3_AI_Platform/1_MLOps/notebooks/03_model_deployment	Instructor Lead
+ML-006	AI/BI	Pod4_AgentMakers	Model Serving	Deploy Demand Forecasting Endpoint	REST API for demand predictions	🟡 P1	ML-003	/3_AI_Platform/1_MLOps/notebooks/	Instructor Lead
+ML-007	AI/BI	Pod4_AgentMakers	Model Serving	Deploy Recommendation Endpoint	REST API for product recommendations	⚪ P2	ML-004	/3_AI_Platform/1_MLOps/notebooks/	Instructor Lead
+ML-008	AI/BI	Pod5_ModelTrainers	Batch Scoring	Batch Scoring Job	Nightly model scoring pipeline	🟡 P1	ML-005	/3_AI_Platform/1_MLOps/notebooks/	Instructor Lead
+ML-009	AI/BI	Pod5_ModelTrainers	Monitoring	Model Monitoring	Track model drift, performance degradation	🟡 P1	ML-005	/3_AI_Platform/1_MLOps/notebooks/	Instructor Lead
+ML-010	AI/BI	Pod6_StoryBuilders	Dashboard	MLflow Tracking Dashboard	Experiment comparison UI	🟡 P1	ML-002	/4_Business_Intelligence/2_BI_Production/	Instructor Lead
+RAG-001	AI/BI	Pod4_AgentMakers	RAG Core	Vector Search Index Setup	Embeddings infrastructure in Unity Catalog	🔴 P0	MED-010	/3_AI_Platform/2_Rag_Pipeline/	Instructor Lead
+RAG-002	AI/BI	Pod4_AgentMakers	RAG Core	Product Catalog Embeddings	Embed product descriptions for semantic search	🔴 P0	RAG-001	/3_AI_Platform/2_Rag_Pipeline/01_embedding_pipeline	Instructor Lead
+RAG-003	AI/BI	Pod4_AgentMakers	RAG Advanced	Documentation Embeddings	Embed project docs for knowledge retrieval	🟡 P1	RAG-001	/3_AI_Platform/2_Rag_Pipeline/	Instructor Lead
+RAG-004	AI/BI	Pod4_AgentMakers	RAG Core	RAG Pipeline	Retrieval + generation chain with LangChain	🔴 P0	RAG-002	/3_AI_Platform/2_Rag_Pipeline/02_rag_chain	Instructor Lead
+RAG-005	AI/BI	Pod4_AgentMakers	AI Gateway	AI Gateway Setup	Multi-model routing, fallback cascade	🔴 P0		/3_AI_Platform/2_Rag_Pipeline/	Instructor Lead
+AGT-001	AI/BI	Pod4_AgentMakers	AI Agents Core	Agent Framework Setup	Function calling, memory persistence	🔴 P0	RAG-004	/3_AI_Platform/3_AI_Agents/00_agent_framework	Instructor Lead
+AGT-002	AI/BI	Pod4_AgentMakers	AI Agents Core	SQL Analytics Agent	Query gold layer on-demand with natural language	🔴 P0	AGT-001	/3_AI_Platform/3_AI_Agents/	Instructor Lead
+AGT-003	AI/BI	Pod4_AgentMakers	AI Agents Core	Churn Prevention Agent	Trigger retention campaigns based on churn predictions	🔴 P0	ML-005, AGT-001	/3_AI_Platform/3_AI_Agents/	Instructor Lead
+AGT-004	AI/BI	Pod4_AgentMakers	AI Agents Core	Inventory Optimization Agent	Smart restocking alerts based on demand	🔴 P0	AGT-001	/3_AI_Platform/3_AI_Agents/	Instructor Lead
+AGT-005	AI/BI	Pod4_AgentMakers	AI Agents Core	Customer Service Agent	24/7 support bot with RAG	🔴 P0	RAG-004, AGT-001	/3_AI_Platform/3_AI_Agents/	Instructor Lead
+AGT-006	AI/BI	Pod4_AgentMakers	Monitoring	Agent Observability Dashboard	Monitor agent performance, function calls, errors	🔴 P0	AGT-005	/3_AI_Platform/3_AI_Agents/99_agent_observability	Instructor Lead
+BI-001	AI/BI	Pod6_StoryBuilders	Monitoring	Pipeline Monitoring Dashboard	Track Bronze→Silver→Gold health metrics	🔴 P0	MED-002	/4_Business_Intelligence/4_Monitoring_Observability/	Instructor Lead
+BI-002	AI/BI	Pod6_StoryBuilders	Dashboards Core	Executive KPI Dashboard	Revenue, customers, churn top-level KPIs	🔴 P0	MED-010	/4_Business_Intelligence/2_BI_Production/	Instructor Lead
+BI-003	AI/BI	Pod6_StoryBuilders	Dashboards Core	Sales Performance Dashboard	Regional + product sales analysis	🔴 P0	MED-010	/4_Business_Intelligence/2_BI_Production/	Instructor Lead
+BI-004	AI/BI	Pod6_StoryBuilders	Dashboards Advanced	Operational Metrics Dashboard	Inventory, fulfillment, logistics	🟡 P1	MED-010	/4_Business_Intelligence/2_BI_Production/	Instructor Lead
+BI-005	AI/BI	Pod6_StoryBuilders	Dashboards Advanced	Inventory Management Dashboard	Live inventory tracking	🟡 P1	MED-007	/4_Business_Intelligence/2_BI_Production/	Instructor Lead
+BI-006	AI/BI	Pod6_StoryBuilders	Dashboards Advanced	Real-Time Monitoring Dashboard	Streaming pipeline metrics	🟡 P1	STR-007	/4_Business_Intelligence/2_BI_Production/	Instructor Lead
+BI-007	AI/BI	Pod6_StoryBuilders	Dashboards Advanced	MLflow Dashboard	Model experiment tracking and comparison	🟡 P1	ML-002	/4_Business_Intelligence/2_BI_Production/	Instructor Lead
+BI-008	AI/BI	Pod6_StoryBuilders	Apps Core	Intelligence Hub App	RAG-driven analytics app productionalization	🔴 P0	RAG-004	/4_Business_Intelligence/3_Live_Apps/intelligence_hub/	Instructor Lead
+BI-009	AI/BI	Pod6_StoryBuilders	Apps Core	Agents Dashboard App	Live agent monitoring and management	🔴 P0	AGT-006	/4_Business_Intelligence/3_Live_Apps/agents_dashboard/	Instructor Lead
+BI-010	AI/BI	Pod6_StoryBuilders	Genie	Genie Space	Conversational analytics over gold tables	🔴 P0	MED-010	4_Business_Intelligence/4_Genie_Spaces/README.md	Instructor Lead
+BI-011	AI/BI	Pod6_StoryBuilders	Optimization	Query Optimization	Z-order, liquid clustering, partitioning	🔴 P0	BI-003	/4_Business_Intelligence/2_BI_Production/	Instructor Lead
+BI-012	AI/BI	Pod6_StoryBuilders	Monitoring	Cost Tracking Dashboard	Compute & storage cost monitoring	🟡 P1		/4_Business_Intelligence/4_Monitoring_Observability/	Instructor Lead
+GOV-001	Data Production	Pod8_Gatekeepers	Security	Row-Level Security (ABAC)	Customer data access control with row filters	🔴 P0	MED-010	/5_Lead_Engineer/2_Governance_Compliance/	Instructor Lead
+GOV-002	Data Production	Pod8_Gatekeepers	Security	Column Masking (PII)	Mask SSN, email, phone in non-prod	🔴 P0	MED-010	/5_Lead_Engineer/2_Governance_Compliance/	Instructor Lead
+GOV-003	Data Production	Pod8_Gatekeepers	Security	ABAC Policies Implementation	Attribute-based access control setup	🔴 P0	GOV-001	/5_Lead_Engineer/2_Governance_Compliance/	Instructor Lead
+GOV-004	Data Production	Pod8_Gatekeepers	Metadata	Catalog Tagging Strategy	Governed tags, business glossary, lineage	🟡 P1	MED-010	/5_Lead_Engineer/2_Governance_Compliance/	Instructor Lead
+GOV-005	Data Production	Pod8_Gatekeepers	Data Quality	Data Quality Framework	Expectations, anomaly detection	🔴 P0	MED-011	/2_Data_Production/02_Medallion_Architecture/03_Data_Quality/	Instructor Lead
+GOV-006	Data Production	Pod8_Gatekeepers	Advanced	Variant Type Implementation	JSON/XML semi-structured handling	🟡 P1	MED-010	/2_Data_Production/02_Medallion_Architecture/	Instructor Lead
+GOV-007	Data Production	Pod8_Gatekeepers	Audit	Catalog Governance Audit	Permissions review, compliance checks	🟡 P1	GOV-003	/5_Lead_Engineer/2_Governance_Compliance/	Instructor Lead
+GOV-008	Data Production	Pod8_Gatekeepers	Advanced	Iceberg Uniform Tables	Multi-engine compatibility (Trino, Presto)	⚪ P2	MED-010	/2_Data_Production/02_Medallion_Architecture/	Instructor Lead
+GOV-009	Data Production	Pod8_Gatekeepers	Advanced	Data Vault Patterns	Hub, Link, Satellite models	⚪ P2	MED-010	/2_Data_Production/02_Medallion_Architecture/	Instructor Lead
+PROD-001	Data Production	Pod3_QualityGuardians	Git	Git Workflow Setup	Branching strategy, PR templates	🔴 P0		/5_Lead_Engineer/1_Production_Engineering/	Instructor Lead
+PROD-002	Data Production	Pod8_Gatekeepers	CI/CD	CI/CD Pipeline	Automated testing, deployment (GitHub Actions)	🔴 P0	PROD-001	/5_Lead_Engineer/1_Production_Engineering/	Instructor Lead
+PROD-003	Data Production	Pod3_QualityGuardians	Testing	Testing Framework	Unit tests + integration tests	🔴 P0	MED-010	/5_Lead_Engineer/1_Production_Engineering/	Instructor Lead
+PROD-004	Data Production	Pod3_QualityGuardians	Monitoring	Monitoring & Observability	Datadog/Grafana integration	🟡 P1	MED-012	/4_Business_Intelligence/4_Monitoring_Observability/	Instructor Lead
+PROD-005	Data Production	Pod3_QualityGuardians	Optimization	Cost Optimization	Spot instances, auto-termination policies	🟡 P1	BI-012	/5_Lead_Engineer/1_Production_Engineering/	Instructor Lead
+PROD-006	Data Production	Pod3_QualityGuardians	Disaster Recovery	Disaster Recovery Plan	Backup strategy, failover testing	⚪ P2	PROD-003	/5_Lead_Engineer/1_Production_Engineering/	Instructor Lead
+PROD-007	Data Production	Pod3_QualityGuardians	Benchmarking	Performance Benchmarking	Baseline metrics, regression testing	⚪ P2	MED-010	/5_Lead_Engineer/1_Production_Engineering/	Instructor Lead
+CONT-001	AI/BI	Pod6_StoryBuilders	Videos Foundation	Foundation Videos (5 days)	Bronze→Silver→Gold step-by-step tutorials	🔴 P0	MED-010	5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/	Instructor Lead
+CONT-002	Leads	Pod9_Conductors	Videos Advanced	DBT Videos	DBT patterns and best practices	🔴 P0	DBT-005	5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/	Instructor Lead
+CONT-003	Leads	Pod9_Conductors	Videos Advanced	Streaming Videos	CDC and real-time patterns	🔴 P0	STR-007	5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/	Instructor Lead
+CONT-004	Leads	Pod9_Conductors	Videos Advanced	MLOps Videos	End-to-end ML pipeline walkthrough	🔴 P0	ML-009	5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/	Instructor Lead
+CONT-005	Leads	Pod9_Conductors	Videos Advanced	Governance Videos	ABAC, tags, compliance deep-dive	🔴 P0	GOV-007	5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/	Instructor Lead
+CONT-006	Leads	Pod9_Conductors	Videos Advanced	AI Agents Videos	Building autonomous production agents	🔴 P0	AGT-006	5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/	Instructor Lead
+CONT-007	Leads	Pod9_Conductors	Documentation	Solution Guides (All Tasks)	Common errors + solutions for each module	🔴 P0		5_Lead_Engineer/3_Lead_Engineer/6_2_TaskPatterns/	Instructor Lead
+CONT-008	Leads	Pod9_Conductors	Demo	Demo Script Creation	Sales walkthrough, talking points	🔴 P0	AGT-006	5_Lead_Engineer/3_Lead_Engineer/6_2_TaskPatterns/Task_26_Demo_Script.md	Instructor Lead
+CONT-009	Leads	Pod9_Conductors	Documentation	README Standards	Project documentation, architecture diagrams	🟡 P1		5_Lead_Engineer/3_Lead_Engineer/6_2_TaskPatterns/Task_25_README.md	Instructor Lead
+CONT-010	Leads	Pod9_Conductors	Documentation	Data Dictionary	Comprehensive field catalog	🟡 P1	MED-010	5_Lead_Engineer/3_Lead_Engineer/6_2_TaskPatterns/Task_31_Data_Dictionary.md	Instructor Lead
+CONT-011	Leads	Pod9_Conductors	Exam Prep	Interview Prep Materials	Common questions, coding challenges	🟡 P1		5_Lead_Engineer/3_Lead_Engineer/6_2_TaskPatterns/Task_27_Interview_Prep.md	Instructor Lead
+SUPP-001	Leads	Pod9_Conductors	Office Hours	Office Hours Setup	Biweekly live Q&A sessions	🔴 P0		5_Lead_Engineer/3_Lead_Engineer/6_4_Operations/	Instructor Lead
+SUPP-002	Leads	Pod9_Conductors	Assessment	Portfolio Review Rubric	Assessment criteria, scoring guide	🔴 P0		5_Lead_Engineer/1_Portfolio_System/README.md	Instructor Lead
+SUPP-003	Leads	Pod9_Conductors	Assessment	Mock Interview Sessions	Technical + behavioral interview prep	🔴 P0	CONT-011	5_Lead_Engineer/3_Lead_Engineer/6_4_Operations/	Instructor Lead
+SUPP-004	Leads	Pod9_Conductors	Assessment	1-on-1 Portfolio Reviews	Personalized feedback (30 min per student)	🔴 P0	SUPP-002	5_Lead_Engineer/1_Portfolio_System/README.md	Instructor Lead
+SUPP-005	Leads	Pod9_Conductors	Exam Prep	Certification Study Guide	Databricks DE Associate/Professional prep	🔴 P0	CONT-005	5_Lead_Engineer/3_Lead_Engineer/6_2_TaskPatterns/Task_64_DE_Associate_Exam.md	Instructor Lead
+SUPP-006	Leads	Pod9_Conductors	Graduation	Completion Certificates	Certificate generation and distribution	🔴 P0	SUPP-004	5_Lead_Engineer/3_Lead_Engineer/6_4_Operations/	Instructor Lead
+SUPP-007	Leads	Pod9_Conductors	Community	Alumni Network Setup	Slack/LinkedIn group, ongoing engagement	🟡 P1	SUPP-006	5_Lead_Engineer/3_Lead_Engineer/6_4_Operations/	Instructor Lead
+DEVOPS-001	Data Production	Pod8_Gatekeepers	CI/CD	CI/CD Pipeline Setup	GitHub Actions workflows for automated testing and deployment	🔴 P0		/1_Canvas/2_Orchestration/CI_CD/	Instructor Lead
+DEVOPS-002	Leads	Pod9_Conductors	Orchestration	Job Orchestration Framework	Databricks workflows with dependencies, error handling	🔴 P0	MED-010	/1_Canvas/2_Orchestration/Data_Platform/	Instructor Lead
+DEVOPS-003	Data Production	Pod8_Gatekeepers	Monitoring	Platform Monitoring Dashboard	End-to-end pipeline health (bronze→silver→gold→ML→BI)	🔴 P0	MED-002	/4_Business_Intelligence/4_Monitoring_Observability/	Instructor Lead
+DEVOPS-004	Data Production	Pod8_Gatekeepers	Monitoring	Observability Stack Setup	Datadog/Grafana integration for real-time monitoring	🟡 P1	DEVOPS-003	/4_Business_Intelligence/4_Monitoring_Observability/	Instructor Lead
+DEVOPS-005	Data Production	Pod8_Gatekeepers	Cost Management	Cost Tracking & Optimization	Compute, storage, warehouse usage tracking + alerts	🔴 P0		/4_Business_Intelligence/4_Monitoring_Observability/	Instructor Lead
+DEVOPS-006	Data Production	Pod8_Gatekeepers	Cost Management	Auto-Termination Policies	Idle cluster shutdown, spot instance usage	🟡 P1	DEVOPS-005	/1_Canvas/1_Setup/	Instructor Lead
+DEVOPS-007	Leads	Pod9_Conductors	Infrastructure	Infrastructure as Code (DABs)	Declarative Automation Bundles for all resources	🔴 P0		/.github/workflows/	Instructor Lead
+DEVOPS-008	Leads	Pod9_Conductors	Infrastructure	Terraform Configuration	Terraform for multi-environment setup (dev/uat/prod)	🟡 P1	DEVOPS-007	/.github/workflows/	Instructor Lead
+DEVOPS-009	Data Production	Pod8_Gatekeepers	Disaster Recovery	Backup & Recovery Strategy	Catalog backups, restore procedures, failover testing	🟡 P1	MED-010	/5_Lead_Engineer/1_Production_Engineering/	Instructor Lead
+DEVOPS-010	Data Production	Pod8_Gatekeepers	Performance	Performance Benchmarking	Baseline metrics, regression detection, SLA tracking	🟡 P1	MED-010, ML-009	/5_Lead_Engineer/1_Production_Engineering/	Instructor Lead
+DEVOPS-011	Data Production	Pod8_Gatekeepers	Security	Security Automation	Secret management, access audits, compliance checks	🔴 P0	GOV-003	/5_Lead_Engineer/2_Governance_Compliance/	Instructor Lead
+DEVOPS-012	AI/BI	Pod6_StoryBuilders	Alerts	Alert Configuration	PagerDuty/Slack integration for critical failures	🔴 P0	DEVOPS-003	/4_Business_Intelligence/4_Monitoring_Observability/	Instructor Lead
+DEVOPS-013	Data Production	Pod8_Gatekeepers	Deployment	Multi-Environment Deployment	Automated DEV→UAT→PROD promotion	🔴 P0	DEVOPS-001, DEVOPS-007	/1_Canvas/2_Orchestration/Deployment/	Instructor Lead
+DEVOPS-014	Data Production	Pod8_Gatekeepers	Monitoring	Data Pipeline SLA Monitoring	Track medallion pipeline SLAs (latency, freshness, quality)	🔴 P0	DEVOPS-003, MED-012	/4_Business_Intelligence/4_Monitoring_Observability/	Instructor Lead
+DEVOPS-015	Data Production	Pod8_Gatekeepers	Optimization	Query Performance Monitoring	Slow query detection, optimization recommendations	🟡 P1	BI-011	/4_Business_Intelligence/4_Monitoring_Observability/	Instructor Lead

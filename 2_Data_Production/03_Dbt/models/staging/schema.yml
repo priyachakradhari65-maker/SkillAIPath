@@ -1,0 +1,101 @@
+version: 2
+
+models:
+  - name: stg_sales
+    description: "Cleansed sales transactions from bronze layer"
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: ['OrderID', 'BatchDate']
+    columns:
+      - name: OrderID
+        description: "Order identifier (unique within a batch day, not globally)"
+        tests:
+          - not_null
+      - name: FinalPrice
+        description: "Final transaction amount after discounts"
+        tests:
+          - not_null
+      - name: CustomerName
+        description: "Customer name"
+      - name: ProductName
+        description: "Product name"
+      - name: OrderDate
+        description: "Order date"
+      - name: LoadedAt
+        description: "Timestamp when record was loaded"
+
+  - name: stg_customers
+    description: "Unique customer master from sales transactions (no aggregations)"
+    columns:
+      - name: CustomerKey
+        description: "Deterministic surrogate key for customer (generated from CustomerName)"
+        tests:
+          - unique
+          - not_null
+      - name: CustomerName
+        description: "Customer name"
+        tests:
+          - unique
+          - not_null
+      - name: LoadedAt
+        description: "Timestamp when record was loaded"
+
+  - name: stg_products
+    description: "Unique product master from sales transactions (no aggregations)"
+    columns:
+      - name: ProductKey
+        description: "Deterministic surrogate key for product (generated from ProductName)"
+        tests:
+          - unique
+          - not_null
+      - name: ProductName
+        description: "Product name"
+        tests:
+          - unique
+          - not_null
+      - name: LoadedAt
+        description: "Timestamp when record was loaded"
+
+  - name: stg_purchases
+    description: "Cleansed purchase orders from bronze layer"
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: ['PurchaseID', 'BatchDate']
+    columns:
+      - name: PurchaseID
+        description: "Purchase order identifier (unique within a batch day, not globally)"
+        tests:
+          - not_null
+      - name: TotalCost
+        description: "Total cost of purchase order"
+        tests:
+          - not_null
+      - name: WholesalerName
+        description: "Supplier/wholesaler name"
+      - name: ProductName
+        description: "Product purchased"
+
+  - name: stg_stock
+    description: "Daily inventory snapshots from bronze layer (no business logic)"
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: ['StockID', 'BatchDate']
+    columns:
+      - name: StockID
+        description: "Stock record identifier (unique within a batch day, not globally)"
+        tests:
+          - not_null
+      - name: CurrentStock
+        description: "Current stock quantity"
+        tests:
+          - not_null
+      - name: ProductName
+        description: "Product name"
+      - name: WareHouseName
+        description: "Warehouse location"
+      - name: ReorderLevel
+        description: "Minimum stock level before reordering"
+      - name: SnapshotDate
+        description: "Date of inventory snapshot"
+      - name: LoadedAt
+        description: "Timestamp when record was loaded"

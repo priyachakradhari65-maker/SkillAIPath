@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T29	Knowledge base too thin (203/134 chars)	P1	RAG		Register new versions for all 4 models, transition through stages (None→Staging→Production)	All models have 2+ versions, product_rec has at least 1 version in Staging	Engineer_05	30	Knowledge base too thin (203/134 chars). RAG quality poor. Students get unhelpful AI answers.

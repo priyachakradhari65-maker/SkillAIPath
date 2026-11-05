@@ -1,0 +1,32 @@
+# SkillAIPath dbt Packages Configuration
+# External packages for enhanced functionality
+
+packages:
+  # dbt-utils: Common macros and tests
+  - package: dbt-labs/dbt_utils
+    version: 1.4.1
+
+# Install packages: dbt deps
+
+# Package Usage Examples:
+
+# dbt-utils:
+# - {{ dbt_utils.surrogate_key(['customer_id', 'order_date']) }}
+# - {{ dbt_utils.star(from=ref('stg_customers'), except=['_rescued_data']) }}
+# - {{ dbt_utils.deduplicate(relation=ref('raw_orders'), partition_by='order_id', order_by='updated_at desc') }}
+
+# dbt-expectations:
+# - tests:
+#     - dbt_expectations.expect_column_values_to_be_between:
+#         min_value: 0
+#         max_value: 100
+#     - dbt_expectations.expect_table_row_count_to_equal_other_table:
+#         compare_model: ref('stg_orders')
+
+# dbt-date:
+# - {{ dbt_date.fiscal_year(date_column='order_date', fiscal_year_start_month=4) }}
+# - {{ dbt_date.day_name(date_column='order_date', short=false) }}
+
+# codegen:
+# - {{ codegen.generate_source('sap', 'bronze') }}
+# - {{ codegen.generate_base_model(source_name='sap', table_name='orders') }}

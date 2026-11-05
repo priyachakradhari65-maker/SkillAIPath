@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T19	No SCD2	P3	P3		Enable Delta snapshots for all gold tables - Configure: 7-day retention minimum	DESCRIBE HISTORY returns 7+ days of snapshots	Engineer_09	15	

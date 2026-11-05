@@ -1,0 +1,9 @@
+Date	Pod	Work_ID	Title	Priority	Engineer
+2026-09-10	Pod1_DataHunters	T22	91% one-time customers — RFM F meaningle	P1	Engineer_01
+2026-09-10	Pod2_Architects	T04	mart_customer_360 City/State 100% null	P1	Engineer_02
+2026-09-10	Pod2_Architects	T05	skillai_execution_knowledge empty	P1	Engineer_03
+2026-09-10	Pod4_AgentMakers	T28	RAG 0% success — all 8 queries failed	P0	Engineer_05
+2026-09-10	Pod5_ModelTrainers	T02	Product rec scores 5-10 (should be 0-1) 	P0	Engineer_07
+2026-09-10	Pod6_StoryBuilders	T31	Exec KPI dashboard hardcoded dates retur	P0	Engineer_08
+2026-09-10	Pod8_Gatekeepers	T15	content_studio 0 tables	P3	Engineer_09
+2026-09-10	Pod9_Conductors	T21	Single month data (Aug 2026) — no monthl	P0	Engineer_10

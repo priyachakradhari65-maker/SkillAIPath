@@ -1,0 +1,437 @@
+# Databricks notebook source
+# DBTITLE 1,Dimension: Customer (SCD Type 2)
+# MAGIC %md
+# MAGIC # DimCustomer: Slowly Changing Dimension Type 2
+# MAGIC **SkillAIPath Data Warehouse - Silver Layer**
+# MAGIC
+# MAGIC ## Module Overview
+# MAGIC **Purpose:** Track customer attribute changes over time (address, city, contact)
+# MAGIC
+# MAGIC **Pattern:** SCD Type 2 (Historical tracking with StartDate/EndDate/IsCurrent)
+# MAGIC
+# MAGIC **Source:** `sap_bronze.stg_sales` (distinct customers per batch)
+# MAGIC
+# MAGIC **Target:** `sap_silver.dim_customer`
+# MAGIC
+# MAGIC **Key Concepts:**
+# MAGIC - Surrogate Key (CustomerSK) vs Business Key (CustomerID)
+# MAGIC - Effective dating (StartDate/EndDate)
+# MAGIC - Current flag (IsCurrent = 1 for active version)
+# MAGIC - Unknown record (CustomerSK = -1 for missing/bad data)
+
+# COMMAND ----------
+
+# DBTITLE 1,Import Config
+# MAGIC %run ../../../1_Canvas/1_Setup/1_config
+
+# COMMAND ----------
+
+# DBTITLE 1,Setup Parameters
+from datetime import datetime, timedelta
+from pyspark.sql.functions import col, lit, when, count, sum, avg, max, min, first, last, concat, concat_ws, trim, upper, lower, to_date, to_timestamp, date_format, year, month, day, row_number, rank, dense_rank, lag, lead, explode, array, struct, map_from_entries, coalesce, isnull, isnotnull, regexp_replace, substring
+from pyspark.sql.window import Window
+
+# Widget: Load type
+dbutils.widgets.dropdown("load_type", "full", ["full", "incremental"], "Load Type")
+load_type = dbutils.widgets.get("load_type")
+
+# Widget: Load since
+dbutils.widgets.text("load_since", "2023-06-13", "Load Since (Full Load Only)")
+load_since = dbutils.widgets.get("load_since")
+
+# Get batch date: try history table first, fallback to incremental table
+try:
+    latest_batch = spark.sql(f"SELECT MAX(BatchDate) FROM {Config.TBL_STG_SALES}").collect()[0][0]
+    batch_date = str(latest_batch) if latest_batch else "2023-06-13"
+except:
+    try:
+        latest_batch = spark.sql(f"SELECT MAX(BatchDate) FROM {Config.TBL_STG_SALES_INCREMENTAL}").collect()[0][0]
+        batch_date = str(latest_batch) if latest_batch else "2023-06-13"
+    except:
+        batch_date = "2023-06-13"
+
+# Determine source table for logging based on load type
+source_table = Config.TBL_STG_SALES_INCREMENTAL if load_type == "incremental" else Config.TBL_STG_SALES
+
+print("="*70)
+print("DIM_CUSTOMER - SCD TYPE 2")
+print("="*70)
+print(f"Environment: {Config.ENVIRONMENT.upper()}")
+print(f"Catalog: {Config.CATALOG}")
+print(f"Batch Date: {batch_date}")
+print(f"Load Type: {load_type}")
+if load_type == "full":
+    print(f"Load Since: {load_since}")
+print(f"Source: {source_table}")
+print(f"Target: {Config.TBL_DIM_CUSTOMER}")
+print("="*70)
+
+# COMMAND ----------
+
+# DBTITLE 1,Read Source Data - Filter by BatchDate
+# Read source data based on load type
+from pyspark.sql import Window as W
+
+# FIX: Read ACTUAL customer data from stg_sales, not placeholders!
+if load_type == "full":
+    print(f"FULL LOAD: Reading all customers since {load_since}")
+    print(f"  Source: {Config.TBL_STG_SALES} (history table)")
+    df_source_raw = spark.read.table(Config.TBL_STG_SALES) \
+        .filter(col(Config.COL_BATCH_DATE) >= load_since) \
+        .select("CustomerName", "CustomerMail", "CustomerContact", "CustomerAddress", "CustomerAge", "CustomerGender") \
+        .distinct() \
+        .withColumnRenamed("CustomerMail", "Email")
+else:
+    print(f"INCREMENTAL LOAD: Reading batch {batch_date}")
+    print(f"  Source: {Config.TBL_STG_SALES_INCREMENTAL} (incremental staging)")
+    df_source_raw = spark.read.table(Config.TBL_STG_SALES_INCREMENTAL) \
+        .select("CustomerName", "CustomerMail", "CustomerContact", "CustomerAddress", "CustomerAge", "CustomerGender") \
+        .distinct() \
+        .withColumnRenamed("CustomerMail", "Email")
+
+# Deduplicate by CustomerName (take first occurrence per customer)
+window_dedup = W.partitionBy("CustomerName").orderBy("CustomerName")
+df_source = df_source_raw \
+    .withColumn("row_num", row_number().over(window_dedup)) \
+    .filter(col("row_num") == 1) \
+    .drop("row_num")
+
+print(f"Found {df_source.count():,} unique customers")
+print(f"Deduplicated from {df_source_raw.count():,} total rows")
+
+# COMMAND ----------
+
+# DBTITLE 1,Check if Target Table Exists - Create if First Load
+# Check if dimension table exists
+try:
+    df_existing = spark.read.table(Config.TBL_DIM_CUSTOMER)
+    is_initial_load = False
+    existing_count = df_existing.count()
+    print(f"DimCustomer exists ({existing_count:,} rows)")
+
+    # For FULL load, truncate and reload
+    if load_type == "full":
+        print("FULL LOAD MODE: Truncating dimension table")
+        spark.sql(f"TRUNCATE TABLE {Config.TBL_DIM_CUSTOMER}")
+        is_initial_load = True
+        print("Table truncated - treating as initial load")
+except:
+    is_initial_load = True
+    print("DimCustomer does NOT exist - this is initial load")
+
+    # Create dimension table schema (BIGINT for all numeric fields)
+    spark.sql(f"""
+        CREATE TABLE IF NOT EXISTS {Config.TBL_DIM_CUSTOMER} (
+            CustomerSK BIGINT,
+            CustomerID BIGINT,
+            CustomerName STRING,
+            Email STRING,
+            Age BIGINT,
+            Gender STRING,
+            Contact STRING,
+            Address STRING,
+            StartDate DATE,
+            EndDate DATE,
+            IsCurrent BIGINT,
+            LoadedAt TIMESTAMP
+        )
+        USING DELTA
+    """)
+
+    # Insert Unknown record (CustomerSK = -1 for missing/bad data)
+    spark.sql(f"""
+        INSERT INTO {Config.TBL_DIM_CUSTOMER} VALUES (
+            -1, -1, 'Unknown Customer', 'unknown@unknown.com',
+            0, 'Unknown', 'Unknown', 'Unknown',
+            '1900-01-01', '9999-12-31', 1, current_timestamp()
+        )
+    """)
+    print("DimCustomer created with Unknown record (CustomerSK = -1)")
+
+# COMMAND ----------
+
+# DBTITLE 1,Initial Load - Generate Surrogate Keys
+# INITIAL LOAD: Simple insert with surrogate keys
+from pyspark.sql.window import Window
+from pyspark.sql.functions import col, lit, when, count, sum, avg, max, min, first, last, concat, concat_ws, trim, upper, lower, to_date, to_timestamp, date_format, year, month, day, row_number, rank, dense_rank, lag, lead, explode, array, struct, map_from_entries, coalesce, isnull, isnotnull, regexp_replace, substring, current_timestamp
+
+if is_initial_load:
+    print("Executing INITIAL LOAD (all customers are NEW)")
+
+    # Generate CustomerSK and CustomerID using ROW_NUMBER()
+    window_spec = Window.orderBy("CustomerName")
+
+    df_initial = df_source \
+        .withColumn("CustomerSK", row_number().over(window_spec).cast("int")) \
+        .withColumn("CustomerID", row_number().over(window_spec).cast("int")) \
+        .withColumn("Age", col("CustomerAge").cast("int")) \
+        .withColumn("Gender", col("CustomerGender")) \
+        .withColumn("Contact", col("CustomerContact")) \
+        .withColumn("Address", col("CustomerAddress")) \
+        .withColumn("StartDate", lit(batch_date).cast("date")) \
+        .withColumn("EndDate", lit("9999-12-31").cast("date")) \
+        .withColumn("IsCurrent", lit(1).cast("int")) \
+        .withColumn("LoadedAt", current_timestamp()) \
+        .select("CustomerSK", "CustomerID", "CustomerName", "Email", "Age", "Gender", "Contact", "Address",
+                "StartDate", "EndDate", "IsCurrent", "LoadedAt")
+
+    # Write to dimension table
+    df_initial.write.mode("append").option("mergeSchema", "true").saveAsTable(Config.TBL_DIM_CUSTOMER)
+
+    row_count = df_initial.count()
+    print(f"Initial load complete: {row_count:,} customers inserted")
+    print(f"Pattern: Initial load is ONE-TIME - subsequent runs are incremental SCD-2 logic")
+
+    dbutils.notebook.exit({"status": "success", "load_type": "initial", "rows_inserted": row_count})
+
+# COMMAND ----------
+
+# DBTITLE 1,Incremental Load - SCD Type 2 Logic
+# INCREMENTAL LOAD: Detect new/changed/unchanged customers
+print("Executing INCREMENTAL LOAD (SCD Type 2 logic)")
+
+# Read current dimension (only IsCurrent = 1)
+df_existing = spark.read.table(Config.TBL_DIM_CUSTOMER) \
+    .filter(col("IsCurrent") == 1) \
+    .filter(col("CustomerSK") != -1)  # Exclude Unknown record
+
+# Compare source vs existing (LEFT JOIN to find new/changed)
+df_comparison = df_source.alias("src") \
+    .join(
+        df_existing.alias("tgt"),
+        col("src.CustomerName") == col("tgt.CustomerName"),
+        "left"
+    )
+
+# Identify NEW customers (not in dimension yet)
+df_new_customers = df_comparison \
+    .filter(col("tgt.CustomerName").isNull()) \
+    .select(
+        col("src.CustomerName"),
+        col("src.Email"),
+        col("src.CustomerAge"),
+        col("src.CustomerGender"),
+        col("src.CustomerContact"),
+        col("src.CustomerAddress")
+    )
+
+new_count = df_new_customers.count()
+print(f"  NEW customers: {new_count:,}")
+
+# Identify CHANGED customers (attributes differ)
+df_changed_customers = df_comparison \
+    .filter(col("tgt.CustomerName").isNotNull()) \
+    .filter(
+        (col("src.Email") != col("tgt.Email")) |
+        (col("src.CustomerAge") != col("tgt.Age")) |
+        (col("src.CustomerGender") != col("tgt.Gender")) |
+        (col("src.CustomerContact") != col("tgt.Contact")) |
+        (col("src.CustomerAddress") != col("tgt.Address"))
+    ) \
+    .select(
+        col("tgt.CustomerSK").alias("OldCustomerSK"),
+        col("src.CustomerName"),
+        col("src.Email"),
+        col("src.CustomerAge"),
+        col("src.CustomerGender"),
+        col("src.CustomerContact"),
+        col("src.CustomerAddress")
+    )
+
+changed_count = df_changed_customers.count()
+print(f"  CHANGED customers: {changed_count:,}")
+print(f"  UNCHANGED customers: {df_source.count() - new_count - changed_count:,} (no action needed)")
+
+# COMMAND ----------
+
+# DBTITLE 1,Generate Surrogate Keys for New Rows
+# Get next available CustomerSK
+max_sk = spark.sql(f"SELECT COALESCE(MAX(CustomerSK), 0) as max_sk FROM {Config.TBL_DIM_CUSTOMER}").collect()[0]['max_sk']
+max_id = spark.sql(f"SELECT COALESCE(MAX(CustomerID), 0) as max_id FROM {Config.TBL_DIM_CUSTOMER}").collect()[0]['max_id']
+print(f"  Max existing CustomerSK: {max_sk}, CustomerID: {max_id}")
+
+# Assign surrogate keys to NEW customers
+if new_count > 0:
+    window_spec = Window.orderBy("CustomerName")
+    df_new_with_sk = df_new_customers \
+        .withColumn("CustomerSK", row_number().over(window_spec) + max_sk) \
+        .withColumn("CustomerID", row_number().over(window_spec) + max_id) \
+        .withColumn("StartDate", lit(batch_date).cast("date")) \
+        .withColumn("EndDate", lit("9999-12-31").cast("date")) \
+        .withColumn("IsCurrent", lit(1)) \
+        .withColumn("LoadedAt", current_timestamp()) \
+        .withColumnRenamed("CustomerAge", "Age") \
+        .withColumnRenamed("CustomerGender", "Gender") \
+        .withColumnRenamed("CustomerContact", "Contact") \
+        .withColumnRenamed("CustomerAddress", "Address")
+else:
+    df_new_with_sk = spark.createDataFrame([], df_existing.schema)
+
+# Assign surrogate keys to CHANGED customers (new versions)
+if changed_count > 0:
+    window_spec = Window.orderBy("CustomerName")
+    df_changed_with_sk = df_changed_customers \
+        .drop("OldCustomerSK") \
+        .withColumn("CustomerSK", row_number().over(window_spec) + max_sk + new_count) \
+        .withColumn("CustomerID", row_number().over(window_spec) + max_id + new_count) \
+        .withColumn("StartDate", lit(batch_date).cast("date")) \
+        .withColumn("EndDate", lit("9999-12-31").cast("date")) \
+        .withColumn("IsCurrent", lit(1)) \
+        .withColumn("LoadedAt", current_timestamp()) \
+        .withColumnRenamed("CustomerAge", "Age") \
+        .withColumnRenamed("CustomerGender", "Gender") \
+        .withColumnRenamed("CustomerContact", "Contact") \
+        .withColumnRenamed("CustomerAddress", "Address")
+else:
+    df_changed_with_sk = spark.createDataFrame([], df_existing.schema)
+
+print(f"Surrogate keys generated: {max_sk + 1} to {max_sk + new_count + changed_count}")
+
+# COMMAND ----------
+
+# DBTITLE 1,Write SCD-2 Changes - Expire Old + Insert New
+# STEP 1: Expire OLD versions of CHANGED customers (set EndDate, IsCurrent = 0)
+if changed_count > 0:
+    changed_customer_names = [row['CustomerName'] for row in df_changed_customers.select("CustomerName").distinct().collect()]
+
+    # Calculate end date (batch_date - 1 day)
+    end_date = (datetime.strptime(batch_date, "%Y-%m-%d") - timedelta(days=1)).strftime("%Y-%m-%d")
+
+    # Build IN clause for SQL
+    if len(changed_customer_names) == 1:
+        in_clause = f"('{changed_customer_names[0]}')"
+    else:
+        in_clause = str(tuple(changed_customer_names))
+
+    # Update existing records
+    spark.sql(f"""
+        UPDATE {Config.TBL_DIM_CUSTOMER}
+        SET EndDate = '{end_date}',
+            IsCurrent = 0
+        WHERE CustomerName IN {in_clause}
+          AND IsCurrent = 1
+    """)
+    print(f"  Expired {changed_count:,} old customer versions")
+
+# STEP 2: Insert NEW customers + NEW versions of CHANGED customers
+df_to_insert = df_new_with_sk.unionByName(df_changed_with_sk)
+
+if df_to_insert.count() > 0:
+    df_to_insert.write.mode("append").saveAsTable(Config.TBL_DIM_CUSTOMER)
+    print(f"  Inserted {df_to_insert.count():,} new records ({new_count} new customers + {changed_count} changed versions)")
+else:
+    print("  No changes detected - dimension unchanged")
+
+print("\nSCD Type 2 processing complete")
+
+# COMMAND ----------
+
+# DBTITLE 1,Validation Query 1 - Check SCD History (Multiple Versions)
+# Find customers with multiple versions (history tracking working)
+query = f"""
+SELECT
+    CustomerID,
+    CustomerName,
+    Address,
+    StartDate,
+    EndDate,
+    IsCurrent,
+    CASE
+        WHEN IsCurrent = 1 THEN 'Current'
+        ELSE 'Historical'
+    END AS status
+FROM {Config.TBL_DIM_CUSTOMER}
+WHERE CustomerID IN (
+    SELECT CustomerID
+    FROM {Config.TBL_DIM_CUSTOMER}
+    GROUP BY CustomerID
+    HAVING COUNT(*) > 1
+)
+ORDER BY CustomerID, StartDate
+LIMIT 50
+"""
+
+display(spark.sql(query))
+
+# COMMAND ----------
+
+# DBTITLE 1,Validation Query 2 - Check IsCurrent Flag (Exactly 1 Per Customer)
+# Validate IsCurrent flag (EXACTLY 1 current version per customer)
+query = f"""
+SELECT
+    CustomerID,
+    SUM(IsCurrent) AS current_count,
+    CASE
+        WHEN SUM(IsCurrent) = 1 THEN 'Valid'
+        WHEN SUM(IsCurrent) = 0 THEN 'No current version'
+        WHEN SUM(IsCurrent) > 1 THEN 'MULTIPLE CURRENT VERSIONS (ERROR)'
+    END AS validation_status
+FROM {Config.TBL_DIM_CUSTOMER}
+WHERE CustomerSK != -1
+GROUP BY CustomerID
+HAVING SUM(IsCurrent) != 1
+ORDER BY current_count DESC
+LIMIT 500
+"""
+
+display(spark.sql(query))
+
+# COMMAND ----------
+
+# DBTITLE 1,Validation Query 3 - Check Date Ranges (No Gaps/Overlaps)
+# Detect date gaps or overlaps (invalid SCD-2 dating)
+query = f"""
+WITH customer_dates AS (
+    SELECT
+        CustomerID,
+        CustomerSK,
+        StartDate,
+        EndDate,
+        LEAD(StartDate) OVER (PARTITION BY CustomerID ORDER BY StartDate) AS next_start_date
+    FROM {Config.TBL_DIM_CUSTOMER}
+    WHERE CustomerSK != -1
+)
+SELECT
+    CustomerID,
+    CustomerSK,
+    StartDate,
+    EndDate,
+    next_start_date,
+    CASE
+        WHEN EndDate < next_start_date THEN 'GAP DETECTED'
+        WHEN EndDate > next_start_date THEN 'OVERLAP DETECTED'
+        ELSE 'Valid'
+    END AS date_validation
+FROM customer_dates
+WHERE next_start_date IS NOT NULL
+  AND EndDate != next_start_date
+ORDER BY CustomerID, StartDate
+"""
+
+display(spark.sql(query))
+
+# COMMAND ----------
+
+# DBTITLE 1,Return Summary for Orchestration
+# Return structured summary
+summary = {
+    "status": "success",
+    "batch_date": batch_date,
+    "load_type": load_type,
+    "dimension": "DimCustomer",
+    "scd_type": "Type 2",
+    "new_customers": new_count if not is_initial_load else "N/A",
+    "changed_customers": changed_count if not is_initial_load else "N/A",
+    "rows_inserted": new_count + changed_count if not is_initial_load else "N/A",
+    "table": Config.TBL_DIM_CUSTOMER,
+    "processed_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+}
+
+print("\n" + "="*60)
+print("DIM_CUSTOMER (SCD-2) PROCESSING COMPLETE")
+print("="*60)
+for key, value in summary.items():
+    print(f"   {key}: {value}")
+print("="*60)
+
+dbutils.notebook.exit(str(summary))

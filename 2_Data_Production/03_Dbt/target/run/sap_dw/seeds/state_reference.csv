@@ -1,0 +1,22 @@
+
+    
+    
+    
+    create  table `sap_dev`.`reference`.`state_reference` (StateCode string ,StateName string ,Region string ,Population bigint ,Capital string )
+    
+    using delta
+  
+    
+    
+    
+    
+    
+  ;
+    -- dbt seed --
+    
+          insert overwrite `sap_dev`.`reference`.`state_reference` values
+          (%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s),(%s,%s,%s,%s,%s)
+      
+
+;
+  

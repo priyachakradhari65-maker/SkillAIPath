@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T14	No streaming DLT active	P2	Streaming		Adjust RFM calculation to segment one-time buyers separately, use percentile-based scoring	RFM segments have balanced distribution (no segment > 50%)	Engineer_02	15	

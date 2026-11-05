@@ -1,0 +1,1057 @@
+{
+  "datasets": [
+    {
+      "name": "low_stock_items",
+      "displayName": "Inventory Risk — Low & Out of Stock Items",
+      "queryLines": [
+        "SELECT\n",
+        "  p.ProductName,\n",
+        "  w.WareHouseName,\n",
+        "  w.WareHouseCity,\n",
+        "  f.StockQuantity,\n",
+        "  f.StockValue,\n",
+        "  f.StockStatus\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_inventory f\n",
+        "    INNER JOIN sap_dev.silver.dim_warehouse w\n",
+        "      ON f.WarehouseSK = w.WareHouseSK\n",
+        "    INNER JOIN sap_dev.silver.dim_product p\n",
+        "      ON f.ProductSK = p.ProductSK\n",
+        "WHERE\n",
+        "  (\n",
+        "    f.StockQuantity > 0\n",
+        "    AND f.StockQuantity < 10\n",
+        "  )\n",
+        "  OR f.StockQuantity = 0\n",
+        "ORDER BY\n",
+        "  CASE\n",
+        "    WHEN f.StockStatus = 'Out of Stock' THEN 0\n",
+        "    WHEN f.StockStatus = 'Low Stock' THEN 1\n",
+        "    ELSE 2\n",
+        "  END,\n",
+        "  f.StockQuantity ASC,\n",
+        "  f.StockValue DESC"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "warehouse_inventory_risk",
+      "displayName": "Warehouse Inventory Risk",
+      "queryLines": [
+        "SELECT\n",
+        "  w.WareHouseName,\n",
+        "  w.WareHouseCity,\n",
+        "  SUM(f.StockQuantity) as TotalStock,\n",
+        "  SUM(f.StockValue) as InventoryValue,\n",
+        "  COUNT(\n",
+        "    CASE\n",
+        "      WHEN\n",
+        "        f.StockQuantity > 0\n",
+        "        AND f.StockQuantity < 10\n",
+        "      THEN\n",
+        "        1\n",
+        "    END\n",
+        "  ) as LowStockItems,\n",
+        "  COUNT(\n",
+        "    CASE\n",
+        "      WHEN f.StockQuantity = 0 THEN 1\n",
+        "    END\n",
+        "  ) as OutOfStockItems\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_inventory f\n",
+        "    INNER JOIN sap_dev.silver.dim_warehouse w\n",
+        "      ON f.WarehouseSK = w.WareHouseSK\n",
+        "GROUP BY\n",
+        "  w.WareHouseName,\n",
+        "  w.WareHouseCity\n",
+        "ORDER BY\n",
+        "  OutOfStockItems DESC,\n",
+        "  LowStockItems DESC"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "top_warehouses_by_value",
+      "displayName": "Top 10 Warehouses by Inventory Value",
+      "queryLines": [
+        "SELECT\n",
+        "  w.WareHouseName,\n",
+        "  SUM(f.StockValue) as TotalInventoryValue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_inventory f\n",
+        "    INNER JOIN sap_dev.silver.dim_warehouse w\n",
+        "      ON f.WarehouseSK = w.WareHouseSK\n",
+        "GROUP BY\n",
+        "  w.WareHouseName\n",
+        "ORDER BY\n",
+        "  TotalInventoryValue DESC\n",
+        "LIMIT 10"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "inventory_kpis",
+      "displayName": "Inventory KPIs",
+      "queryLines": [
+        "SELECT\n",
+        "  SUM(StockQuantity) as TotalStockQuantity,\n",
+        "  SUM(StockValue) as TotalInventoryValue,\n",
+        "  COUNT(\n",
+        "    CASE\n",
+        "      WHEN\n",
+        "        StockQuantity > 0\n",
+        "        AND StockQuantity < 10\n",
+        "      THEN\n",
+        "        1\n",
+        "    END\n",
+        "  ) as LowStockItems,\n",
+        "  COUNT(\n",
+        "    CASE\n",
+        "      WHEN StockQuantity = 0 THEN 1\n",
+        "    END\n",
+        "  ) as OutOfStockItems,\n",
+        "  SUM(\n",
+        "    CASE\n",
+        "      WHEN\n",
+        "        StockQuantity > 0\n",
+        "        AND StockQuantity < 10\n",
+        "      THEN\n",
+        "        StockValue\n",
+        "      ELSE 0\n",
+        "    END\n",
+        "  ) as LowStockInventoryValue,\n",
+        "  SUM(\n",
+        "    CASE\n",
+        "      WHEN StockQuantity = 0 THEN StockValue\n",
+        "      ELSE 0\n",
+        "    END\n",
+        "  ) as OutOfStockInventoryValue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_inventory"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "top_warehouses_by_quantity",
+      "displayName": "Top 10 Warehouses by Stock Quantity",
+      "queryLines": [
+        "SELECT\n",
+        "  w.WareHouseName,\n",
+        "  SUM(f.StockQuantity) as TotalStockQuantity\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_inventory f\n",
+        "    INNER JOIN sap_dev.silver.dim_warehouse w\n",
+        "      ON f.WarehouseSK = w.WareHouseSK\n",
+        "GROUP BY\n",
+        "  w.WareHouseName\n",
+        "ORDER BY\n",
+        "  TotalStockQuantity DESC\n",
+        "LIMIT 10"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "warehouse_critical_risk",
+      "displayName": "Warehouses with Critical Risk",
+      "queryLines": [
+        "SELECT\n",
+        "  COUNT(DISTINCT w.WareHouseName) as WarehousesWithOutOfStock\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_inventory f\n",
+        "    INNER JOIN sap_dev.silver.dim_warehouse w\n",
+        "      ON f.WarehouseSK = w.WareHouseSK\n",
+        "WHERE\n",
+        "  f.StockQuantity = 0"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "a9ee9af0",
+      "displayName": "Page 1",
+      "layout": [
+        {
+          "widget": {
+            "name": "total_stock_quantity",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "inventory_kpis",
+                  "fields": [
+                    {
+                      "name": "TotalStockQuantity",
+                      "expression": "`TotalStockQuantity`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Stock Quantity",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "TotalStockQuantity",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "total_inventory_value",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "inventory_kpis",
+                  "fields": [
+                    {
+                      "name": "TotalInventoryValue",
+                      "expression": "`TotalInventoryValue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Inventory Value (INR)",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "TotalInventoryValue",
+                  "format": {
+                    "type": "number-currency",
+                    "abbreviation": "compact",
+                    "currencyCode": "INR",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "low_stock_items_kpi",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "inventory_kpis",
+                  "fields": [
+                    {
+                      "name": "LowStockItems",
+                      "expression": "`LowStockItems`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Low-Stock Items",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "LowStockItems",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "out_of_stock_items_kpi",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "inventory_kpis",
+                  "fields": [
+                    {
+                      "name": "OutOfStockItems",
+                      "expression": "`OutOfStockItems`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Out-of-Stock Items",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "OutOfStockItems",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "warehouse_risk_table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "warehouse_inventory_risk",
+                  "fields": [
+                    {
+                      "name": "WareHouseName",
+                      "expression": "`WareHouseName`"
+                    },
+                    {
+                      "name": "WareHouseCity",
+                      "expression": "`WareHouseCity`"
+                    },
+                    {
+                      "name": "TotalStock",
+                      "expression": "`TotalStock`"
+                    },
+                    {
+                      "name": "InventoryValue",
+                      "expression": "`InventoryValue`"
+                    },
+                    {
+                      "name": "LowStockItems",
+                      "expression": "`LowStockItems`"
+                    },
+                    {
+                      "name": "OutOfStockItems",
+                      "expression": "`OutOfStockItems`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Warehouse Inventory Risk Analysis",
+                "showTitle": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "WareHouseName",
+                    "displayName": "Warehouse"
+                  },
+                  {
+                    "fieldName": "WareHouseCity",
+                    "displayName": "City"
+                  },
+                  {
+                    "fieldName": "TotalStock",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "compact",
+                      "decimalPlaces": {
+                        "type": "max",
+                        "places": 1
+                      }
+                    },
+                    "displayName": "Total Stock"
+                  },
+                  {
+                    "fieldName": "InventoryValue",
+                    "format": {
+                      "type": "number-currency",
+                      "abbreviation": "compact",
+                      "currencyCode": "INR",
+                      "decimalPlaces": {
+                        "type": "max",
+                        "places": 2
+                      }
+                    },
+                    "displayName": "Inventory Value"
+                  },
+                  {
+                    "fieldName": "LowStockItems",
+                    "displayName": "Low-Stock Items"
+                  },
+                  {
+                    "fieldName": "OutOfStockItems",
+                    "displayName": "Out-of-Stock Items"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 12,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "low_stock_table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "low_stock_items",
+                  "fields": [
+                    {
+                      "name": "ProductName",
+                      "expression": "`ProductName`"
+                    },
+                    {
+                      "name": "WareHouseName",
+                      "expression": "`WareHouseName`"
+                    },
+                    {
+                      "name": "StockQuantity",
+                      "expression": "`StockQuantity`"
+                    },
+                    {
+                      "name": "StockValue",
+                      "expression": "`StockValue`"
+                    },
+                    {
+                      "name": "StockStatus",
+                      "expression": "`StockStatus`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Inventory Risk — Low & Out of Stock Items",
+                "showTitle": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "ProductName",
+                    "displayName": "Product Name"
+                  },
+                  {
+                    "fieldName": "WareHouseName",
+                    "displayName": "Warehouse"
+                  },
+                  {
+                    "fieldName": "StockQuantity",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none"
+                    },
+                    "displayName": "Stock Quantity"
+                  },
+                  {
+                    "fieldName": "StockValue",
+                    "format": {
+                      "type": "number-currency",
+                      "abbreviation": "compact",
+                      "currencyCode": "INR",
+                      "decimalPlaces": {
+                        "type": "max",
+                        "places": 2
+                      }
+                    },
+                    "displayName": "Stock Value"
+                  },
+                  {
+                    "fieldName": "StockStatus",
+                    "displayName": "Status"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 13,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "top_warehouses_value",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_warehouses_by_value",
+                  "fields": [
+                    {
+                      "name": "TotalInventoryValue",
+                      "expression": "`TotalInventoryValue`"
+                    },
+                    {
+                      "name": "WareHouseName",
+                      "expression": "`WareHouseName`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top 10 Warehouses by Inventory Value",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "TotalInventoryValue",
+                  "format": {
+                    "type": "number-currency",
+                    "abbreviation": "compact",
+                    "currencyCode": "INR",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "WareHouseName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "top_warehouses_quantity",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_warehouses_by_quantity",
+                  "fields": [
+                    {
+                      "name": "TotalStockQuantity",
+                      "expression": "`TotalStockQuantity`"
+                    },
+                    {
+                      "name": "WareHouseName",
+                      "expression": "`WareHouseName`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top 10 Warehouses by Stock Quantity",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "TotalStockQuantity",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "WareHouseName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 3,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "low_stock_value_kpi",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "inventory_kpis",
+                  "fields": [
+                    {
+                      "name": "LowStockInventoryValue",
+                      "expression": "`LowStockInventoryValue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Low-Stock Inventory Value",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "LowStockInventoryValue",
+                  "format": {
+                    "type": "number-currency",
+                    "abbreviation": "compact",
+                    "currencyCode": "INR",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 19,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "out_of_stock_value_kpi",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "inventory_kpis",
+                  "fields": [
+                    {
+                      "name": "OutOfStockInventoryValue",
+                      "expression": "`OutOfStockInventoryValue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Out-of-Stock Inventory Value",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "OutOfStockInventoryValue",
+                  "format": {
+                    "type": "number-currency",
+                    "abbreviation": "compact",
+                    "currencyCode": "INR",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 19,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "data_limitations",
+            "multilineTextboxSpec": {
+              "lines": [
+                "**Data Limitations:** Stock Turnover Rate and Automated Reorder Recommendations require historical transaction data (purchase dates, sales velocity) not present in the current fact_inventory table."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 22,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "critical_risk_kpi",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "warehouse_critical_risk",
+                  "fields": [
+                    {
+                      "name": "WarehousesWithOutOfStock",
+                      "expression": "`WarehousesWithOutOfStock`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Warehouses with Out-of-Stock Items",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "WarehousesWithOutOfStock",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 19,
+            "width": 4,
+            "height": 3
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "global_filters",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "warehouse_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f1949a71ea110683922775d3f35a95/datasets/01f1949b074f131c8269687fb2c7d9b3_WareHouseName",
+                "query": {
+                  "datasetName": "low_stock_items",
+                  "fields": [
+                    {
+                      "name": "WareHouseName",
+                      "expression": "`WareHouseName`"
+                    },
+                    {
+                      "name": "WareHouseName_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Warehouse",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "WareHouseName",
+                    "queryName": "dashboards/01f1949a71ea110683922775d3f35a95/datasets/01f1949b074f131c8269687fb2c7d9b3_WareHouseName"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "warehouse_city_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f1949a71ea110683922775d3f35a95/datasets/01f1949b074f131c8269687fb2c7d9b3_WareHouseCity",
+                "query": {
+                  "datasetName": "low_stock_items",
+                  "fields": [
+                    {
+                      "name": "WareHouseCity",
+                      "expression": "`WareHouseCity`"
+                    },
+                    {
+                      "name": "WareHouseCity_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Warehouse City",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "WareHouseCity",
+                    "queryName": "dashboards/01f1949a71ea110683922775d3f35a95/datasets/01f1949b074f131c8269687fb2c7d9b3_WareHouseCity"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "product_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f1949a71ea110683922775d3f35a95/datasets/01f1949b074f131c8269687fb2c7d9b3_ProductName",
+                "query": {
+                  "datasetName": "low_stock_items",
+                  "fields": [
+                    {
+                      "name": "ProductName",
+                      "expression": "`ProductName`"
+                    },
+                    {
+                      "name": "ProductName_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Product",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "ProductName",
+                    "queryName": "dashboards/01f1949a71ea110683922775d3f35a95/datasets/01f1949b074f131c8269687fb2c7d9b3_ProductName"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "stock_status_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f1949a71ea110683922775d3f35a95/datasets/01f1949b074f131c8269687fb2c7d9b3_StockStatus",
+                "query": {
+                  "datasetName": "low_stock_items",
+                  "fields": [
+                    {
+                      "name": "StockStatus",
+                      "expression": "`StockStatus`"
+                    },
+                    {
+                      "name": "StockStatus_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Stock Status",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "StockStatus",
+                    "queryName": "dashboards/01f1949a71ea110683922775d3f35a95/datasets/01f1949b074f131c8269687fb2c7d9b3_StockStatus"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}

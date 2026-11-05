@@ -1,0 +1,3 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T04	mart_customer_360 City/State 100% null	P1	Gold	T01	Populate from task patterns, training sessions, and operations guide content	COUNT(*) > 100	Engineer_02	30	Customer 360 missing City/State (100pct null). Geographic analytics impossible.
+T05	skillai_execution_knowledge empty	P1	Gold		Retrain churn model with 12-month data (from T21), add behavioral features (frequency, recency, monetary)	AVG(churn_probability) between 0.15-0.35, AUC > 0.70	Engineer_03	30	Execution knowledge base empty. No operational intelligence captured.

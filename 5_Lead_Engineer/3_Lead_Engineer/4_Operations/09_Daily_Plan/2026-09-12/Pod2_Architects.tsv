@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T11	No liquid clustering	P2	Gold		Create DQ monitoring pipeline using 2_Data_Production/04_Quality_Operations/ notebooks - Schedule: Daily DQ check job	sap_dev.governance.data_quality_results has results for current date	Engineer_02	15	

@@ -1,0 +1,36 @@
+{
+  "name": "07_Weekly_DBT_Incremental",
+  "tags": {
+    "Daily": "",
+    "DBT": "",
+    "Incremental": "",
+    "Transformation": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "generate_incremental_data",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/1_Canvas/1_Setup/2_data_generator",
+        "source": "WORKSPACE",
+        "base_parameters": {
+          "mode": "incremental"
+        }
+      }
+    },
+    {
+      "task_key": "dbt_incremental_run",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/03_Dbt/StartHere_DBT",
+        "source": "WORKSPACE"
+      },
+      "depends_on": [
+        {
+          "task_key": "generate_incremental_data"
+        }
+      ]
+    }
+  ]
+}

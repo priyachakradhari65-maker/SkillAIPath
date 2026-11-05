@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T16	RAG queries minimal	P3	P3		Activate GitHub Actions CI/CD pipeline from 1_Canvas/0_DevOps/ - Configure: lint on PR, test on merge to dev, deploy on 	GitHub Actions workflow runs green on test commit	Engineer_09	15	

@@ -1,0 +1,120 @@
+Task_ID	Title	Pod	Module	Status	Session_Ref	File_Path	Completed_At	Notes
+ING-001	Sample Data Generation	Pod1_Data Team	Data Ingestion	not_started		/2_Data_Production/01_Data_Generation/		
+ING-002	REST API Ingestion	Pod1_Data Team	Data Ingestion	not_started		/2_Data_Production/01_Data_Generation/		
+ING-003	Marketplace Data Sources	Pod1_Data Team	Data Ingestion	not_started		/2_Data_Production/01_Data_Generation/		
+ING-004	Volume Upload Patterns	Pod1_Data Team	Data Ingestion	not_started		/2_Data_Production/01_Data_Generation/		
+ING-005	Auto Loader Setup	Pod1_Data Team	Data Ingestion	not_started		/2_Data_Production/01_Data_Generation/		
+ING-006	Free Catalog Integration	Pod1_Data Team	Data Ingestion	not_started		/2_Data_Production/01_Data_Generation/		
+ING-007	Incremental Ingestion Patterns	Pod1_Data Team	Data Ingestion	not_started		/2_Data_Production/01_Data_Generation/		
+MED-001	Config Widgets & Env Detection	Pod2_Architecture Team	Foundation Setup	not_started		/1_Canvas/StartHere		
+MED-002	Bronze Layer Setup	Pod2_Architecture Team	Bronze Layer	not_started		/2_Data_Production/02_Medallion_Architecture/00_Bronze/		
+MED-003	Dim Product Bronze → Silver	Pod2_Architecture Team	Silver Dimensions	not_started		/2_Data_Production/02_Medallion_Architecture/01_Dimensions/07_dim_product_nb		
+MED-004	Complete Dimension Suite	Pod2_Architecture Team	Silver Dimensions	not_started		/2_Data_Production/02_Medallion_Architecture/01_Dimensions/		
+MED-005	Fact Sales Silver	Pod2_Architecture Team	Silver Facts	not_started		/2_Data_Production/02_Medallion_Architecture/02_Facts/01_fact_sales		
+MED-006	Fact Purchases Silver	Pod2_Architecture Team	Silver Facts	not_started		/2_Data_Production/02_Medallion_Architecture/02_Facts/02_fact_purchases		
+MED-007	Fact Inventory Silver	Pod2_Architecture Team	Silver Facts	not_started		/2_Data_Production/02_Medallion_Architecture/02_Facts/03_fact_inventory		
+MED-008	Customer 360 Gold Mart	Pod2_Architecture Team	Gold Layer	not_started		/2_Data_Production/02_Medallion_Architecture/04_Gold/01_mart_customer_360		
+MED-009	Product Performance Gold	Pod2_Architecture Team	Gold Layer	not_started		/2_Data_Production/02_Medallion_Architecture/04_Gold/03_mart_product_performance		
+MED-010	RFM Analysis Gold	Pod2_Architecture Team	Gold Layer	not_started		/2_Data_Production/02_Medallion_Architecture/04_Gold/02_mart_rfm_analysis		
+MED-011	Validation Suite	Pod3_QA Team	Data Quality	not_started		/2_Data_Production/02_Medallion_Architecture/03_Data_Quality/		
+MED-012	Monitoring & Alerts	Pod3_QA Team	Monitoring	not_started		/4_Business_Intelligence/4_Monitoring_Observability/		
+MED-013	Territory Performance Silver	Pod2_Architecture Team	Silver Advanced	not_started		/2_Data_Production/02_Medallion_Architecture/01_Dimensions/		
+MED-014	Warehouse Efficiency Silver	Pod2_Architecture Team	Silver Advanced	not_started		/2_Data_Production/02_Medallion_Architecture/01_Dimensions/		
+MED-015	Null Investigation & Cleanup	Pod3_QA Team	Data Quality	not_started		/2_Data_Production/02_Medallion_Architecture/03_Data_Quality/		
+DBT-001	DBT Project Setup	Pod2_Architecture Team	DBT Core	not_started		/2_Data_Production/04_DBT/		
+DBT-002	Convert Silver Transforms to DBT	Pod2_Architecture Team	DBT Core	not_started		/2_Data_Production/04_DBT/models/		
+DBT-003	DBT Testing Framework	Pod2_Architecture Team	DBT Core	not_started		/2_Data_Production/04_DBT/tests/		
+DBT-004	Multi-Environment Profiles	Pod2_Architecture Team	DBT Core	not_started		/2_Data_Production/04_DBT/profiles.yml		
+DBT-005	DBT Documentation Generation	Pod2_Architecture Team	DBT Advanced	not_started		/2_Data_Production/04_DBT/		
+DBT-006	DBT Best Practices Video	Pod2_Architecture Team	Content	not_started		5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/Session_06_Order_Correction		
+STR-001	Streaming Fact Sales	Pod2_Architecture Team	Streaming Core	not_started		/2_Data_Production/03_Streaming_CDC/		
+STR-002	Customer CDC Silver	Pod2_Architecture Team	Streaming Core	not_started		/2_Data_Production/03_Streaming_CDC/		
+STR-003	Streaming Inventory Real-Time	Pod2_Architecture Team	Streaming Core	not_started		/2_Data_Production/03_Streaming_CDC/		
+STR-004	Late Arriving Data Handling	Pod2_Architecture Team	Streaming Core	not_started		/2_Data_Production/03_Streaming_CDC/		
+STR-005	Event Time Processing	Pod2_Architecture Team	Streaming Advanced	not_started		/2_Data_Production/03_Streaming_CDC/		
+STR-006	Exactly-Once Semantics	Pod2_Architecture Team	Streaming Advanced	not_started		/2_Data_Production/03_Streaming_CDC/		
+STR-007	Stream Monitoring & Alerting	Pod8_DevOps Team	Monitoring	not_started		/4_Business_Intelligence/4_Monitoring_Observability/		
+STR-008	Backfill Strategy	Pod2_Architecture Team	Streaming Advanced	not_started		/2_Data_Production/03_Streaming_CDC/		
+STR-009	Stream Optimization	Pod2_Architecture Team	Streaming Advanced	not_started		/2_Data_Production/03_Streaming_CDC/		
+ML-001	Feature Store Setup	Pod5_ML Team	MLOps Core	not_started		/3_AI_Platform/1_MLOps/		
+ML-002	Churn Model Training	Pod5_ML Team	MLOps Core	not_started		/3_AI_Platform/1_MLOps/notebooks/01_feature_engineering		
+ML-003	Demand Forecast Model Training	Pod5_ML Team	MLOps Core	not_started		/3_AI_Platform/1_MLOps/notebooks/		
+ML-004	Recommendation Model Training	Pod5_ML Team	MLOps Advanced	not_started		/3_AI_Platform/1_MLOps/notebooks/		
+ML-005	Deploy Churn Prediction Endpoint	Pod4_AI Team	Model Serving	not_started		/3_AI_Platform/1_MLOps/notebooks/03_model_deployment		
+ML-006	Deploy Demand Forecasting Endpoint	Pod4_AI Team	Model Serving	not_started		/3_AI_Platform/1_MLOps/notebooks/		
+ML-007	Deploy Recommendation Endpoint	Pod4_AI Team	Model Serving	not_started		/3_AI_Platform/1_MLOps/notebooks/		
+ML-008	Batch Scoring Job	Pod5_ML Team	Batch Scoring	not_started		/3_AI_Platform/1_MLOps/notebooks/		
+ML-009	Model Monitoring	Pod5_ML Team	Monitoring	not_started		/3_AI_Platform/1_MLOps/notebooks/		
+ML-010	MLflow Tracking Dashboard	Pod6_Analytics Team	Dashboard	not_started		/4_Business_Intelligence/2_BI_Production/		
+RAG-001	Vector Search Index Setup	Pod4_AI Team	RAG Core	not_started		/3_AI_Platform/2_Rag_Pipeline/		
+RAG-002	Product Catalog Embeddings	Pod4_AI Team	RAG Core	not_started		/3_AI_Platform/2_Rag_Pipeline/01_embedding_pipeline		
+RAG-003	Documentation Embeddings	Pod4_AI Team	RAG Advanced	not_started		/3_AI_Platform/2_Rag_Pipeline/		
+RAG-004	RAG Pipeline	Pod4_AI Team	RAG Core	not_started		/3_AI_Platform/2_Rag_Pipeline/02_rag_chain		
+RAG-005	AI Gateway Setup	Pod4_AI Team	AI Gateway	not_started		/3_AI_Platform/2_Rag_Pipeline/		
+AGT-001	Agent Framework Setup	Pod4_AI Team	AI Agents Core	not_started		/3_AI_Platform/3_AI_Agents/00_agent_framework		
+AGT-002	SQL Analytics Agent	Pod4_AI Team	AI Agents Core	not_started		/3_AI_Platform/3_AI_Agents/		
+AGT-003	Churn Prevention Agent	Pod4_AI Team	AI Agents Core	not_started		/3_AI_Platform/3_AI_Agents/		
+AGT-004	Inventory Optimization Agent	Pod4_AI Team	AI Agents Core	not_started		/3_AI_Platform/3_AI_Agents/		
+AGT-005	Customer Service Agent	Pod4_AI Team	AI Agents Core	not_started		/3_AI_Platform/3_AI_Agents/		
+AGT-006	Agent Observability Dashboard	Pod4_AI Team	Monitoring	not_started		/3_AI_Platform/3_AI_Agents/99_agent_observability		
+BI-001	Pipeline Monitoring Dashboard	Pod6_Analytics Team	Monitoring	not_started		/4_Business_Intelligence/4_Monitoring_Observability/		
+BI-002	Executive KPI Dashboard	Pod6_Analytics Team	Dashboards Core	not_started		/4_Business_Intelligence/2_BI_Production/		
+BI-003	Sales Performance Dashboard	Pod6_Analytics Team	Dashboards Core	not_started		/4_Business_Intelligence/2_BI_Production/		
+BI-004	Operational Metrics Dashboard	Pod6_Analytics Team	Dashboards Advanced	not_started		/4_Business_Intelligence/2_BI_Production/		
+BI-005	Inventory Management Dashboard	Pod6_Analytics Team	Dashboards Advanced	not_started		/4_Business_Intelligence/2_BI_Production/		
+BI-006	Real-Time Monitoring Dashboard	Pod6_Analytics Team	Dashboards Advanced	not_started		/4_Business_Intelligence/2_BI_Production/		
+BI-007	MLflow Dashboard	Pod6_Analytics Team	Dashboards Advanced	not_started		/4_Business_Intelligence/2_BI_Production/		
+BI-008	Intelligence Hub App	Pod6_Analytics Team	Apps Core	not_started		/4_Business_Intelligence/3_Live_Apps/intelligence_hub/		
+BI-009	Agents Dashboard App	Pod6_Analytics Team	Apps Core	not_started		/4_Business_Intelligence/3_Live_Apps/agents_dashboard/		
+BI-010	Genie Space	Pod6_Analytics Team	Genie	not_started		4_Business_Intelligence/4_Genie_Spaces/README.md		
+BI-011	Query Optimization	Pod6_Analytics Team	Optimization	not_started		/4_Business_Intelligence/2_BI_Production/		
+BI-012	Cost Tracking Dashboard	Pod6_Analytics Team	Monitoring	not_started		/4_Business_Intelligence/4_Monitoring_Observability/		
+GOV-001	Row-Level Security (ABAC)	Pod8_DevOps Team	Security	not_started		/5_Lead_Engineer/2_Governance_Compliance/		
+GOV-002	Column Masking (PII)	Pod8_DevOps Team	Security	not_started		/5_Lead_Engineer/2_Governance_Compliance/		
+GOV-003	ABAC Policies Implementation	Pod8_DevOps Team	Security	not_started		/5_Lead_Engineer/2_Governance_Compliance/		
+GOV-004	Catalog Tagging Strategy	Pod8_DevOps Team	Metadata	not_started		/5_Lead_Engineer/2_Governance_Compliance/		
+GOV-005	Data Quality Framework	Pod8_DevOps Team	Data Quality	not_started		/2_Data_Production/02_Medallion_Architecture/03_Data_Quality/		
+GOV-006	Variant Type Implementation	Pod8_DevOps Team	Advanced	not_started		/2_Data_Production/02_Medallion_Architecture/		
+GOV-007	Catalog Governance Audit	Pod8_DevOps Team	Audit	not_started		/5_Lead_Engineer/2_Governance_Compliance/		
+GOV-008	Iceberg Uniform Tables	Pod8_DevOps Team	Advanced	not_started		/2_Data_Production/02_Medallion_Architecture/		
+GOV-009	Data Vault Patterns	Pod8_DevOps Team	Advanced	not_started		/2_Data_Production/02_Medallion_Architecture/		
+PROD-001	Git Workflow Setup	Pod3_QA Team	Git	not_started		/5_Lead_Engineer/1_Production_Engineering/		
+PROD-002	CI/CD Pipeline	Pod8_DevOps Team	CI/CD	not_started		/5_Lead_Engineer/1_Production_Engineering/		
+PROD-003	Testing Framework	Pod3_QA Team	Testing	not_started		/5_Lead_Engineer/1_Production_Engineering/		
+PROD-004	Monitoring & Observability	Pod3_QA Team	Monitoring	not_started		/4_Business_Intelligence/4_Monitoring_Observability/		
+PROD-005	Cost Optimization	Pod3_QA Team	Optimization	not_started		/5_Lead_Engineer/1_Production_Engineering/		
+PROD-006	Disaster Recovery Plan	Pod3_QA Team	Disaster Recovery	not_started		/5_Lead_Engineer/1_Production_Engineering/		
+PROD-007	Performance Benchmarking	Pod3_QA Team	Benchmarking	not_started		/5_Lead_Engineer/1_Production_Engineering/		
+CONT-001	Foundation Videos (5 days)	Pod6_Analytics Team	Videos Foundation	not_started		5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/		
+CONT-002	DBT Videos	Pod9_Ops Team	Videos Advanced	not_started		5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/		
+CONT-003	Streaming Videos	Pod9_Ops Team	Videos Advanced	not_started		5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/		
+CONT-004	MLOps Videos	Pod9_Ops Team	Videos Advanced	not_started		5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/		
+CONT-005	Governance Videos	Pod9_Ops Team	Videos Advanced	not_started		5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/		
+CONT-006	AI Agents Videos	Pod9_Ops Team	Videos Advanced	not_started		5_Lead_Engineer/3_Lead_Engineer/6_3_TrainingSessions/		
+CONT-007	Solution Guides (All Tasks)	Pod9_Ops Team	Documentation	not_started		5_Lead_Engineer/3_Lead_Engineer/6_2_TaskPatterns/		
+CONT-008	Demo Script Creation	Pod9_Ops Team	Demo	not_started		5_Lead_Engineer/3_Lead_Engineer/6_2_TaskPatterns/Task_26_Demo_Script.md		
+CONT-009	README Standards	Pod9_Ops Team	Documentation	not_started		5_Lead_Engineer/3_Lead_Engineer/6_2_TaskPatterns/Task_25_README.md		
+CONT-010	Data Dictionary	Pod9_Ops Team	Documentation	not_started		5_Lead_Engineer/3_Lead_Engineer/6_2_TaskPatterns/Task_31_Data_Dictionary.md		
+CONT-011	Interview Prep Materials	Pod9_Ops Team	Exam Prep	not_started		5_Lead_Engineer/3_Lead_Engineer/6_2_TaskPatterns/Task_27_Interview_Prep.md		
+SUPP-001	Office Hours Setup	Pod9_Ops Team	Office Hours	not_started		5_Lead_Engineer/3_Lead_Engineer/6_4_Operations/		
+SUPP-002	Portfolio Review Rubric	Pod9_Ops Team	Assessment	not_started		5_Lead_Engineer/1_Portfolio_System/README.md		
+SUPP-003	Mock Interview Sessions	Pod9_Ops Team	Assessment	not_started		5_Lead_Engineer/3_Lead_Engineer/6_4_Operations/		
+SUPP-004	1-on-1 Portfolio Reviews	Pod9_Ops Team	Assessment	not_started		5_Lead_Engineer/1_Portfolio_System/README.md		
+SUPP-005	Certification Study Guide	Pod9_Ops Team	Exam Prep	not_started		5_Lead_Engineer/3_Lead_Engineer/6_2_TaskPatterns/Task_64_DE_Associate_Exam.md		
+SUPP-006	Completion Certificates	Pod9_Ops Team	Graduation	not_started		5_Lead_Engineer/3_Lead_Engineer/6_4_Operations/		
+SUPP-007	Alumni Network Setup	Pod9_Ops Team	Community	not_started		5_Lead_Engineer/3_Lead_Engineer/6_4_Operations/		
+DEVOPS-001	CI/CD Pipeline Setup	Pod8_DevOps Team	CI/CD	not_started		/1_Canvas/2_Orchestration/CI_CD/		
+DEVOPS-002	Job Orchestration Framework	Pod9_Ops Team	Orchestration	not_started		/1_Canvas/2_Orchestration/Data_Platform/		
+DEVOPS-003	Platform Monitoring Dashboard	Pod8_DevOps Team	Monitoring	not_started		/4_Business_Intelligence/4_Monitoring_Observability/		
+DEVOPS-004	Observability Stack Setup	Pod8_DevOps Team	Monitoring	not_started		/4_Business_Intelligence/4_Monitoring_Observability/		
+DEVOPS-005	Cost Tracking & Optimization	Pod8_DevOps Team	Cost Management	not_started		/4_Business_Intelligence/4_Monitoring_Observability/		
+DEVOPS-006	Auto-Termination Policies	Pod8_DevOps Team	Cost Management	not_started		/1_Canvas/1_Setup/		
+DEVOPS-007	Infrastructure as Code (DABs)	Pod9_Ops Team	Infrastructure	not_started		/.github/workflows/		
+DEVOPS-008	Terraform Configuration	Pod9_Ops Team	Infrastructure	not_started		/.github/workflows/		
+DEVOPS-009	Backup & Recovery Strategy	Pod8_DevOps Team	Disaster Recovery	not_started		/5_Lead_Engineer/1_Production_Engineering/		
+DEVOPS-010	Performance Benchmarking	Pod8_DevOps Team	Performance	not_started		/5_Lead_Engineer/1_Production_Engineering/		
+DEVOPS-011	Security Automation	Pod8_DevOps Team	Security	not_started		/5_Lead_Engineer/2_Governance_Compliance/		
+DEVOPS-012	Alert Configuration	Pod6_Analytics Team	Alerts	not_started		/4_Business_Intelligence/4_Monitoring_Observability/		
+DEVOPS-013	Multi-Environment Deployment	Pod8_DevOps Team	Deployment	not_started		/1_Canvas/2_Orchestration/Deployment/		
+DEVOPS-014	Data Pipeline SLA Monitoring	Pod8_DevOps Team	Monitoring	not_started		/4_Business_Intelligence/4_Monitoring_Observability/		
+DEVOPS-015	Query Performance Monitoring	Pod8_DevOps Team	Optimization	not_started		/4_Business_Intelligence/4_Monitoring_Observability/		

@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T23	Value distribution mean 5x median	P1	Bronze		Add seasonal component to data generator (holiday peaks in Nov-Dec, summer dip)	Coefficient of variation across months > 0.15	Engineer_01	30	Value distribution mean 5x median. Revenue analytics skewed. Business reporting misleading.

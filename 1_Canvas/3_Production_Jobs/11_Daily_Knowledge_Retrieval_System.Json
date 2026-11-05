@@ -1,0 +1,21 @@
+{
+  "name": "11_Daily_Knowledge_Retrieval_System",
+  "tags": {
+    "AI": "",
+    "Daily": "",
+    "Knowledge-Graph": "",
+    "RAG": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "10DailyKnowledgeRetrievalSystem",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/2_Rag_Pipeline/knowledge_retrieval_system",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

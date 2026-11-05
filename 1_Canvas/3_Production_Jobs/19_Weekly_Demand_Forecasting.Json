@@ -1,0 +1,21 @@
+{
+  "name": "19_Weekly_Demand_Forecasting",
+  "tags": {
+    "Forecasting": "",
+    "ML": "",
+    "Supply-Chain": "",
+    "Weekly": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "17WeeklyDemandForecasting",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/1_MLOps/03_Demand_Forecasting_Training",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

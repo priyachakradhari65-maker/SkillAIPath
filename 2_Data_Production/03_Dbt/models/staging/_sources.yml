@@ -1,0 +1,63 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: "Bronze layer - Raw data ingested by Databricks (owned by ingestion pipeline, not dbt)"
+    database: "{{ target.catalog }}"
+    schema: bronze
+    tables:
+      - name: sales
+        identifier: stg_sales
+        description: "Raw sales transactions from source system"
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns: ['OrderID', 'BatchDate']
+        columns:
+          - name: OrderID
+            description: "Order identifier (unique within a batch day, not globally)"
+            tests:
+              - not_null
+          - name: finalprice
+            description: "Final transaction amount"
+            tests:
+              - not_null
+      
+      - name: purchases
+        identifier: stg_purchase
+        description: "Raw purchase orders from suppliers"
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns: ['PurchaseID', 'BatchDate']
+        columns:
+          - name: PurchaseID
+            description: "Purchase order identifier (unique within a batch day, not globally)"
+            tests:
+              - not_null
+      
+      - name: inventory
+        identifier: stg_stock_status
+        description: "Daily inventory snapshots"
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns: ['StockID', 'BatchDate']
+        columns:
+          - name: StockID
+            description: "Stock record identifier (unique within a batch day, not globally)"
+            tests:
+              - not_null
+
+  - name: silver
+    description: "Silver layer - CDC-owned tables (single writer: 06_customer_scd2_cdc / Job 05). dbt READS ONLY."
+    database: "{{ target.catalog }}"
+    schema: silver
+    tables:
+      - name: dim_customer
+        description: "Customer dimension (SCD Type 2). Sole writer: 06_customer_scd2_cdc (Job 05)."
+        columns:
+          - name: CustomerSK
+            tests:
+              - not_null
+              - unique
+          - name: CustomerID
+            tests:
+              - not_null

@@ -1,0 +1,20 @@
+{
+  "name": "12_Daily_Auto_Documentation",
+  "tags": {
+    "Automation": "",
+    "Daily": "",
+    "Documentation": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "13DailyAutoDocumentation",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/3_AI_Agents/Knowledge_Hub/Auto_Documentation",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

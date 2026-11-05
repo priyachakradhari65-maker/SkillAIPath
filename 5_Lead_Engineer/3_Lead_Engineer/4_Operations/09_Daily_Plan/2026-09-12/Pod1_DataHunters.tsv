@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T26	Enrichment tables missing	P1	Bronze		Expand knowledge base documents with detailed content (target: 1000+ chars per document)	AVG(LENGTH(content)) > 1000	Engineer_01	30	Enrichment tables missing. Customer profiles incomplete. Cannot build personalized recommendations.

@@ -1,0 +1,42 @@
+# SkillAIPath Data Warehouse - dbt Profiles Configuration
+# FLAT SCHEMA STRUCTURE: sap_dev.bronze/silver/gold (no prefixes)
+
+sap_dw:
+  target: "{{ env_var('DBT_TARGET', 'dev') }}"
+  outputs:
+    
+    dev:
+      type: databricks
+      catalog: sap_dev
+      schema: default  # REQUIRED by dbt 1.8+, even when models override it
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
+      token: "{{ env_var('DATABRICKS_TOKEN') }}"
+      threads: 12
+    
+    uat:
+      type: databricks
+      catalog: sap_uat
+      schema: default  # REQUIRED by dbt 1.8+, even when models override it
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
+      token: "{{ env_var('DATABRICKS_TOKEN') }}"
+      threads: 12
+    
+    prod:
+      type: databricks
+      catalog: sap_prod
+      schema: default  # REQUIRED by dbt 1.8+, even when models override it
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
+      token: "{{ env_var('DATABRICKS_TOKEN') }}"
+      threads: 16
+    
+    main:
+      type: databricks
+      catalog: sap_main
+      schema: default  # REQUIRED by dbt 1.8+, even when models override it
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
+      token: "{{ env_var('DATABRICKS_TOKEN') }}"
+      threads: 12

@@ -1,0 +1,1188 @@
+{
+  "datasets": [
+    {
+      "name": "customer_insights",
+      "displayName": "Customer Insights",
+      "config": {
+        "version": "1.1",
+        "source": "SELECT c360.CustomerKey as CustomerSK, c360.CustomerName, c360.TotalSpend as lifetime_value, c360.TotalPurchases as total_orders, c360.DaysSinceLastPurchase as days_since_last_purchase, c360.CustomerSegment as customer_segment, c360.AvgOrderValue as avg_order_value, c360.FirstPurchaseDate as first_purchase_date, c360.LastPurchaseDate as last_purchase_date, rfm.Recency, rfm.Frequency, rfm.Monetary_Lakhs, rfm.R_Score, rfm.F_Score, rfm.M_Score, rfm.RFM_Score, COALESCE(rfm.Segment, 'Unclassified') as RFM_Segment, CASE WHEN c360.TotalSpend < 1000 THEN 'Under ₹1K' WHEN c360.TotalSpend < 5000 THEN '₹1K-5K' WHEN c360.TotalSpend < 10000 THEN '₹5K-10K' WHEN c360.TotalSpend < 25000 THEN '₹10K-25K' WHEN c360.TotalSpend < 50000 THEN '₹25K-50K' WHEN c360.TotalSpend < 100000 THEN '₹50K-100K' ELSE '₹100K+' END as LTV_Band, CASE WHEN c360.TotalPurchases = 1 THEN '1 Order' WHEN c360.TotalPurchases = 2 THEN '2 Orders' WHEN c360.TotalPurchases BETWEEN 3 AND 5 THEN '3-5 Orders' WHEN c360.TotalPurchases BETWEEN 6 AND 10 THEN '6-10 Orders' ELSE '10+ Orders' END as Order_Frequency_Band FROM sap_dev.gold.mart_customer_360 c360 LEFT JOIN sap_dev.gold.mart_rfm_analysis rfm ON c360.CustomerKey = rfm.CustomerSK WHERE c360.CustomerKey > 0 ",
+        "dimensions": [
+          {
+            "name": "CustomerSK",
+            "expr": "CustomerSK"
+          },
+          {
+            "name": "CustomerName",
+            "expr": "CustomerName"
+          },
+          {
+            "name": "customer_segment",
+            "expr": "customer_segment"
+          },
+          {
+            "name": "RFM_Segment",
+            "expr": "RFM_Segment"
+          },
+          {
+            "name": "first_purchase_date",
+            "expr": "first_purchase_date"
+          },
+          {
+            "name": "last_purchase_date",
+            "expr": "last_purchase_date"
+          },
+          {
+            "name": "LTV_Band",
+            "expr": "LTV_Band"
+          },
+          {
+            "name": "Order_Frequency_Band",
+            "expr": "Order_Frequency_Band"
+          }
+        ],
+        "measures": [
+          {
+            "name": "total_customers",
+            "expr": "COUNT(DISTINCT CustomerSK)"
+          },
+          {
+            "name": "active_customers",
+            "expr": "COUNT(DISTINCT CASE WHEN days_since_last_purchase <= 30 THEN CustomerSK END)"
+          },
+          {
+            "name": "champions_count",
+            "expr": "COUNT(DISTINCT CASE WHEN RFM_Segment = 'Champions' THEN CustomerSK END)"
+          },
+          {
+            "name": "at_risk_count",
+            "expr": "COUNT(DISTINCT CASE WHEN RFM_Segment = 'At Risk' THEN CustomerSK END)"
+          },
+          {
+            "name": "hibernating_count",
+            "expr": "COUNT(DISTINCT CASE WHEN RFM_Segment = 'Hibernating' THEN CustomerSK END)"
+          },
+          {
+            "name": "customers_at_risk",
+            "expr": "COUNT(DISTINCT CASE WHEN RFM_Segment IN ('At Risk', 'Hibernating') THEN CustomerSK END)"
+          },
+          {
+            "name": "risk_rate_pct",
+            "expr": "100.0 * COUNT(DISTINCT CASE WHEN RFM_Segment IN ('At Risk', 'Hibernating') THEN CustomerSK END) / COUNT(DISTINCT CustomerSK)"
+          },
+          {
+            "name": "high_value_customers",
+            "expr": "COUNT(DISTINCT CASE WHEN customer_segment IN ('VIP', 'High Value') THEN CustomerSK END)"
+          },
+          {
+            "name": "high_value_pct",
+            "expr": "100.0 * COUNT(DISTINCT CASE WHEN customer_segment IN ('VIP', 'High Value') THEN CustomerSK END) / COUNT(DISTINCT CustomerSK)"
+          },
+          {
+            "name": "total_lifetime_value",
+            "expr": "SUM(lifetime_value)"
+          },
+          {
+            "name": "avg_lifetime_value",
+            "expr": "AVG(lifetime_value)"
+          },
+          {
+            "name": "total_orders_sum",
+            "expr": "SUM(total_orders)"
+          },
+          {
+            "name": "avg_order_value_avg",
+            "expr": "AVG(avg_order_value)"
+          },
+          {
+            "name": "lifetime_value",
+            "expr": "SUM(lifetime_value)"
+          },
+          {
+            "name": "total_orders",
+            "expr": "SUM(total_orders)"
+          },
+          {
+            "name": "days_since_last_purchase",
+            "expr": "AVG(days_since_last_purchase)"
+          },
+          {
+            "name": "Recency",
+            "expr": "AVG(Recency)"
+          },
+          {
+            "name": "Frequency",
+            "expr": "AVG(Frequency)"
+          },
+          {
+            "name": "Monetary_Lakhs",
+            "expr": "SUM(Monetary_Lakhs)"
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "0c07559c",
+      "displayName": "Page 1",
+      "layout": [
+        {
+          "widget": {
+            "name": "total_customers",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "measure(total_customers)",
+                      "expression": "MEASURE(`total_customers`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Customers",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_customers)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "active_customers",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "measure(active_customers)",
+                      "expression": "MEASURE(`active_customers`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Active Customers",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(active_customers)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 1,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "champions",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "measure(champions_count)",
+                      "expression": "MEASURE(`champions_count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Champions",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(champions_count)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "at_risk",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "measure(at_risk_count)",
+                      "expression": "MEASURE(`at_risk_count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "At-Risk Customers",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(at_risk_count)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "lost_customers",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "measure(hibernating_count)",
+                      "expression": "MEASURE(`hibernating_count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Lost Customers",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(hibernating_count)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 7,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "rfm_segment_dist",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "measure(total_customers)",
+                      "expression": "MEASURE(`total_customers`)"
+                    },
+                    {
+                      "name": "RFM_Segment",
+                      "expression": "`RFM_Segment`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Customer Segments",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(total_customers)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "RFM_Segment",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "risk_overview",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "measure(total_customers)",
+                      "expression": "MEASURE(`total_customers`)"
+                    },
+                    {
+                      "name": "RFM_Segment",
+                      "expression": "`RFM_Segment`"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`RFM_Segment` IN ('Champions', 'At Risk', 'Hibernating')"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Risk Analysis",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(total_customers)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "RFM_Segment",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "top_20_customers",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "CustomerName",
+                      "expression": "`CustomerName`"
+                    },
+                    {
+                      "name": "measure(lifetime_value)",
+                      "expression": "MEASURE(`lifetime_value`)"
+                    },
+                    {
+                      "name": "measure(total_orders)",
+                      "expression": "MEASURE(`total_orders`)"
+                    },
+                    {
+                      "name": "RFM_Segment",
+                      "expression": "`RFM_Segment`"
+                    },
+                    {
+                      "name": "customer_segment",
+                      "expression": "`customer_segment`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Top 20 Customers by LTV",
+                "showTitle": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "CustomerName"
+                  },
+                  {
+                    "fieldName": "measure(lifetime_value)",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "INR",
+                      "abbreviation": "compact",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      }
+                    }
+                  },
+                  {
+                    "fieldName": "measure(total_orders)",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 0
+                      }
+                    }
+                  },
+                  {
+                    "fieldName": "RFM_Segment"
+                  },
+                  {
+                    "fieldName": "customer_segment"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 10,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "ltv_distribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "measure(total_customers)",
+                      "expression": "MEASURE(`total_customers`)"
+                    },
+                    {
+                      "name": "LTV_Band",
+                      "expression": "`LTV_Band`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Lifetime Value Distribution",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(total_customers)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "LTV_Band",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 10,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "freq_distribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "measure(total_customers)",
+                      "expression": "MEASURE(`total_customers`)"
+                    },
+                    {
+                      "name": "Order_Frequency_Band",
+                      "expression": "`Order_Frequency_Band`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Purchase Frequency",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(total_customers)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "Order_Frequency_Band",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 18,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "detail_table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "CustomerName",
+                      "expression": "`CustomerName`"
+                    },
+                    {
+                      "name": "measure(lifetime_value)",
+                      "expression": "MEASURE(`lifetime_value`)"
+                    },
+                    {
+                      "name": "measure(total_orders)",
+                      "expression": "MEASURE(`total_orders`)"
+                    },
+                    {
+                      "name": "RFM_Segment",
+                      "expression": "`RFM_Segment`"
+                    },
+                    {
+                      "name": "customer_segment",
+                      "expression": "`customer_segment`"
+                    },
+                    {
+                      "name": "measure(Recency)",
+                      "expression": "MEASURE(`Recency`)"
+                    },
+                    {
+                      "name": "measure(Frequency)",
+                      "expression": "MEASURE(`Frequency`)"
+                    },
+                    {
+                      "name": "measure(Monetary_Lakhs)",
+                      "expression": "MEASURE(`Monetary_Lakhs`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Customer Detail Table",
+                "showTitle": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "CustomerName",
+                    "useForSearch": true
+                  },
+                  {
+                    "fieldName": "measure(lifetime_value)",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "INR",
+                      "abbreviation": "compact",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      }
+                    }
+                  },
+                  {
+                    "fieldName": "measure(total_orders)",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 0
+                      }
+                    }
+                  },
+                  {
+                    "fieldName": "RFM_Segment"
+                  },
+                  {
+                    "fieldName": "customer_segment"
+                  },
+                  {
+                    "fieldName": "measure(Recency)",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      }
+                    },
+                    "displayName": "Recency (days)"
+                  },
+                  {
+                    "fieldName": "measure(Frequency)",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      }
+                    }
+                  },
+                  {
+                    "fieldName": "measure(Monetary_Lakhs)",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "INR",
+                      "abbreviation": "compact",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      }
+                    },
+                    "displayName": "Monetary (₹ Lakhs)"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 26,
+            "width": 12,
+            "height": 10
+          }
+        },
+        {
+          "widget": {
+            "name": "risk_rate",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "measure(risk_rate_pct)",
+                      "expression": "MEASURE(`risk_rate_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Customer Risk Rate",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(risk_rate_pct)",
+                  "rowNumber": 0,
+                  "formatTemplate": "{{ @formatted }}%",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 1
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "high_value",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "measure(high_value_customers)",
+                      "expression": "MEASURE(`high_value_customers`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "High-Value Customers",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(high_value_customers)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 10,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "global_filters",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "rfm_segment_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f1949d0f0615238333911a7f2ae5f3/datasets/01f1949d58f8129a8839dfab99e24248_RFM_Segment",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "RFM_Segment",
+                      "expression": "`RFM_Segment`"
+                    },
+                    {
+                      "name": "RFM_Segment_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "RFM Segment",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "RFM_Segment",
+                    "queryName": "dashboards/01f1949d0f0615238333911a7f2ae5f3/datasets/01f1949d58f8129a8839dfab99e24248_RFM_Segment"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 4,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "customer_segment_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f1949d0f0615238333911a7f2ae5f3/datasets/01f1949d58f8129a8839dfab99e24248_customer_segment",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "customer_segment",
+                      "expression": "`customer_segment`"
+                    },
+                    {
+                      "name": "customer_segment_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Customer Segment",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "customer_segment",
+                    "queryName": "dashboards/01f1949d0f0615238333911a7f2ae5f3/datasets/01f1949d58f8129a8839dfab99e24248_customer_segment"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 0,
+            "width": 4,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "customer_name_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f1949d0f0615238333911a7f2ae5f3/datasets/01f1949d58f8129a8839dfab99e24248_CustomerName",
+                "query": {
+                  "datasetName": "customer_insights",
+                  "fields": [
+                    {
+                      "name": "CustomerName",
+                      "expression": "`CustomerName`"
+                    },
+                    {
+                      "name": "CustomerName_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Customer Name",
+                "showTitle": true
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "CustomerName",
+                    "queryName": "dashboards/01f1949d0f0615238333911a7f2ae5f3/datasets/01f1949d58f8129a8839dfab99e24248_CustomerName"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 0,
+            "width": 4,
+            "height": 4
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#F9FAFB",
+        "dark": "#111827"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF",
+        "dark": "#1F2937"
+      },
+      "widgetBorderColor": {
+        "light": "#E5E7EB",
+        "dark": "#3A3F4B"
+      },
+      "selectionColor": {
+        "light": "#6366F1",
+        "dark": "#818CF8"
+      },
+      "visualizationColors": [
+        "#6366F1",
+        "#8B5CF6",
+        "#EC4899",
+        "#F59E0B",
+        "#10B981",
+        "#3B82F6",
+        "#EF4444",
+        "#8B5CF6"
+      ],
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED",
+      "widgetPadding": 16,
+      "widgetMargin": 12,
+      "widgetCornerRadius": 8,
+      "widgetShadow": 10,
+      "fontSettings": {
+        "base": {
+          "fontFamily": "Inter",
+          "fontColor": {
+            "light": "#1F272D",
+            "dark": "#E8EAED"
+          },
+          "fontSize": 13,
+          "fontWeight": 400
+        },
+        "widgetTitle": {
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": 600
+        },
+        "fieldTitle": {
+          "fontFamily": "Inter",
+          "fontSize": 12,
+          "fontWeight": 500
+        },
+        "fieldValue": {
+          "fontFamily": "Inter",
+          "fontSize": 14,
+          "fontWeight": 400
+        }
+      },
+      "gridLineColor": {
+        "light": "#F3F4F6",
+        "dark": "#2D3139"
+      }
+    },
+    "applyModeEnabled": false
+  }
+}

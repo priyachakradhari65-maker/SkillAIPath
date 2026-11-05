@@ -1,0 +1,16 @@
+CategoryID,CategoryName,Department,IsActive,TaxRate,SeasonalFlag
+1,Electronics,Tech,TRUE,18.00,FALSE
+2,Grocery,FMCG,TRUE,5.00,FALSE
+3,Apparel,Fashion,TRUE,12.00,TRUE
+4,Home & Kitchen,Home,TRUE,18.00,FALSE
+5,Books,Media,TRUE,0.00,FALSE
+6,Mobile Phones,Tech,TRUE,18.00,FALSE
+7,Personal Care,FMCG,TRUE,18.00,FALSE
+8,Footwear,Fashion,TRUE,12.00,TRUE
+9,Furniture,Home,TRUE,18.00,FALSE
+10,Toys & Games,Kids,TRUE,12.00,TRUE
+11,Sports Equipment,Sports,TRUE,18.00,FALSE
+12,Jewelry,Fashion,TRUE,3.00,TRUE
+13,Stationery,Office,TRUE,12.00,FALSE
+14,Beverages,FMCG,TRUE,12.00,FALSE
+15,Snacks,FMCG,TRUE,12.00,FALSE

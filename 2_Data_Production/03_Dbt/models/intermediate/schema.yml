@@ -1,0 +1,188 @@
+version: 2
+
+models:
+  - name: int_customer_metrics
+    description: "Aggregated customer purchase metrics for segmentation (materialized as table)"
+    columns:
+      - name: CustomerName
+        description: "Customer name"
+        tests:
+          - not_null
+          - unique
+      - name: order_count
+        description: "Total number of orders"
+        tests:
+          - not_null
+      - name: total_spent
+        description: "Customer lifetime value"
+      - name: customer_segment
+        description: "Customer classification (VIP/Regular/New)"
+        tests:
+          - accepted_values:
+              values: ['VIP', 'Regular', 'New']
+
+  - name: int_product_metrics
+    description: "Aggregated product sales and inventory metrics (materialized as table)"
+    columns:
+      - name: ProductName
+        description: "Product name"
+        tests:
+          - not_null
+          - unique
+      - name: total_orders
+        description: "Total number of orders containing this product"
+      - name: total_quantity_sold
+        description: "Total units sold"
+      - name: total_revenue
+        description: "Total revenue generated"
+      - name: avg_margin
+        description: "Average profit margin per unit"
+
+  - name: int_sales_enriched
+    description: "Sales transactions enriched with customer and product context (incremental)"
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: ['OrderID', 'BatchDate']
+    columns:
+      - name: OrderID
+        description: "Order identifier (unique per load, not globally)"
+        tests:
+          - not_null
+      - name: customer_segment
+        description: "Customer segment at time of purchase"
+      - name: product_avg_margin
+        description: "Average product margin"
+      - name: transaction_margin
+        description: "Margin for this specific transaction"
+
+  # Dimensional Models (Silver Layer)
+  - name: dim_date
+    description: "Date dimension with comprehensive date attributes"
+    columns:
+      - name: DateID
+        description: "Surrogate key for date"
+        tests:
+          - unique
+          - not_null
+      - name: Date
+        description: "Calendar date"
+        tests:
+          - unique
+          - not_null
+      - name: Year
+        description: "Year (YYYY)"
+      - name: Quarter
+        description: "Quarter (1-4)"
+      - name: Month
+        description: "Month (1-12)"
+      - name: DayName
+        description: "Day name (Monday, Tuesday, etc.)"
+
+  # dim_customer model block REMOVED (PhaseC2): CDC-owned by 06_customer_scd2_cdc
+  # (Job 05). It is declared as a SOURCE in staging/_sources.yml (with SK unique/
+  # not_null + CustomerID not_null tests); dbt reads it, never rebuilds it. The
+  # run-level shield is the --exclude dim_customer in StartHere_DBT.
+  - name: dim_product
+    description: "Product dimension with category and pricing attributes"
+    columns:
+      - name: ProductSK
+        description: "Product surrogate key (sequential)"
+        tests:
+          - unique
+          - not_null
+      - name: ProductID
+        description: "Product business key"
+      - name: ProductName
+        description: "Product name"
+        tests:
+          - not_null
+      - name: ProductCategory
+        description: "Product category (Dairy/Other)"
+      - name: avg_selling_price
+        description: "Average selling price"
+      - name: avg_margin
+        description: "Average profit margin"
+
+  - name: dim_product_category
+    description: "Product category dimension"
+    columns:
+      - name: ProductCategorySK
+        description: "Product category surrogate key"
+        tests:
+          - unique
+          - not_null
+      - name: ProductCategory
+        description: "Category name"
+        tests:
+          - not_null
+
+  - name: dim_warehouse
+    description: "Warehouse/location dimension"
+    columns:
+      - name: WareHouseSK
+        description: "Warehouse surrogate key"
+        tests:
+          - unique
+          - not_null
+      - name: WareHouseName
+        description: "Warehouse name"
+        tests:
+          - not_null
+
+  # Fact Tables (Silver Layer)
+  - name: fact_sales
+    description: "Sales fact table with dimensional keys (incremental)"
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: ['OrderID', 'BatchDate']
+    columns:
+      - name: OrderID
+        description: "Order identifier (unique within a batch day, not globally)"
+        tests:
+          - not_null
+      - name: CustomerSK
+        description: "Foreign key to dim_customer"
+        tests:
+          - not_null
+          - relationships:
+              to: source('silver', 'dim_customer')
+              field: CustomerSK
+      - name: ProductSK
+        description: "Foreign key to dim_product"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: ProductSK
+      - name: OrderDateID
+        description: "Foreign key to dim_date"
+      - name: finalprice
+        description: "Final transaction amount"
+      - name: LoadedAt
+        description: "Timestamp when record was loaded (for incremental)"
+
+  - name: fact_inventory
+    description: "Inventory fact table with daily snapshots"
+    columns:
+      - name: StockID
+        description: "Unique stock record identifier"
+      - name: ProductSK
+        description: "Foreign key to dim_product"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: ProductSK
+      - name: WarehouseSK
+        description: "Foreign key to dim_warehouse"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_warehouse')
+              field: WareHouseSK
+      - name: StockQuantity
+        description: "Current stock quantity"
+      - name: StockValue
+        description: "Calculated stock value (quantity * avg_selling_price)"
+      - name: StockStatus
+        description: "Stock status (Low Stock/Normal)"

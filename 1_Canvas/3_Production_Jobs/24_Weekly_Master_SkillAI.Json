@@ -1,0 +1,101 @@
+{
+  "name": "24_Weekly_Master_SkillAI",
+  "tags": {
+    "Master": "",
+    "Orchestration": "",
+    "Weekly": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "Full_DBT_Transform",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/1_Canvas/2_Orchestration/Data_Platform/14_StartDBT_Full",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "Training_Data_Extraction",
+      "depends_on": [
+        {
+          "task_key": "Full_DBT_Transform"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/3_AI_Agents/Knowledge_Hub/Training_Data_Extraction/log_collector/1_REAL_Chat_Extractor",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "Churn_Prediction",
+      "depends_on": [
+        {
+          "task_key": "Training_Data_Extraction"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/1_MLOps/01_Churn_Prediction_Training",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "Product_Recommendation",
+      "depends_on": [
+        {
+          "task_key": "Training_Data_Extraction"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/1_MLOps/02_Product_Recommendation_Training",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "Demand_Forecasting",
+      "depends_on": [
+        {
+          "task_key": "Training_Data_Extraction"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/1_MLOps/03_Demand_Forecasting_Training",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "Next_Purchase_Prediction",
+      "depends_on": [
+        {
+          "task_key": "Training_Data_Extraction"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/1_MLOps/04_Next_Purchase_Prediction_Training",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "Deploy_BizApps",
+      "depends_on": [
+        {
+          "task_key": "Churn_Prediction"
+        },
+        {
+          "task_key": "Product_Recommendation"
+        },
+        {
+          "task_key": "Demand_Forecasting"
+        },
+        {
+          "task_key": "Next_Purchase_Prediction"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Shared/dev/SkillAIPath/4_Business_Intelligence/3_Live_Apps/04_deploy_apps_job",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

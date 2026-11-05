@@ -1,0 +1,42 @@
+Date	Work_ID	Title	Priority	Pod	Engineer	Status	Check_Result	Fix_Applied	Verify_Result	Started_At	Completed_At	Duration_Min	Notes
+2026-09-09	T01	Gold revenue SUM(finalprice) not SUM(finalprice*qty) — 82% understatement	P0	Pod9_Ops Team	Unassigned	completed				13:00	13:04		Revenue calculation corrected from 82pct understatement. Affects all 11 dashboar
+2026-09-09	T02	Product rec scores 5-10 (should be 0-1) — 100% invalid	P0	Pod5_ML Team	Engineer_07	queued							ML recommendation scores invalid (5-10 vs 0-1). Product recommendations useless 
+2026-09-09	T03	Demand forecast 30% zero/negative, 5/78 products	P0	Pod5_ML Team	Unassigned	queued							Demand forecast broken for 30pct of products. Inventory planning unreliable.
+2026-09-09	T20	EduFin schemas don't exist	P0	Pod1_Data Team	Unassigned	completed				13:34	13:52		EduFin schemas verified as existing. No business impact - false alarm in Improve
+2026-09-09	T21	Single month data (Aug 2026) — no monthly history	P0	Pod9_Ops Team	Engineer_10	queued							Only 1 month of data. All ML models trained on single month. Foundation for all 
+2026-09-09	T25	next_purchase_predictions all scores ~1e-15, 15/78 products	P0	Pod5_ML Team	Unassigned	queued							Next purchase predictions all near-zero. Student retention prediction useless.
+2026-09-09	T28	RAG 0% success — all 8 queries failed	P0	Pod4_AI Team	Engineer_05	queued							RAG returns 0pct success. Students using paid program cannot get AI answers. Dir
+2026-09-09	T31	Exec KPI dashboard hardcoded dates return ZERO	P0	Pod6_Analytics Team	Engineer_08	queued							Executive KPI dashboard shows ZERO due to hardcoded dates. Leadership cannot tra
+2026-09-09	T04	mart_customer_360 City/State 100% null	P1	Pod2_Architecture Team	Engineer_02	queued							Customer 360 missing City/State (100pct null). Geographic analytics impossible.
+2026-09-09	T05	skillai_execution_knowledge empty	P1	Pod2_Architecture Team	Engineer_03	queued							Execution knowledge base empty. No operational intelligence captured.
+2026-09-09	T06	Churn avg prob 0.47 — random	P1	Pod5_ML Team	Unassigned	queued							Churn probability averages 0.47 (random). Cannot identify at-risk students for i
+2026-09-09	T22	91% one-time customers — RFM F meaningless	P1	Pod1_Data Team	Engineer_01	queued							91pct one-time customers. RFM Frequency metric meaningless. Customer lifecycle a
+2026-09-09	T23	Value distribution mean 5x median	P1	Pod1_Data Team	Unassigned	queued							Value distribution mean 5x median. Revenue analytics skewed. Business reporting 
+2026-09-09	T26	Enrichment tables missing	P1	Pod1_Data Team	Unassigned	queued							Enrichment tables missing. Customer profiles incomplete. Cannot build personaliz
+2026-09-09	T29	Knowledge base too thin (203/134 chars)	P1	Pod4_AI Team	Unassigned	queued							Knowledge base too thin (203/134 chars). RAG quality poor. Students get unhelpfu
+2026-09-09	T34	Churn no signal — needs 12mo data	P1	Pod5_ML Team	Unassigned	queued							Churn model has no signal. Cannot predict student attrition. Foundation dependen
+2026-09-09	T37	6 dashboards defined but never deployed	P1	Pod6_Analytics Team	Unassigned	queued							6 dashboards defined but never deployed. Leadership flying blind on 6 metric are
+2026-09-09	T44	Add LLM Review Loop post-Creation phase	P1	Pod4_AI Team	Unassigned	queued							Eliminates false completions. Every fix validated by free LLM before marking don
+2026-09-09	T08	Dashboard MoM -66%	P2	Pod6_Analytics Team	Unassigned	queued							
+2026-09-09	T09	No column comments	P2	Pod2_Architecture Team	Unassigned	queued							
+2026-09-09	T10	DBT tests ~40% (only 2 custom)	P2	Pod2_Architecture Team	Unassigned	queued							
+2026-09-09	T11	No liquid clustering	P2	Pod2_Architecture Team	Unassigned	queued							
+2026-09-09	T12	No DQ monitoring	P2	Pod2_Architecture Team	Unassigned	queued							
+2026-09-09	T14	No streaming DLT active	P2	Pod2_Architecture Team	Unassigned	queued							
+2026-09-09	T24	No temporal patterns	P2	Pod1_Data Team	Unassigned	queued							
+2026-09-09	T27	Stock only 8 snapshots	P2	Pod2_Architecture Team	Unassigned	queued							
+2026-09-09	T30	ML models: all v1, product_rec 0 versions, no stage mgmt	P2	Pod5_ML Team	Unassigned	queued							
+2026-09-09	T32	Demand forecast negative values (min -1299)	P2	Pod5_ML Team	Unassigned	queued							
+2026-09-09	T35	RFM misleading with one-time buyers	P2	Pod1_Data Team	Unassigned	queued							
+2026-09-09	T36	3 notebooks reference missing ext_tpch	P2	Pod1_Data Team	Unassigned	queued							
+2026-09-09	T38	mart_inventory_health 90-day metrics with 8-day data	P2	Pod2_Architecture Team	Unassigned	queued							
+2026-09-09	T39	3 Live Apps status unknown	P2	Pod4_AI Team	Unassigned	queued							
+2026-09-09	T40	AI Gateway 18+ notebooks config unknown	P2	Pod4_AI Team	Unassigned	queued							
+2026-09-09	T42	DBT only 2 custom tests	P2	Pod2_Architecture Team	Unassigned	queued							
+2026-09-09	T15	content_studio 0 tables	P3	Pod8_DevOps Team	Engineer_09	queued							
+2026-09-09	T16	RAG queries minimal	P3	Pod8_DevOps Team	Unassigned	queued							
+2026-09-09	T17	No CI/CD	P3	Pod8_DevOps Team	Unassigned	queued							
+2026-09-09	T18	TaxRate bigint	P3	Pod8_DevOps Team	Unassigned	queued							
+2026-09-09	T19	No SCD2	P3	Pod8_DevOps Team	Unassigned	queued							
+2026-09-09	T41	Snapshots disabled	P3	Pod8_DevOps Team	Unassigned	queued							
+2026-09-09	T43	content_studio 0 tables	P3	Pod8_DevOps Team	Unassigned	queued							

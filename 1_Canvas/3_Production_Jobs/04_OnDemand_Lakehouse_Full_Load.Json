@@ -1,0 +1,239 @@
+{
+  "name": "04_OnDemand_Lakehouse_Full_Load",
+  "tags": {
+    "Daily": "",
+    "ETL": "",
+    "Full-Load": "",
+    "Lakehouse": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "dim_date",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/01_Dimensions/01_dim_date",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "dim_product_category",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/01_Dimensions/02_dim_product_category",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "dim_warehouse",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/01_Dimensions/03_dim_warehouse_nb",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "dim_retailer",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/01_Dimensions/04_dim_retailer",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "dim_agent",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/01_Dimensions/05_dim_agent",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "dim_payment_mode",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/01_Dimensions/06_dim_payment_mode",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "dim_product",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/01_Dimensions/07_dim_product",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "dim_wholesaler",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/01_Dimensions/08_dim_wholesaler",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "dim_customer",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/01_Dimensions/09_dim_customer",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "fact_sales",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/02_Facts/01_fact_sales",
+        "source": "WORKSPACE"
+      },
+      "depends_on": [
+        {
+          "task_key": "dim_date"
+        },
+        {
+          "task_key": "dim_product_category"
+        },
+        {
+          "task_key": "dim_warehouse"
+        },
+        {
+          "task_key": "dim_retailer"
+        },
+        {
+          "task_key": "dim_agent"
+        },
+        {
+          "task_key": "dim_payment_mode"
+        },
+        {
+          "task_key": "dim_product"
+        },
+        {
+          "task_key": "dim_wholesaler"
+        },
+        {
+          "task_key": "dim_customer"
+        }
+      ]
+    },
+    {
+      "task_key": "fact_purchases",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/02_Facts/02_fact_purchases",
+        "source": "WORKSPACE"
+      },
+      "depends_on": [
+        {
+          "task_key": "dim_date"
+        },
+        {
+          "task_key": "dim_product_category"
+        },
+        {
+          "task_key": "dim_warehouse"
+        },
+        {
+          "task_key": "dim_retailer"
+        },
+        {
+          "task_key": "dim_agent"
+        },
+        {
+          "task_key": "dim_payment_mode"
+        },
+        {
+          "task_key": "dim_product"
+        },
+        {
+          "task_key": "dim_wholesaler"
+        },
+        {
+          "task_key": "dim_customer"
+        }
+      ]
+    },
+    {
+      "task_key": "fact_inventory",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/02_Facts/03_fact_inventory",
+        "source": "WORKSPACE"
+      },
+      "depends_on": [
+        {
+          "task_key": "dim_date"
+        },
+        {
+          "task_key": "dim_product_category"
+        },
+        {
+          "task_key": "dim_warehouse"
+        },
+        {
+          "task_key": "dim_retailer"
+        },
+        {
+          "task_key": "dim_agent"
+        },
+        {
+          "task_key": "dim_payment_mode"
+        },
+        {
+          "task_key": "dim_product"
+        },
+        {
+          "task_key": "dim_wholesaler"
+        },
+        {
+          "task_key": "dim_customer"
+        }
+      ]
+    },
+    {
+      "task_key": "mart_customer_360",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/04_Gold/01_mart_customer_360",
+        "source": "WORKSPACE"
+      },
+      "depends_on": [
+        {
+          "task_key": "fact_sales"
+        },
+        {
+          "task_key": "fact_purchases"
+        },
+        {
+          "task_key": "fact_inventory"
+        }
+      ]
+    },
+    {
+      "task_key": "mart_rfm_analysis",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/04_Gold/02_mart_rfm_analysis",
+        "source": "WORKSPACE"
+      },
+      "depends_on": [
+        {
+          "task_key": "fact_sales"
+        },
+        {
+          "task_key": "fact_purchases"
+        },
+        {
+          "task_key": "fact_inventory"
+        }
+      ]
+    },
+    {
+      "task_key": "data_quality_check",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/1_Canvas/8_Validation_Framework/2_monitoring_quality_tests",
+        "source": "WORKSPACE",
+        "base_parameters": {
+          "load_type": "full"
+        }
+      },
+      "depends_on": [
+        {
+          "task_key": "mart_customer_360"
+        },
+        {
+          "task_key": "mart_rfm_analysis"
+        }
+      ]
+    }
+  ]
+}

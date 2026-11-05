@@ -1,0 +1,69 @@
+{
+  "name": "02_OnDemand_EduFin_Core_Analytics",
+  "tags": {
+    "Analytics": "",
+    "Education": "",
+    "Finance": "",
+    "OnDemand": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "EduFin_Data_Setup",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/0_Core_Analytics/02_EduFin/0_Data_Setup",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "EduFin_Portfolio_Health",
+      "depends_on": [
+        {
+          "task_key": "EduFin_Data_Setup"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/0_Core_Analytics/02_EduFin/1_Portfolio Health",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "EduFin_Customer_Risk",
+      "depends_on": [
+        {
+          "task_key": "EduFin_Data_Setup"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/0_Core_Analytics/02_EduFin/2_Customer Risk",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "EduFin_Time_Analysis",
+      "depends_on": [
+        {
+          "task_key": "EduFin_Data_Setup"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/0_Core_Analytics/02_EduFin/3_Time Analysis",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "EduFin_Cost_Tracking",
+      "depends_on": [
+        {
+          "task_key": "EduFin_Data_Setup"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/0_Core_Analytics/02_EduFin/4_Cost_Tracking",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

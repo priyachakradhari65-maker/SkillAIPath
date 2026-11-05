@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp": "2026-01-26T10:00:00Z",
+    "user": "student_example",
+    "channel": "channel1",
+    "content": "Example submission or review content",
+    "type": "submission",
+    "tags": [
+      "example"
+    ]
+  }
+]

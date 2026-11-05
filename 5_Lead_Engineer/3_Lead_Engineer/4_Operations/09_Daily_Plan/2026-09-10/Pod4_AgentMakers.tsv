@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T28	RAG 0% success — all 8 queries failed	P0	RAG		Replace hardcoded date filters with dynamic date range (last 12 months from current date)	All widgets show non-zero values	Engineer_05	30	RAG returns 0pct success. Students using paid program cannot get AI answers. Direct learning experience failure.

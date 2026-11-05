@@ -1,0 +1,88 @@
+{
+  "name": "15_Daily_AgentOps",
+  "tags": {
+    "AgentOps": "",
+    "Daily": "",
+    "Master": "",
+    "Orchestration": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "Job_10_Knowledge_Retrieval",
+      "run_job_task": {
+        "job_id": 187194203076966
+      }
+    },
+    {
+      "task_key": "Job_11_Ecommerce_Intelligence",
+      "run_job_task": {
+        "job_id": 808979257640302
+      }
+    },
+    {
+      "task_key": "Job_12_Customer_360",
+      "run_job_task": {
+        "job_id": 616960974334823
+      }
+    },
+    {
+      "task_key": "Job_13_Auto_Documentation",
+      "run_job_task": {
+        "job_id": 78182416291199
+      }
+    },
+    {
+      "task_key": "Job_14_Training_Data_Extraction",
+      "run_job_task": {
+        "job_id": 43809248837756
+      }
+    },
+    {
+      "task_key": "Job_15_Churn_Prediction",
+      "depends_on": [
+        {
+          "task_key": "Job_14_Training_Data_Extraction"
+        }
+      ],
+      "run_job_task": {
+        "job_id": 280760706972555
+      }
+    },
+    {
+      "task_key": "Job_16_Product_Recommendation",
+      "depends_on": [
+        {
+          "task_key": "Job_14_Training_Data_Extraction"
+        }
+      ],
+      "run_job_task": {
+        "job_id": 1103406121126251
+      }
+    },
+    {
+      "task_key": "Job_17_Demand_Forecasting",
+      "depends_on": [
+        {
+          "task_key": "Job_14_Training_Data_Extraction"
+        }
+      ],
+      "run_job_task": {
+        "job_id": 639011870769626
+      }
+    },
+    {
+      "task_key": "Job_18_Next_Purchase_Prediction",
+      "depends_on": [
+        {
+          "task_key": "Job_14_Training_Data_Extraction"
+        }
+      ],
+      "run_job_task": {
+        "job_id": 862917038860266
+      }
+    }
+  ]
+}

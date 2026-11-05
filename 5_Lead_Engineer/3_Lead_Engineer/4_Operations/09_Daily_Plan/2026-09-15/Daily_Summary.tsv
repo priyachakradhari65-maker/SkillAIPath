@@ -1,0 +1,5 @@
+Date	Pod	Work_ID	Title	Priority	Engineer
+2026-09-15	Pod1_DataHunters	T36	3 notebooks reference missing ext_tpch	P2	Engineer_01
+2026-09-15	Pod2_Architects	T27	Stock only 8 snapshots	P2	Engineer_02
+2026-09-15	Pod5_ModelTrainers	T30	ML models: all v1, product_rec 0 version	P2	Engineer_07
+2026-09-15	Pod8_Gatekeepers	T41	Snapshots disabled	P3	Engineer_09

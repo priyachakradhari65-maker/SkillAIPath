@@ -1,0 +1,21 @@
+{
+  "name": "17_Weekly_Churn_Prediction",
+  "tags": {
+    "ML": "",
+    "Weekly": "",
+    "Churn": "",
+    "Prediction": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "15WeeklyChurnPrediction",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/1_MLOps/01_Churn_Prediction_Training",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

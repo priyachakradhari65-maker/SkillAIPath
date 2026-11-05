@@ -1,0 +1,6 @@
+Date	Pod	Work_ID	Title	Priority	Engineer
+2026-09-13	Pod1_DataHunters	T24	No temporal patterns	P2	Engineer_01
+2026-09-13	Pod2_Architects	T12	No DQ monitoring	P2	Engineer_02
+2026-09-13	Pod4_AgentMakers	T39	3 Live Apps status unknown	P2	Engineer_05
+2026-09-13	Pod5_ModelTrainers	T06	Churn avg prob 0.47 — random	P1	Engineer_07
+2026-09-13	Pod8_Gatekeepers	T18	TaxRate bigint	P3	Engineer_09

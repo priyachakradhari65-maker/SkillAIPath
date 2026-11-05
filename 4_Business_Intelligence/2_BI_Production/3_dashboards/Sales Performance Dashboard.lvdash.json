@@ -1,0 +1,1524 @@
+{
+  "datasets": [
+    {
+      "name": "sales_kpi_mtd",
+      "displayName": "Sales KPI MTD with Comparison",
+      "queryLines": [
+        "WITH current_month AS (\n",
+        "  SELECT\n",
+        "    SUM(fs.finalprice) AS revenue_mtd,\n",
+        "    COUNT(DISTINCT fs.OrderID) AS orders_mtd\n",
+        "  FROM\n",
+        "    sap_dev.silver.fact_sales fs\n",
+        "      INNER JOIN sap_dev.silver.dim_date dd\n",
+        "        ON fs.OrderDateID = dd.DateID\n",
+        "  WHERE\n",
+        "    dd.Date >= DATE_TRUNC('MONTH', CURRENT_DATE())\n",
+        "    AND dd.Date <= CURRENT_DATE()\n",
+        "),\n",
+        "previous_month AS (\n",
+        "  SELECT\n",
+        "    SUM(fs.finalprice) AS revenue_prev,\n",
+        "    COUNT(DISTINCT fs.OrderID) AS orders_prev\n",
+        "  FROM\n",
+        "    sap_dev.silver.fact_sales fs\n",
+        "      INNER JOIN sap_dev.silver.dim_date dd\n",
+        "        ON fs.OrderDateID = dd.DateID\n",
+        "  WHERE\n",
+        "    dd.Date >= ADD_MONTHS(DATE_TRUNC('MONTH', CURRENT_DATE()), -1)\n",
+        "    AND dd.Date < DATE_TRUNC('MONTH', CURRENT_DATE())\n",
+        ")\n",
+        "SELECT\n",
+        "  cm.revenue_mtd,\n",
+        "  cm.orders_mtd,\n",
+        "  pm.revenue_prev AS revenue_prev_month,\n",
+        "  pm.orders_prev AS orders_prev_month,\n",
+        "  CASE\n",
+        "    WHEN\n",
+        "      pm.revenue_prev > 0\n",
+        "    THEN\n",
+        "      ROUND(((cm.revenue_mtd - pm.revenue_prev) / pm.revenue_prev) * 100, 1)\n",
+        "    ELSE NULL\n",
+        "  END AS revenue_mom_growth_pct,\n",
+        "  CASE\n",
+        "    WHEN\n",
+        "      pm.orders_prev > 0\n",
+        "    THEN\n",
+        "      ROUND(((cm.orders_mtd - pm.orders_prev) / CAST(pm.orders_prev AS DECIMAL)) * 100, 1)\n",
+        "    ELSE NULL\n",
+        "  END AS orders_mom_growth_pct\n",
+        "FROM\n",
+        "  current_month cm CROSS JOIN previous_month pm"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "sales_kpi_aov",
+      "displayName": "AOV with Comparison",
+      "queryLines": [
+        "WITH current_month AS (\n",
+        "  SELECT\n",
+        "    SUM(fs.finalprice) / NULLIF(COUNT(DISTINCT fs.OrderID), 0) AS avg_order_value\n",
+        "  FROM\n",
+        "    sap_dev.silver.fact_sales fs\n",
+        "      INNER JOIN sap_dev.silver.dim_date dd\n",
+        "        ON fs.OrderDateID = dd.DateID\n",
+        "  WHERE\n",
+        "    dd.Date >= DATE_TRUNC('MONTH', CURRENT_DATE())\n",
+        "    AND dd.Date <= CURRENT_DATE()\n",
+        "),\n",
+        "previous_month AS (\n",
+        "  SELECT\n",
+        "    SUM(fs.finalprice) / NULLIF(COUNT(DISTINCT fs.OrderID), 0) AS aov_prev\n",
+        "  FROM\n",
+        "    sap_dev.silver.fact_sales fs\n",
+        "      INNER JOIN sap_dev.silver.dim_date dd\n",
+        "        ON fs.OrderDateID = dd.DateID\n",
+        "  WHERE\n",
+        "    dd.Date >= ADD_MONTHS(DATE_TRUNC('MONTH', CURRENT_DATE()), -1)\n",
+        "    AND dd.Date < DATE_TRUNC('MONTH', CURRENT_DATE())\n",
+        ")\n",
+        "SELECT\n",
+        "  cm.avg_order_value,\n",
+        "  pm.aov_prev AS aov_prev_month,\n",
+        "  CASE\n",
+        "    WHEN pm.aov_prev > 0 THEN ROUND(((cm.avg_order_value - pm.aov_prev) / pm.aov_prev) * 100, 1)\n",
+        "    ELSE NULL\n",
+        "  END AS aov_mom_growth_pct\n",
+        "FROM\n",
+        "  current_month cm CROSS JOIN previous_month pm"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "sales_kpi_today",
+      "displayName": "Sales KPI Today with Context",
+      "queryLines": [
+        "WITH latest_date AS (\n",
+        "  SELECT\n",
+        "    MAX(dd.Date) AS latest_sales_date\n",
+        "  FROM\n",
+        "    sap_dev.silver.fact_sales fs\n",
+        "      INNER JOIN sap_dev.silver.dim_date dd\n",
+        "        ON fs.OrderDateID = dd.DateID\n",
+        "),\n",
+        "today_sales AS (\n",
+        "  SELECT\n",
+        "    COALESCE(SUM(fs.finalprice), 0) AS revenue_today,\n",
+        "    COUNT(DISTINCT fs.OrderID) AS orders_today\n",
+        "  FROM\n",
+        "    sap_dev.silver.fact_sales fs\n",
+        "      INNER JOIN sap_dev.silver.dim_date dd\n",
+        "        ON fs.OrderDateID = dd.DateID\n",
+        "  WHERE\n",
+        "    dd.Date\n",
+        "      = (\n",
+        "        SELECT\n",
+        "          MAX(dd2.Date)\n",
+        "        FROM\n",
+        "          sap_dev.silver.fact_sales fs2\n",
+        "            INNER JOIN sap_dev.silver.dim_date dd2\n",
+        "              ON fs2.OrderDateID = dd2.DateID\n",
+        "      )\n",
+        ")\n",
+        "SELECT\n",
+        "  ts.revenue_today,\n",
+        "  ts.orders_today,\n",
+        "  ld.latest_sales_date,\n",
+        "  CASE\n",
+        "    WHEN ts.orders_today = 0 THEN 'No sales data available'\n",
+        "    ELSE CAST(ts.revenue_today AS STRING)\n",
+        "  END AS revenue_today_display\n",
+        "FROM\n",
+        "  today_sales ts CROSS JOIN latest_date ld"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "sales_by_agent_city",
+      "displayName": "Sales by Agent City",
+      "queryLines": [
+        "SELECT\n",
+        "  da.AgentCity AS agent_city,\n",
+        "  SUM(fs.finalprice) AS total_revenue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales fs\n",
+        "    INNER JOIN sap_dev.silver.dim_agent da\n",
+        "      ON fs.AgentSK = da.AgentSK\n",
+        "GROUP BY\n",
+        "  da.AgentCity\n",
+        "ORDER BY\n",
+        "  total_revenue DESC"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "sales_by_agent",
+      "displayName": "Sales by Agent",
+      "queryLines": [
+        "SELECT\n",
+        "  da.AgentName AS agent_name,\n",
+        "  SUM(fs.finalprice) AS agent_revenue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales fs\n",
+        "    INNER JOIN sap_dev.silver.dim_agent da\n",
+        "      ON fs.AgentSK = da.AgentSK\n",
+        "GROUP BY\n",
+        "  da.AgentName\n",
+        "ORDER BY\n",
+        "  agent_revenue DESC"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "daily_sales_trend",
+      "displayName": "Daily Sales Trend - Last 30 Days",
+      "queryLines": [
+        "SELECT\n",
+        "  dd.Date AS order_date,\n",
+        "  SUM(fs.finalprice) AS daily_revenue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales fs\n",
+        "    INNER JOIN sap_dev.silver.dim_date dd\n",
+        "      ON fs.OrderDateID = dd.DateID\n",
+        "WHERE\n",
+        "  dd.Date >= CURRENT_DATE() - INTERVAL 30 DAYS\n",
+        "  AND dd.Date <= CURRENT_DATE()\n",
+        "GROUP BY\n",
+        "  dd.Date\n",
+        "ORDER BY\n",
+        "  dd.Date ASC"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "top_products_revenue",
+      "displayName": "Top 10 Products by Revenue",
+      "queryLines": [
+        "SELECT\n",
+        "  dp.ProductName AS product_name,\n",
+        "  SUM(fs.finalprice) AS product_revenue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales fs\n",
+        "    INNER JOIN sap_dev.silver.dim_product dp\n",
+        "      ON fs.ProductSK = dp.ProductSK\n",
+        "GROUP BY\n",
+        "  dp.ProductName\n",
+        "ORDER BY\n",
+        "  product_revenue DESC\n",
+        "LIMIT 10"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "top_products_enhanced",
+      "displayName": "Top 10 Products Enhanced",
+      "queryLines": [
+        "SELECT\n",
+        "  dp.ProductName AS product,\n",
+        "  dpc.ProductCategory AS category,\n",
+        "  SUM(fs.finalprice) AS revenue,\n",
+        "  SUM(fs.ProductQuantity) AS units_sold,\n",
+        "  COUNT(DISTINCT fs.OrderID) AS orders\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales fs\n",
+        "    INNER JOIN sap_dev.silver.dim_product dp\n",
+        "      ON fs.ProductSK = dp.ProductSK\n",
+        "    INNER JOIN sap_dev.silver.dim_product_category dpc\n",
+        "      ON fs.ProductCategorySK = dpc.ProductCategorySK\n",
+        "GROUP BY\n",
+        "  dp.ProductName,\n",
+        "  dpc.ProductCategory\n",
+        "ORDER BY\n",
+        "  revenue DESC\n",
+        "LIMIT 10"
+      ]
+    },
+    {
+      "name": "top_agents_revenue",
+      "displayName": "Top 10 Agents by Revenue",
+      "queryLines": [
+        "SELECT\n",
+        "  da.AgentName AS agent,\n",
+        "  da.AgentCity AS city,\n",
+        "  SUM(fs.finalprice) AS revenue,\n",
+        "  COUNT(DISTINCT fs.OrderID) AS orders\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales fs\n",
+        "    INNER JOIN sap_dev.silver.dim_agent da\n",
+        "      ON fs.AgentSK = da.AgentSK\n",
+        "GROUP BY\n",
+        "  da.AgentName,\n",
+        "  da.AgentCity\n",
+        "ORDER BY\n",
+        "  revenue DESC\n",
+        "LIMIT 10"
+      ]
+    },
+    {
+      "name": "revenue_contribution",
+      "displayName": "Revenue Contribution Metrics",
+      "queryLines": [
+        "WITH total_revenue AS (\n",
+        "  SELECT\n",
+        "    SUM(finalprice) AS total\n",
+        "  FROM\n",
+        "    sap_dev.silver.fact_sales\n",
+        "),\n",
+        "top_cities AS (\n",
+        "  SELECT\n",
+        "    SUM(fs.finalprice) AS top_cities_revenue\n",
+        "  FROM\n",
+        "    sap_dev.silver.fact_sales fs\n",
+        "      INNER JOIN sap_dev.silver.dim_agent da\n",
+        "        ON fs.AgentSK = da.AgentSK\n",
+        "  WHERE\n",
+        "    da.AgentCity IN (\n",
+        "      SELECT\n",
+        "        AgentCity\n",
+        "      FROM\n",
+        "        (\n",
+        "          SELECT\n",
+        "            da2.AgentCity,\n",
+        "            SUM(fs2.finalprice) AS rev\n",
+        "          FROM\n",
+        "            sap_dev.silver.fact_sales fs2\n",
+        "              INNER JOIN sap_dev.silver.dim_agent da2\n",
+        "                ON fs2.AgentSK = da2.AgentSK\n",
+        "          GROUP BY\n",
+        "            da2.AgentCity\n",
+        "          ORDER BY\n",
+        "            rev DESC\n",
+        "          LIMIT 10\n",
+        "        )\n",
+        "    )\n",
+        "),\n",
+        "top_products AS (\n",
+        "  SELECT\n",
+        "    SUM(fs.finalprice) AS top_products_revenue\n",
+        "  FROM\n",
+        "    sap_dev.silver.fact_sales fs\n",
+        "      INNER JOIN sap_dev.silver.dim_product dp\n",
+        "        ON fs.ProductSK = dp.ProductSK\n",
+        "  WHERE\n",
+        "    dp.ProductName IN (\n",
+        "      SELECT\n",
+        "        ProductName\n",
+        "      FROM\n",
+        "        (\n",
+        "          SELECT\n",
+        "            dp2.ProductName,\n",
+        "            SUM(fs2.finalprice) AS rev\n",
+        "          FROM\n",
+        "            sap_dev.silver.fact_sales fs2\n",
+        "              INNER JOIN sap_dev.silver.dim_product dp2\n",
+        "                ON fs2.ProductSK = dp2.ProductSK\n",
+        "          GROUP BY\n",
+        "            dp2.ProductName\n",
+        "          ORDER BY\n",
+        "            rev DESC\n",
+        "          LIMIT 10\n",
+        "        )\n",
+        "    )\n",
+        "),\n",
+        "top_agents AS (\n",
+        "  SELECT\n",
+        "    SUM(fs.finalprice) AS top_agents_revenue\n",
+        "  FROM\n",
+        "    sap_dev.silver.fact_sales fs\n",
+        "      INNER JOIN sap_dev.silver.dim_agent da\n",
+        "        ON fs.AgentSK = da.AgentSK\n",
+        "  WHERE\n",
+        "    da.AgentName IN (\n",
+        "      SELECT\n",
+        "        AgentName\n",
+        "      FROM\n",
+        "        (\n",
+        "          SELECT\n",
+        "            da2.AgentName,\n",
+        "            SUM(fs2.finalprice) AS rev\n",
+        "          FROM\n",
+        "            sap_dev.silver.fact_sales fs2\n",
+        "              INNER JOIN sap_dev.silver.dim_agent da2\n",
+        "                ON fs2.AgentSK = da2.AgentSK\n",
+        "          GROUP BY\n",
+        "            da2.AgentName\n",
+        "          ORDER BY\n",
+        "            rev DESC\n",
+        "          LIMIT 10\n",
+        "        )\n",
+        "    )\n",
+        ")\n",
+        "SELECT\n",
+        "  ROUND((tc.top_cities_revenue / tr.total) * 100, 1) AS top_10_cities_pct,\n",
+        "  ROUND((tp.top_products_revenue / tr.total) * 100, 1) AS top_10_products_pct,\n",
+        "  ROUND((ta.top_agents_revenue / tr.total) * 100, 1) AS top_10_agents_pct\n",
+        "FROM\n",
+        "  total_revenue tr CROSS JOIN top_cities tc CROSS JOIN top_products tp CROSS JOIN top_agents ta"
+      ]
+    },
+    {
+      "name": "top_cities_revenue",
+      "displayName": "Top 10 Cities by Revenue",
+      "queryLines": [
+        "SELECT\n",
+        "  da.AgentCity AS city,\n",
+        "  SUM(fs.finalprice) AS revenue,\n",
+        "  COUNT(DISTINCT fs.OrderID) AS orders\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales fs\n",
+        "    INNER JOIN sap_dev.silver.dim_agent da\n",
+        "      ON fs.AgentSK = da.AgentSK\n",
+        "GROUP BY\n",
+        "  da.AgentCity\n",
+        "ORDER BY\n",
+        "  revenue DESC\n",
+        "LIMIT 10"
+      ]
+    },
+    {
+      "name": "performance_detail",
+      "displayName": "Sales Performance Detail",
+      "queryLines": [
+        "SELECT\n",
+        "  dd.Date AS date,\n",
+        "  dp.ProductName AS product,\n",
+        "  dpc.ProductCategory AS category,\n",
+        "  da.AgentName AS agent,\n",
+        "  da.AgentCity AS city,\n",
+        "  COUNT(DISTINCT fs.OrderID) AS orders,\n",
+        "  SUM(fs.ProductQuantity) AS units_sold,\n",
+        "  SUM(fs.finalprice) AS revenue,\n",
+        "  SUM(fs.finalprice) / NULLIF(COUNT(DISTINCT fs.OrderID), 0) AS aov\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales fs\n",
+        "    INNER JOIN sap_dev.silver.dim_date dd\n",
+        "      ON fs.OrderDateID = dd.DateID\n",
+        "    INNER JOIN sap_dev.silver.dim_product dp\n",
+        "      ON fs.ProductSK = dp.ProductSK\n",
+        "    INNER JOIN sap_dev.silver.dim_product_category dpc\n",
+        "      ON fs.ProductCategorySK = dpc.ProductCategorySK\n",
+        "    INNER JOIN sap_dev.silver.dim_agent da\n",
+        "      ON fs.AgentSK = da.AgentSK\n",
+        "WHERE\n",
+        "  dd.Date >= CURRENT_DATE() - INTERVAL 90 DAYS\n",
+        "GROUP BY\n",
+        "  dd.Date,\n",
+        "  dp.ProductName,\n",
+        "  dpc.ProductCategory,\n",
+        "  da.AgentName,\n",
+        "  da.AgentCity\n",
+        "ORDER BY\n",
+        "  dd.Date DESC,\n",
+        "  revenue DESC"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "b213868f",
+      "displayName": "Sales Overview",
+      "layout": [
+        {
+          "widget": {
+            "name": "revenue_today",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "sales_kpi_today",
+                  "fields": [
+                    {
+                      "name": "revenue_today",
+                      "expression": "`revenue_today`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Revenue Today",
+                  "fields": []
+                },
+                "description": {
+                  "value": "Latest available sales",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "revenue_today",
+                  "format": {
+                    "type": "number-currency",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    },
+                    "currencyCode": "INR"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "revenue_mtd",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "sales_kpi_mtd",
+                  "fields": [
+                    {
+                      "name": "revenue_mtd",
+                      "expression": "`revenue_mtd`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Revenue MTD",
+                  "fields": []
+                },
+                "description": {
+                  "value": "Month-to-date vs prior month",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "revenue_mtd",
+                  "format": {
+                    "type": "number-currency",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    },
+                    "currencyCode": "INR"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "orders_today",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "sales_kpi_today",
+                  "fields": [
+                    {
+                      "name": "orders_today",
+                      "expression": "`orders_today`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Orders Today",
+                  "fields": []
+                },
+                "description": {
+                  "value": "Latest available sales",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "orders_today",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 0,
+            "width": 2,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "orders_mtd",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "sales_kpi_mtd",
+                  "fields": [
+                    {
+                      "name": "orders_mtd",
+                      "expression": "`orders_mtd`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Orders MTD",
+                  "fields": []
+                },
+                "description": {
+                  "value": "Month-to-date vs prior month",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "orders_mtd",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 7,
+            "y": 0,
+            "width": 2,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "avg_order_value",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "sales_kpi_aov",
+                  "fields": [
+                    {
+                      "name": "avg_order_value",
+                      "expression": "`avg_order_value`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Average Order Value",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avg_order_value",
+                  "format": {
+                    "type": "number-currency",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    },
+                    "currencyCode": "INR"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "daily_sales_trend",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "daily_sales_trend",
+                  "fields": [
+                    {
+                      "name": "daily(order_date)",
+                      "expression": "DATE_TRUNC(\"DAY\", `order_date`)"
+                    },
+                    {
+                      "name": "sum(daily_revenue)",
+                      "expression": "SUM(`daily_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Daily Revenue Trend (Last 30 Days)",
+                "showTitle": true
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "daily(order_date)",
+                  "displayName": "Day",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(daily_revenue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "top_10_cities",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_cities_revenue",
+                  "fields": [
+                    {
+                      "name": "city",
+                      "expression": "`city`"
+                    },
+                    {
+                      "name": "sum(revenue)",
+                      "expression": "SUM(`revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top Cities by Revenue",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "city",
+                  "displayName": "City",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(revenue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "city",
+                  "displayName": "City",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "top_10_products",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_products_enhanced",
+                  "fields": [
+                    {
+                      "name": "product",
+                      "expression": "`product`"
+                    },
+                    {
+                      "name": "sum(revenue)",
+                      "expression": "SUM(`revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top Products by Revenue",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "product",
+                  "displayName": "Product",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(revenue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "product",
+                  "displayName": "Product",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 12,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "top_10_agents",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_agents_revenue",
+                  "fields": [
+                    {
+                      "name": "agent",
+                      "expression": "`agent`"
+                    },
+                    {
+                      "name": "sum(revenue)",
+                      "expression": "SUM(`revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top Performing Agents",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "agent",
+                  "displayName": "Agent",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(revenue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "agent",
+                  "displayName": "Agent",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 4,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "cities_contribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "revenue_contribution",
+                  "fields": [
+                    {
+                      "name": "top_10_cities_pct",
+                      "expression": "`top_10_cities_pct`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Top 10 Cities Contribution",
+                "showTitle": true,
+                "description": "% of total revenue"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "top_10_cities_pct",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 1
+                    }
+                  },
+                  "formatTemplate": "{{ @formatted }}%"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 20,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "products_contribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "revenue_contribution",
+                  "fields": [
+                    {
+                      "name": "top_10_products_pct",
+                      "expression": "`top_10_products_pct`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Top 10 Products Contribution",
+                "showTitle": true,
+                "description": "% of total revenue"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "top_10_products_pct",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 1
+                    }
+                  },
+                  "formatTemplate": "{{ @formatted }}%"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 20,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "agents_contribution",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "revenue_contribution",
+                  "fields": [
+                    {
+                      "name": "top_10_agents_pct",
+                      "expression": "`top_10_agents_pct`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Top 10 Agents Contribution",
+                "showTitle": true,
+                "description": "% of total revenue"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "top_10_agents_pct",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 1
+                    }
+                  },
+                  "formatTemplate": "{{ @formatted }}%"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 20,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "performance_table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "performance_detail",
+                  "fields": [
+                    {
+                      "name": "revenue",
+                      "expression": "`revenue`"
+                    },
+                    {
+                      "name": "aov",
+                      "expression": "`aov`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Detailed Sales Performance",
+                "showTitle": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "revenue",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "INR",
+                      "abbreviation": "compact",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      }
+                    },
+                    "displayName": "Revenue"
+                  },
+                  {
+                    "fieldName": "aov",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "INR",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      }
+                    },
+                    "displayName": "AOV"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 23,
+            "width": 12,
+            "height": 12
+          }
+        },
+        {
+          "widget": {
+            "name": "revenue_mom_growth",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "sales_kpi_mtd",
+                  "fields": [
+                    {
+                      "name": "revenue_mom_growth_pct",
+                      "expression": "`revenue_mom_growth_pct`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Revenue MoM Growth %",
+                "showTitle": true
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "revenue_mom_growth_pct",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 1
+                    }
+                  },
+                  "formatTemplate": "{{ @formatted }}%",
+                  "style": {
+                    "rules": [
+                      {
+                        "condition": {
+                          "operand": {
+                            "type": "data-value",
+                            "value": "0"
+                          },
+                          "operator": "<"
+                        },
+                        "fontColor": "#D32F2F"
+                      },
+                      {
+                        "condition": {
+                          "operand": {
+                            "type": "data-value",
+                            "value": "0"
+                          },
+                          "operator": ">"
+                        },
+                        "fontColor": "#388E3C"
+                      }
+                    ]
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 20,
+            "width": 3,
+            "height": 3
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "global_filters",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "date_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f1949982721edc87c34aa6371488b2/datasets/01f1949b5a391aed942d08caadeae55a_date",
+                "query": {
+                  "datasetName": "performance_detail",
+                  "fields": [
+                    {
+                      "name": "date",
+                      "expression": "`date`"
+                    },
+                    {
+                      "name": "date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Sales Date Range",
+                "showTitle": true
+              },
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "date",
+                    "queryName": "dashboards/01f1949982721edc87c34aa6371488b2/datasets/01f1949b5a391aed942d08caadeae55a_date"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 4,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "city_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f1949982721edc87c34aa6371488b2/datasets/01f1949b5a391aed942d08caadeae55a_city",
+                "query": {
+                  "datasetName": "performance_detail",
+                  "fields": [
+                    {
+                      "name": "city",
+                      "expression": "`city`"
+                    },
+                    {
+                      "name": "city_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "City",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "city",
+                    "queryName": "dashboards/01f1949982721edc87c34aa6371488b2/datasets/01f1949b5a391aed942d08caadeae55a_city"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 0,
+            "width": 4,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "category_filter",
+            "queries": [
+              {
+                "name": "dashboards/01f1949982721edc87c34aa6371488b2/datasets/01f1949b5a391aed942d08caadeae55a_category",
+                "query": {
+                  "datasetName": "performance_detail",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "category_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Product Category",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "category",
+                    "queryName": "dashboards/01f1949982721edc87c34aa6371488b2/datasets/01f1949b5a391aed942d08caadeae55a_category"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 0,
+            "width": 4,
+            "height": 4
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#F8FAFC",
+        "dark": "#0F172A"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF",
+        "dark": "#1E293B"
+      },
+      "widgetBorderColor": {
+        "light": "#E2E8F0",
+        "dark": "#334155"
+      },
+      "selectionColor": {
+        "light": "#6366F1",
+        "dark": "#6366F1"
+      },
+      "visualizationColors": [
+        "#6366F1",
+        "#8B5CF6",
+        "#EC4899",
+        "#F59E0B",
+        "#10B981",
+        "#06B6D4",
+        "#3B82F6",
+        "#A855F7",
+        "#EF4444",
+        "#84CC16"
+      ],
+      "widgetHeaderAlignment": "LEFT",
+      "fontFamily": "Inter",
+      "widgetPadding": 16,
+      "widgetMargin": 12,
+      "widgetCornerRadius": 8,
+      "widgetShadow": 50,
+      "fontSettings": {
+        "base": {
+          "fontFamily": "Inter",
+          "fontColor": {
+            "light": "#1E293B",
+            "dark": "#E2E8F0"
+          },
+          "fontSize": 13
+        },
+        "widgetTitle": {
+          "fontFamily": "Inter",
+          "fontColor": {
+            "light": "#0F172A",
+            "dark": "#F1F5F9"
+          },
+          "fontSize": 15,
+          "fontWeight": 600
+        },
+        "fieldTitle": {
+          "textCase": "TEXT_CASE_UPPERCASE",
+          "fontColor": {
+            "light": "#64748B",
+            "dark": "#94A3B8"
+          },
+          "fontSize": 11,
+          "fontWeight": 500
+        },
+        "fieldValue": {
+          "fontFamily": "Inter",
+          "fontColor": {
+            "light": "#1E293B",
+            "dark": "#E2E8F0"
+          },
+          "fontSize": 13,
+          "fontWeight": 500
+        }
+      }
+    },
+    "applyModeEnabled": false
+  }
+}

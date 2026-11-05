@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T44	Add LLM Review Loop post-Creation phase	P1	AI				Engineer_05	30	Eliminates false completions. Every fix validated by free LLM before marking done. System becomes self-verifying.

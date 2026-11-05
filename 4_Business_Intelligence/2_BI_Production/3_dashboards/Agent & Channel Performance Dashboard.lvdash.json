@@ -1,0 +1,706 @@
+{
+  "datasets": [
+    {
+      "name": "kpis",
+      "displayName": "Sales KPIs",
+      "queryLines": [
+        "SELECT\n",
+        "  SUM(finalprice) AS total_revenue,\n",
+        "  COUNT(DISTINCT OrderID) AS total_orders,\n",
+        "  COUNT(DISTINCT AgentSK) AS active_agents,\n",
+        "  AVG(finalprice) AS avg_order_value\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "top_agents_revenue",
+      "displayName": "Top 10 Agents by Revenue",
+      "queryLines": [
+        "SELECT\n",
+        "  a.AgentName,\n",
+        "  SUM(s.finalprice) AS total_revenue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales s\n",
+        "    INNER JOIN sap_dev.silver.dim_agent a\n",
+        "      ON s.AgentSK = a.AgentSK\n",
+        "GROUP BY\n",
+        "  a.AgentName\n",
+        "ORDER BY\n",
+        "  total_revenue DESC\n",
+        "LIMIT 10"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "top_retailers_revenue",
+      "displayName": "Top 10 Retailers by Revenue",
+      "queryLines": [
+        "SELECT\n",
+        "  r.RetailerName,\n",
+        "  SUM(s.finalprice) AS total_revenue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales s\n",
+        "    INNER JOIN sap_dev.silver.dim_retailer r\n",
+        "      ON s.RetailerSK = r.RetailerSK\n",
+        "GROUP BY\n",
+        "  r.RetailerName\n",
+        "ORDER BY\n",
+        "  total_revenue DESC\n",
+        "LIMIT 10"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "agent_performance_table",
+      "displayName": "Agent Performance Details",
+      "queryLines": [
+        "SELECT\n",
+        "  a.AgentName,\n",
+        "  a.AgentCity,\n",
+        "  SUM(s.finalprice) AS total_revenue,\n",
+        "  COUNT(DISTINCT s.OrderID) AS total_orders,\n",
+        "  AVG(s.finalprice) AS avg_order_value\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales s\n",
+        "    INNER JOIN sap_dev.silver.dim_agent a\n",
+        "      ON s.AgentSK = a.AgentSK\n",
+        "GROUP BY\n",
+        "  a.AgentName,\n",
+        "  a.AgentCity\n",
+        "ORDER BY\n",
+        "  total_revenue DESC\n",
+        "LIMIT 20"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "wholesaler_volume",
+      "displayName": "Wholesaler Volume",
+      "queryLines": [
+        "SELECT\n",
+        "  w.WholeSalerName,\n",
+        "  SUM(p.Quantity) AS total_quantity\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_purchase p\n",
+        "    INNER JOIN sap_dev.silver.dim_wholesaler w\n",
+        "      ON p.WholesalerSK = w.WholeSalerSK\n",
+        "GROUP BY\n",
+        "  w.WholeSalerName\n",
+        "ORDER BY\n",
+        "  total_quantity DESC"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "filter_agents",
+      "displayName": "Agent Filter",
+      "queryLines": [
+        "SELECT DISTINCT\n",
+        "  AgentName\n",
+        "FROM\n",
+        "  sap_dev.silver.dim_agent\n",
+        "ORDER BY\n",
+        "  AgentName"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "top_agents_orders",
+      "displayName": "Top 10 Agents by Orders",
+      "queryLines": [
+        "SELECT\n",
+        "  a.AgentName,\n",
+        "  COUNT(DISTINCT s.OrderID) AS total_orders\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_sales s\n",
+        "    INNER JOIN sap_dev.silver.dim_agent a\n",
+        "      ON s.AgentSK = a.AgentSK\n",
+        "GROUP BY\n",
+        "  a.AgentName\n",
+        "ORDER BY\n",
+        "  total_orders DESC\n",
+        "LIMIT 10"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "filter_retailers",
+      "displayName": "Retailer Filter",
+      "queryLines": [
+        "SELECT DISTINCT\n",
+        "  RetailerName\n",
+        "FROM\n",
+        "  sap_dev.silver.dim_retailer\n",
+        "ORDER BY\n",
+        "  RetailerName"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "filter_retailer_cities",
+      "displayName": "Retailer City Filter",
+      "queryLines": [
+        "SELECT DISTINCT\n",
+        "  RetailerCity\n",
+        "FROM\n",
+        "  sap_dev.silver.dim_retailer\n",
+        "ORDER BY\n",
+        "  RetailerCity"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "filter_agent_cities",
+      "displayName": "Agent City Filter",
+      "queryLines": [
+        "SELECT DISTINCT\n",
+        "  AgentCity\n",
+        "FROM\n",
+        "  sap_dev.silver.dim_agent\n",
+        "ORDER BY\n",
+        "  AgentCity"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    }
+  ],
+  "pages": [
+    {
+      "name": "34255884",
+      "displayName": "Page 1",
+      "layout": [
+        {
+          "widget": {
+            "name": "total_revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpis",
+                  "fields": [
+                    {
+                      "name": "total_revenue",
+                      "expression": "`total_revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Sales Revenue",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_revenue",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "data_note",
+            "multilineTextboxSpec": {
+              "lines": [
+                "**Data Availability:** This dashboard analyzes 30,000 orders across 250 agents and 150 retailers from the BharatMart sales system.\n",
+                "\n",
+                "**Unavailable Metrics:** Channel segmentation and Commission data are not present in the current source tables (`fact_sales`, `fact_purchase`). These metrics cannot be calculated without additional data sources."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 24,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "agent_performance_table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "agent_performance_table",
+                  "fields": [
+                    {
+                      "name": "AgentName",
+                      "expression": "`AgentName`"
+                    },
+                    {
+                      "name": "AgentCity",
+                      "expression": "`AgentCity`"
+                    },
+                    {
+                      "name": "total_revenue",
+                      "expression": "`total_revenue`"
+                    },
+                    {
+                      "name": "total_orders",
+                      "expression": "`total_orders`"
+                    },
+                    {
+                      "name": "avg_order_value",
+                      "expression": "`avg_order_value`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Top 20 Agents by Revenue",
+                "showTitle": true,
+                "description": "Showing top 20 of 250 active agents by total revenue"
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "AgentName",
+                    "displayName": "Agent Name"
+                  },
+                  {
+                    "fieldName": "AgentCity",
+                    "displayName": "Agent City"
+                  },
+                  {
+                    "fieldName": "total_revenue",
+                    "displayName": "Total Revenue"
+                  },
+                  {
+                    "fieldName": "total_orders",
+                    "displayName": "Total Orders"
+                  },
+                  {
+                    "fieldName": "avg_order_value",
+                    "displayName": "Average Order Value"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 16,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "top_agents_revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_agents_revenue",
+                  "fields": [
+                    {
+                      "name": "total_revenue",
+                      "expression": "`total_revenue`"
+                    },
+                    {
+                      "name": "AgentName",
+                      "expression": "`AgentName`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top 10 Agents by Revenue",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "total_revenue",
+                  "displayName": "Total Revenue (INR)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "AgentName",
+                  "displayName": "Agent Name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "top_retailers_revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_retailers_revenue",
+                  "fields": [
+                    {
+                      "name": "total_revenue",
+                      "expression": "`total_revenue`"
+                    },
+                    {
+                      "name": "RetailerName",
+                      "expression": "`RetailerName`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top 10 Retailers by Revenue",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "total_revenue",
+                  "displayName": "Total Revenue (INR)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "RetailerName",
+                  "displayName": "Retailer Name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 10,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "total_orders",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpis",
+                  "fields": [
+                    {
+                      "name": "total_orders",
+                      "expression": "`total_orders`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Orders",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_orders",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "top_agents_orders",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_agents_orders",
+                  "fields": [
+                    {
+                      "name": "total_orders",
+                      "expression": "`total_orders`"
+                    },
+                    {
+                      "name": "AgentName",
+                      "expression": "`AgentName`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top 10 Agents by Orders",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "total_orders",
+                  "displayName": "Total Orders",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "AgentName",
+                  "displayName": "Agent Name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 4,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "wholesaler_volume",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "wholesaler_volume",
+                  "fields": [
+                    {
+                      "name": "WholeSalerName",
+                      "expression": "`WholeSalerName`"
+                    },
+                    {
+                      "name": "sum(total_quantity)",
+                      "expression": "SUM(`total_quantity`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Wholesaler Volume (Units)",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "WholeSalerName",
+                  "displayName": "Wholesaler Name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_quantity)",
+                  "displayName": "Total Quantity",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "WholeSalerName",
+                  "displayName": "Wholesaler Name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 10,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "active_agents",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpis",
+                  "fields": [
+                    {
+                      "name": "active_agents",
+                      "expression": "`active_agents`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Active Agents",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "active_agents",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "avg_order_value",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpis",
+                  "fields": [
+                    {
+                      "name": "avg_order_value",
+                      "expression": "`avg_order_value`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Average Order Value",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avg_order_value",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 4
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "selectionColor": {
+        "light": "#6366F1",
+        "dark": "#6366F1"
+      },
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED",
+      "fontFamily": "Inter",
+      "widgetPadding": 16,
+      "widgetMargin": 12,
+      "widgetCornerRadius": 8,
+      "widgetShadow": 50
+    },
+    "applyModeEnabled": false
+  }
+}

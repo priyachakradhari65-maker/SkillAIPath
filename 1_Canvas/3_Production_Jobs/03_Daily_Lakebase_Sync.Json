@@ -1,0 +1,61 @@
+{
+  "name": "03_Daily_Lakebase_Sync",
+  "tags": {
+    "Environment": "Production",
+    "Category": "Lakebase",
+    "Phase": "Data_Platform",
+    "Owner": "SkillAI"
+  },
+  "tasks": [
+    {
+      "task_key": "OLTP_Database_Setup",
+      "notebook_task": {
+        "notebook_path": "/Shared/dev/SkillAIPath/2_Data_Production/06_Lakebase_LTAP/01_oltp_database_setup",
+        "source": "WORKSPACE"
+      },
+      "timeout_seconds": 3600,
+      "max_retries": 2,
+      "min_retry_interval_millis": 60000
+    },
+    {
+      "task_key": "Retail_Ops_Database_Setup",
+      "notebook_task": {
+        "notebook_path": "/Shared/dev/SkillAIPath/2_Data_Production/06_Lakebase_LTAP/02_retail_ops_database_setup",
+        "source": "WORKSPACE"
+      },
+      "depends_on": [
+        {
+          "task_key": "OLTP_Database_Setup"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "max_retries": 2,
+      "min_retry_interval_millis": 60000
+    },
+    {
+      "task_key": "OLTP_to_OLAP_Sync",
+      "notebook_task": {
+        "notebook_path": "/Shared/dev/SkillAIPath/2_Data_Production/06_Lakebase_LTAP/03_oltp_to_olap_sync",
+        "source": "WORKSPACE"
+      },
+      "depends_on": [
+        {
+          "task_key": "OLTP_Database_Setup"
+        },
+        {
+          "task_key": "Retail_Ops_Database_Setup"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "max_retries": 2,
+      "min_retry_interval_millis": 60000
+    }
+  ],
+  "schedule": {
+    "quartz_cron_expression": "0 0 2 * * ?",
+    "timezone_id": "UTC",
+    "pause_status": "UNPAUSED"
+  },
+  "max_concurrent_runs": 1,
+  "format": "MULTI_TASK"
+}

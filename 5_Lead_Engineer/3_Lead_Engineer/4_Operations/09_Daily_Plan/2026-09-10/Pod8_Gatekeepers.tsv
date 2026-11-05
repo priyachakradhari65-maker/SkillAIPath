@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T15	content_studio 0 tables	P3	P3		Expand RAG test query set to 50+ queries covering customer 360, ecommerce, and knowledge domains	50+ queries with > 80% success rate	Engineer_09	15	

@@ -1,0 +1,21 @@
+{
+  "name": "23_Monthly_Portfolio_GitHub_AutoCommit",
+  "tags": {
+    "Automation": "",
+    "GitHub": "",
+    "Monthly": "",
+    "Portfolio": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "23MonthlyPortfolioGitHubAutoCommit",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/5_Growth_Accelerator/5_ContentStudio/github_automation",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

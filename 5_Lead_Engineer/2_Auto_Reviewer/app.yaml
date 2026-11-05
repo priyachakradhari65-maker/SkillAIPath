@@ -1,0 +1,16 @@
+command:
+  - python
+  - app.py
+
+env:
+  - name: GITHUB_TOKEN
+    value: ""  # Empty for public repos (or add your token for private repos)
+
+  - name: USER_TOKEN_ENCRYPTION_KEY
+    value: h9W1RAK1L8tbFsonkWw0y3dwKAyLhVjqRlQRWdDlqA8=
+
+  - name: GITHUB_WEBHOOK_SECRET
+    value: 03ea2e76060ea49778f03f3250bb2cd2ab79aa735be65ee378dc2d47ec5a890d
+
+  - name: DATABRICKS_WAREHOUSE_ID
+    value: 7ddb0621a76affed

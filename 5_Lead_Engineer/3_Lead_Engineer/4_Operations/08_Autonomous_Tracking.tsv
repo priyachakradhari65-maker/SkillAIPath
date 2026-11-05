@@ -1,0 +1,42 @@
+Date	Pipeline_Version	Work_ID	Title	Priority	Pod	Layer	Phase	Status	Check_Result	Fix_Applied	Verify_Result	Started_At	Completed_At	Duration_Min	Retry_Count	Business_Impact	Notes
+2026-09-09	1	T01	Gold revenue SUM(finalprice) not SUM(finalprice*qty) — 82% understatement	P0	Pod9_Conductors	Gold+Dash	completed	completed	Fixed revenue calculation: SUM(finalprice) → SUM(finalprice * ProductQuantity). Applied to lifetime_			13:00	13:04	4	0	Revenue calculation corrected from 82pct understatement. Affects all 11 dashboards and student-facin	completed
+2026-09-09	1	T02	Product rec scores 5-10 (should be 0-1) — 100% invalid	P0	Pod5_ModelTrainers	ML	queued	queued							0	ML recommendation scores invalid (5-10 vs 0-1). Product recommendations useless for students.	improvement_scope
+2026-09-09	1	T03	Demand forecast 30% zero/negative, 5/78 products	P0	Pod5_ModelTrainers	ML	queued	queued							0	Demand forecast broken for 30pct of products. Inventory planning unreliable.	improvement_scope
+2026-09-09	1	T20	EduFin schemas don't exist	P0	Pod1_DataHunters	EduFin	completed	completed	EduFin schemas verified: edufin_national (5 tables), edufin_regional exist. Task already resolved.			13:34	13:52	18	0	EduFin schemas verified as existing. No business impact - false alarm in ImprovementScope.	completed
+2026-09-09	1	T21	Single month data (Aug 2026) — no monthly history	P0	Pod9_Conductors	All	queued	queued							0	Only 1 month of data. All ML models trained on single month. Foundation for all temporal analytics.	improvement_scope
+2026-09-09	1	T25	next_purchase_predictions all scores ~1e-15, 15/78 products	P0	Pod5_ModelTrainers	ML	queued	queued							0	Next purchase predictions all near-zero. Student retention prediction useless.	improvement_scope
+2026-09-09	1	T28	RAG 0% success — all 8 queries failed	P0	Pod4_AgentMakers	RAG	queued	queued							0	RAG returns 0pct success. Students using paid program cannot get AI answers. Direct learning experie	improvement_scope
+2026-09-09	1	T31	Exec KPI dashboard hardcoded dates return ZERO	P0	Pod6_StoryBuilders	Dashboard	queued	queued							0	Executive KPI dashboard shows ZERO due to hardcoded dates. Leadership cannot track business health.	improvement_scope
+2026-09-09	1	T04	mart_customer_360 City/State 100% null	P1	Pod2_Architects	Gold	queued	queued							0	Customer 360 missing City/State (100pct null). Geographic analytics impossible.	improvement_scope
+2026-09-09	1	T05	skillai_execution_knowledge empty	P1	Pod2_Architects	Gold	queued	queued							0	Execution knowledge base empty. No operational intelligence captured.	improvement_scope
+2026-09-09	1	T06	Churn avg prob 0.47 — random	P1	Pod5_ModelTrainers	ML	queued	queued							0	Churn probability averages 0.47 (random). Cannot identify at-risk students for intervention.	improvement_scope
+2026-09-09	1	T22	91% one-time customers — RFM F meaningless	P1	Pod1_DataHunters	Bronze	queued	queued							0	91pct one-time customers. RFM Frequency metric meaningless. Customer lifecycle analysis broken.	improvement_scope
+2026-09-09	1	T23	Value distribution mean 5x median	P1	Pod1_DataHunters	Bronze	queued	queued							0	Value distribution mean 5x median. Revenue analytics skewed. Business reporting misleading.	improvement_scope
+2026-09-09	1	T26	Enrichment tables missing	P1	Pod1_DataHunters	Bronze	queued	queued							0	Enrichment tables missing. Customer profiles incomplete. Cannot build personalized recommendations.	improvement_scope
+2026-09-09	1	T29	Knowledge base too thin (203/134 chars)	P1	Pod4_AgentMakers	RAG	queued	queued							0	Knowledge base too thin (203/134 chars). RAG quality poor. Students get unhelpful AI answers.	improvement_scope
+2026-09-09	1	T34	Churn no signal — needs 12mo data	P1	Pod5_ModelTrainers	ML	queued	queued							0	Churn model has no signal. Cannot predict student attrition. Foundation dependency for retention.	improvement_scope
+2026-09-09	1	T37	6 dashboards defined but never deployed	P1	Pod6_StoryBuilders	Dashboards	queued	queued							0	6 dashboards defined but never deployed. Leadership flying blind on 6 metric areas.	improvement_scope
+2026-09-09	0	T44	Add LLM Review Loop post-Creation phase	P1	Pod4_AgentMakers	AI	queued	queued							0	Eliminates false completions. Every fix validated by free LLM before marking done. System becomes se	improvement_scope
+2026-09-09	0	T08	Dashboard MoM -66%	P2	Pod6_StoryBuilders	Dashboard	queued	queued							0		improvement_scope
+2026-09-09	0	T09	No column comments	P2	Pod2_Architects	Gold	queued	queued							0		improvement_scope
+2026-09-09	0	T10	DBT tests ~40% (only 2 custom)	P2	Pod2_Architects	DBT	queued	queued							0		improvement_scope
+2026-09-09	0	T11	No liquid clustering	P2	Pod2_Architects	Gold	queued	queued							0		improvement_scope
+2026-09-09	0	T12	No DQ monitoring	P2	Pod2_Architects	Gold	queued	queued							0		improvement_scope
+2026-09-09	0	T14	No streaming DLT active	P2	Pod2_Architects	Streaming	queued	queued							0		improvement_scope
+2026-09-09	0	T24	No temporal patterns	P2	Pod1_DataHunters	Bronze	queued	queued							0		improvement_scope
+2026-09-09	0	T27	Stock only 8 snapshots	P2	Pod2_Architects	Gold	queued	queued							0		improvement_scope
+2026-09-09	0	T30	ML models: all v1, product_rec 0 versions, no stage mgmt	P2	Pod5_ModelTrainers	ML	queued	queued							0		improvement_scope
+2026-09-09	0	T32	Demand forecast negative values (min -1299)	P2	Pod5_ModelTrainers	ML	queued	queued							0		improvement_scope
+2026-09-09	0	T35	RFM misleading with one-time buyers	P2	Pod1_DataHunters	Bronze	queued	queued							0		improvement_scope
+2026-09-09	0	T36	3 notebooks reference missing ext_tpch	P2	Pod1_DataHunters	Bronze	queued	queued							0		improvement_scope
+2026-09-09	0	T38	mart_inventory_health 90-day metrics with 8-day data	P2	Pod2_Architects	Gold	queued	queued							0		improvement_scope
+2026-09-09	0	T39	3 Live Apps status unknown	P2	Pod4_AgentMakers	Apps	queued	queued							0		improvement_scope
+2026-09-09	0	T40	AI Gateway 18+ notebooks config unknown	P2	Pod4_AgentMakers	AI Gateway	queued	queued							0		improvement_scope
+2026-09-09	0	T42	DBT only 2 custom tests	P2	Pod2_Architects	DBT	queued	queued							0		improvement_scope
+2026-09-09	0	T15	content_studio 0 tables	P3	Pod8_Gatekeepers	P3	queued	queued							0		improvement_scope
+2026-09-09	0	T16	RAG queries minimal	P3	Pod8_Gatekeepers	P3	queued	queued							0		improvement_scope
+2026-09-09	0	T17	No CI/CD	P3	Pod8_Gatekeepers	P3	queued	queued							0		improvement_scope
+2026-09-09	0	T18	TaxRate bigint	P3	Pod8_Gatekeepers	P3	queued	queued							0		improvement_scope
+2026-09-09	0	T19	No SCD2	P3	Pod8_Gatekeepers	P3	queued	queued							0		improvement_scope
+2026-09-09	0	T41	Snapshots disabled	P3	Pod8_Gatekeepers	P3	queued	queued							0		improvement_scope
+2026-09-09	0	T43	content_studio 0 tables	P3	Pod8_Gatekeepers	P3	queued	queued							0		improvement_scope

@@ -1,0 +1,80 @@
+domain:
+  name: Learning Platform Upgraded
+  catalog: learning_platform_v2
+  type: education
+  description: Production-grade learning analytics with SkillAIPath patterns
+bronze:
+  source_path: /Workspace/Users/user@example.com/Domain_Templates/learning_platform_data
+  tables:
+  - name: dim_member
+    file: dim_member.csv
+  - name: dim_project
+    file: dim_project.csv
+  - name: dim_sessions
+    file: dim_sessions.csv
+  - name: dim_task
+    file: dim_task.csv
+  - name: fact_session
+    file: fact_session.csv
+  - name: fact_task
+    file: fact_task.csv
+  - name: fact_salary
+    file: salaryinfo.csv
+silver:
+  dimensions:
+  - name: dim_student_scd2
+    source_pattern: dim_customer_scd2
+    pattern: SCD2
+    source: dim_member
+    description: Engineer dimension with history tracking
+  - name: dim_trainer
+    source_pattern: dim_agent
+    pattern: SCD1
+    source: dim_member
+    description: Trainer/instructor dimension
+  - name: dim_course
+    source_pattern: dim_product
+    pattern: Simple
+    source: dim_project
+    description: Course/project dimension
+  - name: dim_date
+    source_pattern: dim_date
+    pattern: Simple
+    source: dim_date
+    description: Date dimension
+  facts:
+  - name: fact_session_enriched
+    source_pattern: fact_sales
+    joins:
+    - dim_student_scd2
+    - dim_trainer
+    - dim_course
+    source: fact_session
+    description: Training sessions with full context
+  - name: fact_assignment_enriched
+    source_pattern: fact_purchases
+    joins:
+    - dim_student_scd2
+    - dim_course
+    source: fact_task
+    description: Assignments with completion tracking
+gold:
+  metrics:
+  - name: student_360
+    source_pattern: mart_customer_360
+    description: Complete engineer profile with performance metrics
+  - name: trainer_effectiveness
+    source_pattern: mart_product_performance
+    description: Trainer performance and engineer outcomes
+  - name: course_performance
+    source_pattern: mart_rfm_analysis
+    description: Course completion rates and satisfaction
+dashboards:
+- name: Learning Analytics Dashboard
+  widgets: 8
+  description: Executive view of learning platform KPIs
+scheduling:
+  frequency: daily
+  alert_email:
+  - admin@example.com
+enable_dbt: true

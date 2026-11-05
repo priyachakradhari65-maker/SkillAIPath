@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T12	No DQ monitoring	P2	Gold		Activate streaming DLT pipeline from 2_Data_Production/02_Medallion_Architecture/03_Streaming_Cdc/	DLT pipeline status = RUNNING	Engineer_02	15	

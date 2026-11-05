@@ -1,0 +1,748 @@
+{
+  "datasets": [
+    {
+      "name": "churn_predictions",
+      "displayName": "Churn Predictions",
+      "config": {
+        "version": "1.1",
+        "source": "sap_dev.gold.churn_predictions",
+        "dimensions": [
+          {
+            "name": "customer_id",
+            "expr": "customer_id"
+          },
+          {
+            "name": "prediction_date",
+            "expr": "prediction_date"
+          },
+          {
+            "name": "risk_segment",
+            "expr": "risk_segment"
+          },
+          {
+            "name": "model_version",
+            "expr": "model_version"
+          },
+          {
+            "name": "recency_days",
+            "expr": "recency_days"
+          },
+          {
+            "name": "total_purchases",
+            "expr": "total_purchases"
+          },
+          {
+            "name": "lifetime_value_lakhs",
+            "expr": "lifetime_value_lakhs"
+          },
+          {
+            "name": "churn_probability",
+            "expr": "churn_probability"
+          },
+          {
+            "name": "is_churned_predicted",
+            "expr": "is_churned_predicted"
+          },
+          {
+            "name": "probability_range",
+            "expr": "CASE WHEN churn_probability < 0.1 THEN '0-10%' WHEN churn_probability < 0.2 THEN '10-20%' WHEN churn_probability < 0.3 THEN '20-30%' WHEN churn_probability < 0.4 THEN '30-40%' WHEN churn_probability < 0.5 THEN '40-50%' WHEN churn_probability < 0.6 THEN '50-60%' WHEN churn_probability < 0.7 THEN '60-70%' WHEN churn_probability < 0.8 THEN '70-80%' WHEN churn_probability < 0.9 THEN '80-90%' ELSE '90-100%' END"
+          }
+        ],
+        "measures": [
+          {
+            "name": "total_customers",
+            "expr": "COUNT(DISTINCT customer_id)"
+          },
+          {
+            "name": "high_risk_customers",
+            "expr": "COUNT(DISTINCT CASE WHEN risk_segment = 'High Risk' THEN customer_id END)"
+          },
+          {
+            "name": "low_risk_customers",
+            "expr": "COUNT(DISTINCT CASE WHEN risk_segment = 'Low Risk' THEN customer_id END)"
+          },
+          {
+            "name": "medium_risk_customers",
+            "expr": "COUNT(DISTINCT CASE WHEN risk_segment = 'Medium Risk' THEN customer_id END)"
+          },
+          {
+            "name": "avg_churn_probability",
+            "expr": "AVG(churn_probability)"
+          },
+          {
+            "name": "total_lifetime_value",
+            "expr": "SUM(lifetime_value_lakhs)"
+          },
+          {
+            "name": "avg_recency_days",
+            "expr": "AVG(recency_days)"
+          },
+          {
+            "name": "total_purchase_count",
+            "expr": "SUM(total_purchases)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "top10_high_risk",
+      "displayName": "Top 10 High Risk Customers",
+      "queryLines": [
+        "SELECT\n",
+        "  customer_id,\n",
+        "  churn_probability,\n",
+        "  risk_segment\n",
+        "FROM\n",
+        "  sap_dev.gold.churn_predictions\n",
+        "ORDER BY\n",
+        "  churn_probability DESC\n",
+        "LIMIT 10"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "58d742e0",
+      "displayName": "Untitled page",
+      "layout": [
+        {
+          "widget": {
+            "name": "filter_prediction_date",
+            "queries": [
+              {
+                "name": "dashboards/01f19cafab741fcca5caed945d65fd0c/datasets/01f19cafd5a51159a1df732b6750d735_prediction_date",
+                "query": {
+                  "datasetName": "churn_predictions",
+                  "fields": [
+                    {
+                      "name": "prediction_date",
+                      "expression": "`prediction_date`"
+                    },
+                    {
+                      "name": "prediction_date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Prediction Date",
+                "showTitle": true
+              },
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "prediction_date",
+                    "queryName": "dashboards/01f19cafab741fcca5caed945d65fd0c/datasets/01f19cafd5a51159a1df732b6750d735_prediction_date"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "filter_risk_segment",
+            "queries": [
+              {
+                "name": "dashboards/01f19cafab741fcca5caed945d65fd0c/datasets/01f19cafd5a51159a1df732b6750d735_risk_segment",
+                "query": {
+                  "datasetName": "churn_predictions",
+                  "fields": [
+                    {
+                      "name": "risk_segment",
+                      "expression": "`risk_segment`"
+                    },
+                    {
+                      "name": "risk_segment_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Risk Segment",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "risk_segment",
+                    "queryName": "dashboards/01f19cafab741fcca5caed945d65fd0c/datasets/01f19cafd5a51159a1df732b6750d735_risk_segment"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 0,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "filter_customer_id",
+            "queries": [
+              {
+                "name": "dashboards/01f19cafab741fcca5caed945d65fd0c/datasets/01f19cafd5a51159a1df732b6750d735_customer_id",
+                "query": {
+                  "datasetName": "churn_predictions",
+                  "fields": [
+                    {
+                      "name": "customer_id",
+                      "expression": "`customer_id`"
+                    },
+                    {
+                      "name": "customer_id_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Customer ID",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "customer_id",
+                    "queryName": "dashboards/01f19cafab741fcca5caed945d65fd0c/datasets/01f19cafd5a51159a1df732b6750d735_customer_id"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 0,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_total_customers",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "churn_predictions",
+                  "fields": [
+                    {
+                      "name": "measure(total_customers)",
+                      "expression": "MEASURE(`total_customers`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Customer Base",
+                "showTitle": true,
+                "description": "Complete count of active customers in the prediction cohort",
+                "showDescription": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_customers)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_high_risk",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "churn_predictions",
+                  "fields": [
+                    {
+                      "name": "measure(high_risk_customers)",
+                      "expression": "MEASURE(`high_risk_customers`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "High-Risk Customers",
+                "showTitle": true,
+                "description": "Customers requiring immediate retention intervention",
+                "showDescription": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(high_risk_customers)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_low_risk",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "churn_predictions",
+                  "fields": [
+                    {
+                      "name": "measure(low_risk_customers)",
+                      "expression": "MEASURE(`low_risk_customers`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Low-Risk Customers",
+                "showTitle": true,
+                "description": "Stable customer segment with strong retention indicators",
+                "showDescription": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(low_risk_customers)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_avg_churn_prob",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "churn_predictions",
+                  "fields": [
+                    {
+                      "name": "measure(avg_churn_probability)",
+                      "expression": "MEASURE(`avg_churn_probability`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Average Churn Risk",
+                "showTitle": true,
+                "description": "Mean probability of customer attrition across all segments",
+                "showDescription": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(avg_churn_probability)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "chart_risk_segment_dist",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "churn_predictions",
+                  "fields": [
+                    {
+                      "name": "measure(total_customers)",
+                      "expression": "MEASURE(`total_customers`)"
+                    },
+                    {
+                      "name": "risk_segment",
+                      "expression": "`risk_segment`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Customer Risk Distribution",
+                "showTitle": true
+              },
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "measure(total_customers)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Customers"
+                },
+                "color": {
+                  "fieldName": "risk_segment",
+                  "displayName": "Risk Segment",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 5,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "table_customer_details",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "churn_predictions",
+                  "fields": [
+                    {
+                      "name": "customer_id",
+                      "expression": "`customer_id`"
+                    },
+                    {
+                      "name": "risk_segment",
+                      "expression": "`risk_segment`"
+                    },
+                    {
+                      "name": "churn_probability",
+                      "expression": "`churn_probability`"
+                    },
+                    {
+                      "name": "recency_days",
+                      "expression": "`recency_days`"
+                    },
+                    {
+                      "name": "total_purchases",
+                      "expression": "`total_purchases`"
+                    },
+                    {
+                      "name": "lifetime_value_lakhs",
+                      "expression": "`lifetime_value_lakhs`"
+                    },
+                    {
+                      "name": "is_churned_predicted",
+                      "expression": "`is_churned_predicted`"
+                    },
+                    {
+                      "name": "prediction_date",
+                      "expression": "`prediction_date`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Customer Risk Profile",
+                "showTitle": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "customer_id",
+                    "displayName": "Customer ID"
+                  },
+                  {
+                    "fieldName": "risk_segment",
+                    "displayName": "Risk Segment"
+                  },
+                  {
+                    "fieldName": "churn_probability",
+                    "displayName": "Churn Probability"
+                  },
+                  {
+                    "fieldName": "recency_days",
+                    "displayName": "Days Since Last Purchase"
+                  },
+                  {
+                    "fieldName": "total_purchases",
+                    "displayName": "Total Purchases"
+                  },
+                  {
+                    "fieldName": "lifetime_value_lakhs",
+                    "displayName": "Lifetime Value (₹L)"
+                  },
+                  {
+                    "fieldName": "is_churned_predicted",
+                    "displayName": "Predicted Churn"
+                  },
+                  {
+                    "fieldName": "prediction_date",
+                    "displayName": "Prediction Date"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 11,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "chart_churn_dist",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "churn_predictions",
+                  "fields": [
+                    {
+                      "name": "probability_range",
+                      "expression": "`probability_range`"
+                    },
+                    {
+                      "name": "measure(total_customers)",
+                      "expression": "MEASURE(`total_customers`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Churn Risk by Probability Range",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "probability_range",
+                  "displayName": "Probability Range",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_customers)",
+                  "displayName": "Customers",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "probability_range",
+                  "displayName": "probability_range",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "chart_top10_risk",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top10_high_risk",
+                  "fields": [
+                    {
+                      "name": "customer_id",
+                      "expression": "`customer_id`"
+                    },
+                    {
+                      "name": "sum(churn_probability)",
+                      "expression": "SUM(`churn_probability`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top 10 At-Risk Customers",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "customer_id",
+                  "displayName": "Customer ID",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(churn_probability)",
+                  "displayName": "Churn Probability",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "customer_id",
+                  "displayName": "customer_id",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 11,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "selectionColor": {
+        "light": "#6366F1",
+        "dark": "#8B5CF6"
+      },
+      "visualizationColors": [
+        "#6366F1",
+        "#8B5CF6",
+        "#A78BFA",
+        "#C4B5FD",
+        "#DDD6FE",
+        "#EC4899",
+        "#F472B6",
+        "#FB923C",
+        "#FBBF24",
+        "#34D399"
+      ],
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED",
+      "widgetPadding": 16,
+      "widgetMargin": 12,
+      "widgetCornerRadius": 8,
+      "widgetShadow": 10,
+      "fontSettings": {
+        "base": {
+          "fontFamily": "Inter"
+        }
+      }
+    },
+    "applyModeEnabled": false
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "name": "BharatMart_OnDemand_HealthCheck",
+  "description": "On-demand health check for immediate troubleshooting and validation",
+  "tags": {
+    "project": "BharatMart",
+    "category": "monitoring",
+    "frequency": "on_demand",
+    "environment": "dev"
+  },
+  "tasks": [
+    {
+      "task_key": "health_check",
+      "description": "Execute on-demand health check",
+      "notebook_task": {
+        "notebook_path": "/Shared/dev/SkillAIPath/4_Business_Intelligence/1_Monitoring_Observability/orchestrator",
+        "source": "WORKSPACE"
+      },
+      "libraries": [
+        {
+          "pypi": {
+            "package": "databricks-sdk>=0.18.0"
+          }
+        }
+      ],
+      "timeout_seconds": 1800,
+      "max_retries": 0
+    }
+  ],
+  "job_clusters": [
+    {
+      "job_cluster_key": "healthcheck_cluster",
+      "new_cluster": {
+        "spark_version": "14.3.x-scala2.12",
+        "node_type_id": "i3.xlarge",
+        "num_workers": 2,
+        "spark_conf": {
+          "spark.databricks.delta.preview.enabled": "true"
+        },
+        "custom_tags": {
+          "project": "BharatMart",
+          "purpose": "health_check"
+        }
+      }
+    }
+  ],
+  "email_notifications": {
+    "on_failure": [
+      "user@example.com"
+    ],
+    "on_success": [],
+    "no_alert_for_skipped_runs": false
+  },
+  "max_concurrent_runs": 3,
+  "format": "MULTI_TASK"
+}

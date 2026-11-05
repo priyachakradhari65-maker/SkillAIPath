@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T36	3 notebooks reference missing ext_tpch	P2	Bronze		Deploy remaining 6 dashboards using Databricks Lakeview API	11/11 dashboards deployed and accessible	Engineer_01	15	

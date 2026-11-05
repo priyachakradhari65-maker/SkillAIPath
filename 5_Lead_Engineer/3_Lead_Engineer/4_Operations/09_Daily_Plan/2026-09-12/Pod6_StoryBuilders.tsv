@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T08	Dashboard MoM -66%	P2	Dashboard		Add UC column comments for all 39 tables using ALTER TABLE ... ALTER COLUMN ... COMMENT - Source: Use table schemas and 	SELECT COUNT(*) FROM information_schema.columns WHERE table_catalog='sap_dev' AND column_comment IS NULL returns < 10	Engineer_08	15	

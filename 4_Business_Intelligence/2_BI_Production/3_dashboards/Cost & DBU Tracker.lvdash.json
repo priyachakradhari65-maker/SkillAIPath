@@ -1,0 +1,905 @@
+{
+  "datasets": [
+    {
+      "name": "kpi_metrics",
+      "displayName": "KPI Summary Metrics",
+      "queryLines": [
+        "-- MTD DBU usage and estimated costs\n",
+        "-- Note: Costs are ESTIMATES based on reference pricing\n",
+        "SELECT\n",
+        "  SUM(usage_quantity) as total_dbus_mtd,\n",
+        "  SUM(\n",
+        "    usage_quantity\n",
+        "      * CASE\n",
+        "        WHEN sku_name LIKE '%ALL_PURPOSE%' THEN 0.55\n",
+        "        WHEN sku_name LIKE '%JOBS%' THEN 0.15\n",
+        "        WHEN sku_name LIKE '%SQL%' THEN 0.22\n",
+        "        WHEN sku_name LIKE '%DLT%' THEN 0.30\n",
+        "        ELSE 0.20\n",
+        "      END\n",
+        "  ) as total_cost_mtd,\n",
+        "  SUM(\n",
+        "    usage_quantity\n",
+        "      * CASE\n",
+        "        WHEN sku_name LIKE '%ALL_PURPOSE%' THEN 0.55\n",
+        "        WHEN sku_name LIKE '%JOBS%' THEN 0.15\n",
+        "        WHEN sku_name LIKE '%SQL%' THEN 0.22\n",
+        "        WHEN sku_name LIKE '%DLT%' THEN 0.30\n",
+        "        ELSE 0.20\n",
+        "      END\n",
+        "  )\n",
+        "    / DAY(CURRENT_DATE()) as avg_daily_cost,\n",
+        "  6000.0 as monthly_budget,\n",
+        "  6000.0\n",
+        "    - SUM(\n",
+        "      usage_quantity\n",
+        "        * CASE\n",
+        "          WHEN sku_name LIKE '%ALL_PURPOSE%' THEN 0.55\n",
+        "          WHEN sku_name LIKE '%JOBS%' THEN 0.15\n",
+        "          WHEN sku_name LIKE '%SQL%' THEN 0.22\n",
+        "          WHEN sku_name LIKE '%DLT%' THEN 0.30\n",
+        "          ELSE 0.20\n",
+        "        END\n",
+        "    ) as budget_remaining,\n",
+        "  SUM(\n",
+        "    usage_quantity\n",
+        "      * CASE\n",
+        "        WHEN sku_name LIKE '%ALL_PURPOSE%' THEN 0.55\n",
+        "        WHEN sku_name LIKE '%JOBS%' THEN 0.15\n",
+        "        WHEN sku_name LIKE '%SQL%' THEN 0.22\n",
+        "        WHEN sku_name LIKE '%DLT%' THEN 0.30\n",
+        "        ELSE 0.20\n",
+        "      END\n",
+        "  )\n",
+        "    / 6000.0 as budget_utilization_pct\n",
+        "FROM\n",
+        "  system.billing.usage\n",
+        "WHERE\n",
+        "  usage_date >= DATE_TRUNC('MONTH', CURRENT_DATE())\n",
+        "  AND usage_date <= CURRENT_DATE()\n",
+        "  AND usage_unit = 'DBU'"
+      ]
+    },
+    {
+      "name": "cost_by_compute_type",
+      "displayName": "Cost by Compute Type",
+      "queryLines": [
+        "-- MTD cost breakdown by compute type\n",
+        "SELECT\n",
+        "  CASE\n",
+        "    WHEN sku_name LIKE '%ALL_PURPOSE%' THEN 'All-Purpose Compute'\n",
+        "    WHEN sku_name LIKE '%JOBS%' THEN 'Jobs Compute'\n",
+        "    WHEN sku_name LIKE '%SQL%' THEN 'SQL Compute'\n",
+        "    WHEN sku_name LIKE '%DLT%' THEN 'DLT Compute'\n",
+        "    ELSE 'Other Compute'\n",
+        "  END as compute_type,\n",
+        "  SUM(usage_quantity) as total_dbus,\n",
+        "  SUM(\n",
+        "    usage_quantity\n",
+        "      * CASE\n",
+        "        WHEN sku_name LIKE '%ALL_PURPOSE%' THEN 0.55\n",
+        "        WHEN sku_name LIKE '%JOBS%' THEN 0.15\n",
+        "        WHEN sku_name LIKE '%SQL%' THEN 0.22\n",
+        "        WHEN sku_name LIKE '%DLT%' THEN 0.30\n",
+        "        ELSE 0.20\n",
+        "      END\n",
+        "  ) as cost_usd\n",
+        "FROM\n",
+        "  system.billing.usage\n",
+        "WHERE\n",
+        "  usage_date >= DATE_TRUNC('MONTH', CURRENT_DATE())\n",
+        "  AND usage_date <= CURRENT_DATE()\n",
+        "  AND usage_unit = 'DBU'\n",
+        "GROUP BY\n",
+        "  compute_type\n",
+        "ORDER BY\n",
+        "  cost_usd DESC"
+      ]
+    },
+    {
+      "name": "daily_cost_summary",
+      "displayName": "Daily Cost Summary",
+      "queryLines": [
+        "-- Daily breakdown for MTD period\n",
+        "SELECT\n",
+        "  usage_date,\n",
+        "  SUM(usage_quantity) as total_dbus,\n",
+        "  SUM(\n",
+        "    usage_quantity\n",
+        "      * CASE\n",
+        "        WHEN sku_name LIKE '%ALL_PURPOSE%' THEN 0.55\n",
+        "        WHEN sku_name LIKE '%JOBS%' THEN 0.15\n",
+        "        WHEN sku_name LIKE '%SQL%' THEN 0.22\n",
+        "        WHEN sku_name LIKE '%DLT%' THEN 0.30\n",
+        "        ELSE 0.20\n",
+        "      END\n",
+        "  ) as cost_usd\n",
+        "FROM\n",
+        "  system.billing.usage\n",
+        "WHERE\n",
+        "  usage_date >= DATE_TRUNC('MONTH', CURRENT_DATE())\n",
+        "  AND usage_date <= CURRENT_DATE()\n",
+        "  AND usage_unit = 'DBU'\n",
+        "GROUP BY\n",
+        "  usage_date\n",
+        "ORDER BY\n",
+        "  usage_date"
+      ]
+    },
+    {
+      "name": "cost_by_job",
+      "displayName": "Cost by Job",
+      "queryLines": [
+        "-- MTD cost by job\n",
+        "SELECT\n",
+        "  COALESCE(usage_metadata.job_name, 'Unnamed Job') as job_name,\n",
+        "  usage_metadata.job_id,\n",
+        "  SUM(usage_quantity) as total_dbus,\n",
+        "  SUM(\n",
+        "    usage_quantity\n",
+        "      * CASE\n",
+        "        WHEN sku_name LIKE '%ALL_PURPOSE%' THEN 0.55\n",
+        "        WHEN sku_name LIKE '%JOBS%' THEN 0.15\n",
+        "        WHEN sku_name LIKE '%SQL%' THEN 0.22\n",
+        "        WHEN sku_name LIKE '%DLT%' THEN 0.30\n",
+        "        ELSE 0.20\n",
+        "      END\n",
+        "  ) as cost_usd,\n",
+        "  COUNT(DISTINCT usage_metadata.job_run_id) as run_count\n",
+        "FROM\n",
+        "  system.billing.usage\n",
+        "WHERE\n",
+        "  usage_date >= DATE_TRUNC('MONTH', CURRENT_DATE())\n",
+        "  AND usage_date <= CURRENT_DATE()\n",
+        "  AND usage_unit = 'DBU'\n",
+        "  AND usage_metadata.job_id IS NOT NULL\n",
+        "GROUP BY\n",
+        "  job_name,\n",
+        "  usage_metadata.job_id\n",
+        "ORDER BY\n",
+        "  cost_usd DESC"
+      ]
+    },
+    {
+      "name": "top_10_expensive_jobs",
+      "displayName": "Top 10 Expensive Jobs",
+      "queryLines": [
+        "-- Top 10 most expensive jobs MTD\n",
+        "SELECT\n",
+        "  COALESCE(usage_metadata.job_name, 'Unnamed Job') as job_name,\n",
+        "  SUM(usage_quantity) as total_dbus,\n",
+        "  SUM(\n",
+        "    usage_quantity\n",
+        "      * CASE\n",
+        "        WHEN sku_name LIKE '%ALL_PURPOSE%' THEN 0.55\n",
+        "        WHEN sku_name LIKE '%JOBS%' THEN 0.15\n",
+        "        WHEN sku_name LIKE '%SQL%' THEN 0.22\n",
+        "        WHEN sku_name LIKE '%DLT%' THEN 0.30\n",
+        "        ELSE 0.20\n",
+        "      END\n",
+        "  ) as cost_usd,\n",
+        "  COUNT(DISTINCT usage_metadata.job_run_id) as run_count\n",
+        "FROM\n",
+        "  system.billing.usage\n",
+        "WHERE\n",
+        "  usage_date >= DATE_TRUNC('MONTH', CURRENT_DATE())\n",
+        "  AND usage_date <= CURRENT_DATE()\n",
+        "  AND usage_unit = 'DBU'\n",
+        "  AND usage_metadata.job_id IS NOT NULL\n",
+        "GROUP BY\n",
+        "  job_name\n",
+        "ORDER BY\n",
+        "  cost_usd DESC\n",
+        "LIMIT 10"
+      ]
+    },
+    {
+      "name": "dbu_consumption_trend",
+      "displayName": "DBU Consumption Trend",
+      "queryLines": [
+        "-- Daily DBU consumption MTD\n",
+        "SELECT\n",
+        "  usage_date,\n",
+        "  SUM(usage_quantity) as total_dbus\n",
+        "FROM\n",
+        "  system.billing.usage\n",
+        "WHERE\n",
+        "  usage_date >= DATE_TRUNC('MONTH', CURRENT_DATE())\n",
+        "  AND usage_date <= CURRENT_DATE()\n",
+        "  AND usage_unit = 'DBU'\n",
+        "GROUP BY\n",
+        "  usage_date\n",
+        "ORDER BY\n",
+        "  usage_date"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "4e7c39ea",
+      "displayName": "Page 1",
+      "layout": [
+        {
+          "widget": {
+            "name": "daily_cost_trend",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "daily_cost_summary",
+                  "fields": [
+                    {
+                      "name": "daily(usage_date)",
+                      "expression": "DATE_TRUNC(\"DAY\", `usage_date`)"
+                    },
+                    {
+                      "name": "sum(cost_usd)",
+                      "expression": "SUM(`cost_usd`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Spending Trajectory",
+                "showTitle": true,
+                "description": "Daily cost trends revealing spending patterns and volatility. Identifies unusual spikes that may indicate inefficient workloads or opportunities for resource optimization.",
+                "showDescription": true
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "daily(usage_date)",
+                  "displayName": "Date",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(cost_usd)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Cost (USD)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 6,
+            "height": 10
+          }
+        },
+        {
+          "widget": {
+            "name": "cost_by_compute_type",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "cost_by_compute_type",
+                  "fields": [
+                    {
+                      "name": "sum(cost_usd)",
+                      "expression": "SUM(`cost_usd`)"
+                    },
+                    {
+                      "name": "compute_type",
+                      "expression": "`compute_type`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Workload Mix",
+                "showTitle": true,
+                "description": "Cost distribution across compute tiers (interactive, scheduled jobs, analytics, pipelines). Reveals which workload types drive spending and where consolidation opportunities exist.",
+                "showDescription": true
+              },
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "sum(cost_usd)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Cost (USD)"
+                },
+                "color": {
+                  "fieldName": "compute_type",
+                  "displayName": "Compute Type",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 18,
+            "width": 6,
+            "height": 10
+          }
+        },
+        {
+          "widget": {
+            "name": "pricing_title",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## 📊 Cost Estimation Methodology\n",
+                "\n",
+                "**All cost values represent estimates based on standard Databricks list pricing and may differ from your actual contracted rates.**\n",
+                "\n",
+                "The platform consumption data is sourced from `system.billing.usage` with costs calculated using reference DBU pricing:\n",
+                "\n",
+                "* **Interactive Compute**: $0.55 per DBU\n",
+                "* **Scheduled Jobs**: $0.15 per DBU  \n",
+                "* **SQL Analytics**: $0.22 per DBU\n",
+                "* **Data Pipelines**: $0.30 per DBU\n",
+                "\n",
+                "*For precise financial reporting, reconcile these estimates with your organization's negotiated pricing agreement.*"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "dbu_consumption_trend",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "dbu_consumption_trend",
+                  "fields": [
+                    {
+                      "name": "daily(usage_date)",
+                      "expression": "DATE_TRUNC(\"DAY\", `usage_date`)"
+                    },
+                    {
+                      "name": "sum(total_dbus)",
+                      "expression": "SUM(`total_dbus`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Resource Demand",
+                "showTitle": true,
+                "description": "Daily compute consumption patterns showing workload intensity over time. Helps capacity planning teams anticipate infrastructure needs and optimize resource scheduling.",
+                "showDescription": true
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "daily(usage_date)",
+                  "displayName": "Day",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_dbus)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  },
+                  "displayName": "DBU Consumed",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 8,
+            "width": 6,
+            "height": 10
+          }
+        },
+        {
+          "widget": {
+            "name": "top_10_expensive_jobs",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_10_expensive_jobs",
+                  "fields": [
+                    {
+                      "name": "cost_usd",
+                      "expression": "`cost_usd`"
+                    },
+                    {
+                      "name": "job_name",
+                      "expression": "`job_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Cost Leaders",
+                "showTitle": true,
+                "description": "Top 10 highest-cost jobs this month. Prioritizes optimization efforts by highlighting the workloads with the greatest financial impact on the platform budget.",
+                "showDescription": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "cost_usd",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Est. Cost (USD)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "job_name",
+                  "displayName": "Job Name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 18,
+            "width": 6,
+            "height": 10
+          }
+        },
+        {
+          "widget": {
+            "name": "cost_by_job_table",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "cost_by_job",
+                  "fields": [
+                    {
+                      "name": "total_dbus",
+                      "expression": "`total_dbus`"
+                    },
+                    {
+                      "name": "run_count",
+                      "expression": "`run_count`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Job Economics",
+                "showTitle": true,
+                "description": "Comprehensive cost breakdown for all jobs. Enables detailed analysis of workload efficiency, run frequency, and per-execution costs to drive targeted optimization initiatives.",
+                "showDescription": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "total_dbus",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 0
+                      }
+                    }
+                  },
+                  {
+                    "fieldName": "run_count",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 0
+                      }
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 28,
+            "width": 12,
+            "height": 10
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi1_total_dbus",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_metrics",
+                  "fields": [
+                    {
+                      "name": "max(total_dbus_mtd)",
+                      "expression": "MAX(`total_dbus_mtd`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Platform Consumption",
+                "showTitle": true,
+                "description": "Total DBU units consumed month-to-date. Tracks compute resource utilization across all workloads—a leading indicator of platform adoption and infrastructure scaling needs.",
+                "showDescription": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "max(total_dbus_mtd)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi2_total_cost",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_metrics",
+                  "fields": [
+                    {
+                      "name": "max(total_cost_mtd)",
+                      "expression": "MAX(`total_cost_mtd`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Monthly Spend",
+                "showTitle": true,
+                "description": "Estimated infrastructure costs incurred this month. Provides real-time visibility into cloud spending to enable proactive budget management and cost optimization decisions.",
+                "showDescription": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "max(total_cost_mtd)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 5,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi3_avg_daily_cost",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_metrics",
+                  "fields": [
+                    {
+                      "name": "max(avg_daily_cost)",
+                      "expression": "MAX(`avg_daily_cost`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Daily Run Rate",
+                "showTitle": true,
+                "description": "Average daily infrastructure spend. Critical metric for forecasting month-end costs and identifying spending trends that may require operational adjustments.",
+                "showDescription": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "max(avg_daily_cost)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 5,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi4_budget_remaining",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_metrics",
+                  "fields": [
+                    {
+                      "name": "max(budget_remaining)",
+                      "expression": "MAX(`budget_remaining`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Budget Headroom",
+                "showTitle": true,
+                "description": "Remaining budget allocation for the current month. Essential for capacity planning and ensuring infrastructure investments stay within approved financial boundaries.",
+                "showDescription": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "max(budget_remaining)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 5,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi5_budget_utilization",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_metrics",
+                  "fields": [
+                    {
+                      "name": "max(budget_utilization_pct)",
+                      "expression": "MAX(`budget_utilization_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Budget Utilization",
+                "showTitle": true,
+                "description": "Percentage of monthly budget consumed. Key performance indicator for financial governance—values approaching 100% signal the need for budget reviews or workload optimization.",
+                "showDescription": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "max(budget_utilization_pct)",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 1
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 5,
+            "width": 3,
+            "height": 3
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#F8F9FA"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF"
+      },
+      "selectionColor": {
+        "light": "#6366F1",
+        "dark": "#6366F1"
+      },
+      "visualizationColors": [
+        "#6366F1",
+        "#8B5CF6",
+        "#A78BFA",
+        "#C4B5FD",
+        "#DDD6FE",
+        "#EC4899",
+        "#F472B6",
+        "#FB923C",
+        "#FBBF24",
+        "#34D399"
+      ],
+      "widgetHeaderAlignment": "LEFT",
+      "widgetPadding": 16,
+      "widgetMargin": 12,
+      "widgetCornerRadius": 8,
+      "widgetShadow": 10,
+      "fontSettings": {
+        "base": {
+          "fontFamily": "Inter",
+          "fontSize": 13
+        },
+        "widgetTitle": {
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": 600
+        },
+        "fieldValue": {
+          "fontFamily": "Inter",
+          "fontSize": 28,
+          "fontWeight": 700
+        }
+      }
+    },
+    "applyModeEnabled": false
+  }
+}

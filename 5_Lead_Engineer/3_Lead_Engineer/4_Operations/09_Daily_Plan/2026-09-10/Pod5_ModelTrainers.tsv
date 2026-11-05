@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T02	Product rec scores 5-10 (should be 0-1) — 100% invalid	P0	ML	T21	Retrain demand forecast model with 12-month data (from T21), clamp predictions to min=0, ensure all 78 products forecast	Negative predictions = 0, product coverage = 78/78	Engineer_07	30	ML recommendation scores invalid (5-10 vs 0-1). Product recommendations useless for students.

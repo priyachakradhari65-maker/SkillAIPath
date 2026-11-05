@@ -1,0 +1,860 @@
+{
+  "datasets": [
+    {
+      "name": "demand_forecasting_dashboard",
+      "displayName": "Demand Forecasting Dashboard",
+      "config": {
+        "version": "1.1",
+        "source": "sap_dev.gold.demand_forecast",
+        "dimensions": [
+          {
+            "name": "product_name",
+            "expr": "product_name"
+          },
+          {
+            "name": "category",
+            "expr": "category"
+          },
+          {
+            "name": "forecast_date",
+            "expr": "forecast_date"
+          },
+          {
+            "name": "prediction_date",
+            "expr": "prediction_date"
+          },
+          {
+            "name": "model_type",
+            "expr": "model_type"
+          },
+          {
+            "name": "forecast_horizon_days",
+            "expr": "forecast_horizon_days"
+          }
+        ],
+        "measures": [
+          {
+            "name": "total_products",
+            "expr": "COUNT(DISTINCT product_id)"
+          },
+          {
+            "name": "avg_predicted_demand",
+            "expr": "AVG(predicted_demand)"
+          },
+          {
+            "name": "sum_predicted_demand",
+            "expr": "SUM(predicted_demand)"
+          },
+          {
+            "name": "avg_lower_bound",
+            "expr": "AVG(lower_bound)"
+          },
+          {
+            "name": "avg_upper_bound",
+            "expr": "AVG(upper_bound)"
+          },
+          {
+            "name": "negative_demand_count",
+            "expr": "COUNT(CASE WHEN predicted_demand < 0 THEN 1 END)"
+          },
+          {
+            "name": "total_forecasts",
+            "expr": "COUNT(*)"
+          },
+          {
+            "name": "min_forecast_date",
+            "expr": "MIN(forecast_date)"
+          },
+          {
+            "name": "max_forecast_date",
+            "expr": "MAX(forecast_date)"
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "15ad34be",
+      "displayName": "Untitled page",
+      "layout": [
+        {
+          "widget": {
+            "name": "counter_1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "demand_forecasting_dashboard",
+                  "fields": [
+                    {
+                      "name": "measure(total_products)",
+                      "expression": "MEASURE(`total_products`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Products",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_products)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_2",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "demand_forecasting_dashboard",
+                  "fields": [
+                    {
+                      "name": "avg(forecast_horizon_days)",
+                      "expression": "AVG(`forecast_horizon_days`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Average Forecast Horizon",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avg(forecast_horizon_days)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_3",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "demand_forecasting_dashboard",
+                  "fields": [
+                    {
+                      "name": "measure(avg_predicted_demand)",
+                      "expression": "MEASURE(`avg_predicted_demand`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Average Predicted Demand",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(avg_predicted_demand)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_4",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "demand_forecasting_dashboard",
+                  "fields": [
+                    {
+                      "name": "measure(negative_demand_count)",
+                      "expression": "MEASURE(`negative_demand_count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "⚠️ Negative Demand Flags",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(negative_demand_count)",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "line_1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "demand_forecasting_dashboard",
+                  "fields": [
+                    {
+                      "name": "daily(forecast_date)",
+                      "expression": "DATE_TRUNC(\"DAY\", `forecast_date`)"
+                    },
+                    {
+                      "name": "measure(sum_predicted_demand)",
+                      "expression": "MEASURE(`sum_predicted_demand`)"
+                    },
+                    {
+                      "name": "measure(avg_upper_bound)",
+                      "expression": "MEASURE(`avg_upper_bound`)"
+                    },
+                    {
+                      "name": "measure(avg_lower_bound)",
+                      "expression": "MEASURE(`avg_lower_bound`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Predicted Demand Over Time (with Confidence Bounds)",
+                "showTitle": true
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "daily(forecast_date)",
+                  "displayName": "Forecast Date",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(sum_predicted_demand)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Predicted Demand",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "error": {
+                    "type": "absolute",
+                    "upper": {
+                      "fieldName": "measure(avg_upper_bound)"
+                    },
+                    "lower": {
+                      "fieldName": "measure(avg_lower_bound)"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "bar_1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "demand_forecasting_dashboard",
+                  "fields": [
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    },
+                    {
+                      "name": "measure(sum_predicted_demand)",
+                      "expression": "MEASURE(`sum_predicted_demand`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Predicted Demand by Product",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "product_name",
+                  "displayName": "Product Name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(sum_predicted_demand)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Predicted Demand",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "product_name",
+                  "displayName": "product_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "bar_2",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "demand_forecasting_dashboard",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "measure(sum_predicted_demand)",
+                      "expression": "MEASURE(`sum_predicted_demand`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Predicted Demand by Category",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "category",
+                  "displayName": "category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(sum_predicted_demand)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Predicted Demand",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "category",
+                  "displayName": "category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 8,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "table_1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "demand_forecasting_dashboard",
+                  "fields": [
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    },
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "forecast_date",
+                      "expression": "`forecast_date`"
+                    },
+                    {
+                      "name": "measure(sum_predicted_demand)",
+                      "expression": "MEASURE(`sum_predicted_demand`)"
+                    },
+                    {
+                      "name": "measure(avg_lower_bound)",
+                      "expression": "MEASURE(`avg_lower_bound`)"
+                    },
+                    {
+                      "name": "measure(avg_upper_bound)",
+                      "expression": "MEASURE(`avg_upper_bound`)"
+                    },
+                    {
+                      "name": "model_type",
+                      "expression": "`model_type`"
+                    },
+                    {
+                      "name": "avg(forecast_horizon_days)",
+                      "expression": "AVG(`forecast_horizon_days`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Detailed Forecast Table",
+                "showTitle": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "product_name",
+                    "displayName": "Product Name"
+                  },
+                  {
+                    "fieldName": "category",
+                    "displayName": "Category"
+                  },
+                  {
+                    "fieldName": "forecast_date",
+                    "displayName": "Forecast Date"
+                  },
+                  {
+                    "fieldName": "measure(sum_predicted_demand)",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      }
+                    },
+                    "displayName": "Predicted Demand"
+                  },
+                  {
+                    "fieldName": "measure(avg_lower_bound)",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      }
+                    },
+                    "displayName": "Lower Bound"
+                  },
+                  {
+                    "fieldName": "measure(avg_upper_bound)",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      }
+                    },
+                    "displayName": "Upper Bound"
+                  },
+                  {
+                    "fieldName": "model_type",
+                    "displayName": "Model Type"
+                  },
+                  {
+                    "fieldName": "avg(forecast_horizon_days)",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 0
+                      }
+                    },
+                    "displayName": "Forecast Horizon (Days)"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 14,
+            "width": 12,
+            "height": 8
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "global_filters",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "filter_product",
+            "queries": [
+              {
+                "name": "dashboards/01f19cba259b14068b19237ce2142f6a/datasets/01f19cba98f11ec4baf220919383176d_product_name",
+                "query": {
+                  "datasetName": "demand_forecasting_dashboard",
+                  "fields": [
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    },
+                    {
+                      "name": "product_name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Product",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "product_name",
+                    "queryName": "dashboards/01f19cba259b14068b19237ce2142f6a/datasets/01f19cba98f11ec4baf220919383176d_product_name"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "filter_category",
+            "queries": [
+              {
+                "name": "dashboards/01f19cba259b14068b19237ce2142f6a/datasets/01f19cba98f11ec4baf220919383176d_category",
+                "query": {
+                  "datasetName": "demand_forecasting_dashboard",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "category_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Category",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "category",
+                    "queryName": "dashboards/01f19cba259b14068b19237ce2142f6a/datasets/01f19cba98f11ec4baf220919383176d_category"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "filter_forecast_date",
+            "queries": [
+              {
+                "name": "dashboards/01f19cba259b14068b19237ce2142f6a/datasets/01f19cba98f11ec4baf220919383176d_forecast_date",
+                "query": {
+                  "datasetName": "demand_forecasting_dashboard",
+                  "fields": [
+                    {
+                      "name": "forecast_date",
+                      "expression": "`forecast_date`"
+                    },
+                    {
+                      "name": "forecast_date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Forecast Date",
+                "showTitle": true
+              },
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "forecast_date",
+                    "queryName": "dashboards/01f19cba259b14068b19237ce2142f6a/datasets/01f19cba98f11ec4baf220919383176d_forecast_date"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "filter_prediction_date",
+            "queries": [
+              {
+                "name": "dashboards/01f19cba259b14068b19237ce2142f6a/datasets/01f19cba98f11ec4baf220919383176d_prediction_date",
+                "query": {
+                  "datasetName": "demand_forecasting_dashboard",
+                  "fields": [
+                    {
+                      "name": "prediction_date",
+                      "expression": "`prediction_date`"
+                    },
+                    {
+                      "name": "prediction_date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Prediction Date",
+                "showTitle": true
+              },
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "prediction_date",
+                    "queryName": "dashboards/01f19cba259b14068b19237ce2142f6a/datasets/01f19cba98f11ec4baf220919383176d_prediction_date"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "selectionColor": {
+        "light": "#6366F1",
+        "dark": "#6366F1"
+      },
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED",
+      "widgetPadding": 16,
+      "widgetMargin": 12,
+      "widgetCornerRadius": 8,
+      "widgetShadow": 50,
+      "fontSettings": {
+        "base": {
+          "fontFamily": "Inter"
+        }
+      }
+    },
+    "applyModeEnabled": false
+  }
+}

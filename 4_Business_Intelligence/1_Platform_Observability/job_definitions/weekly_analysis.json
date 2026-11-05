@@ -1,0 +1,64 @@
+{
+  "name": "BharatMart_Weekly_Deep_Analysis",
+  "description": "Weekly deep analysis: optimization recommendations, cost trends, and performance analysis",
+  "tags": {
+    "project": "BharatMart",
+    "category": "monitoring",
+    "frequency": "weekly",
+    "environment": "dev"
+  },
+  "tasks": [
+    {
+      "task_key": "run_weekly_analysis",
+      "description": "Execute weekly deep analysis",
+      "notebook_task": {
+        "notebook_path": "/Shared/dev/SkillAIPath/4_Business_Intelligence/1_Monitoring_Observability/orchestrator",
+        "source": "WORKSPACE"
+      },
+      "libraries": [
+        {
+          "pypi": {
+            "package": "databricks-sdk>=0.18.0"
+          }
+        }
+      ],
+      "timeout_seconds": 7200,
+      "max_retries": 2,
+      "min_retry_interval_millis": 120000,
+      "retry_on_timeout": true
+    }
+  ],
+  "job_clusters": [
+    {
+      "job_cluster_key": "analysis_cluster",
+      "new_cluster": {
+        "spark_version": "14.3.x-scala2.12",
+        "node_type_id": "i3.xlarge",
+        "num_workers": 4,
+        "spark_conf": {
+          "spark.databricks.delta.preview.enabled": "true"
+        },
+        "custom_tags": {
+          "project": "BharatMart",
+          "purpose": "weekly_analysis"
+        }
+      }
+    }
+  ],
+  "schedule": {
+    "quartz_cron_expression": "0 0 8 ? * MON",
+    "timezone_id": "UTC",
+    "pause_status": "UNPAUSED"
+  },
+  "email_notifications": {
+    "on_failure": [
+      "user@example.com"
+    ],
+    "on_success": [
+      "user@example.com"
+    ],
+    "no_alert_for_skipped_runs": false
+  },
+  "max_concurrent_runs": 1,
+  "format": "MULTI_TASK"
+}

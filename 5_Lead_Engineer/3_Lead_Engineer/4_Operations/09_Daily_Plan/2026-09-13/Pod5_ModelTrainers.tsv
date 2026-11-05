@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T06	Churn avg prob 0.47 — random	P1	ML	T21,T34	Create enrichment tables joining sales with product, customer, and geography dimensions	At least 3 enrichment tables exist with data	Engineer_07	30	Churn probability averages 0.47 (random). Cannot identify at-risk students for intervention.

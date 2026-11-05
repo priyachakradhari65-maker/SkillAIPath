@@ -1,0 +1,262 @@
+{
+  "name": "00_Master_Start_SkillAI",
+  "description": "\ud83d\ude80 SkillAI Complete System Bootstrap & Production Pipeline (OPTIMIZED v2)\n\n\u2705 CONSOLIDATED: Data Gen + DBT merged into single atomic task (14_StartDBT_Full)\n\u2705 FIXED: Clean dependency graph (removed spider web)\n\u2705 OPTIMIZED: Max 4 parallel tasks for FREE tier\n\nPhase 1: Foundation (SINGLE ATOMIC TASK)\n  \u2514\u2500 Full Load Pipeline (bronze gen + DBT transform + validations)\n\nPhase 2: Data Ingestion (3 parallel)\n  \u251c\u2500 Bronze Stream Generator\n  \u251c\u2500 CDC Setup\n  \u2514\u2500 Lakebase Setup\n\nPhase 3: Streaming Pipeline\n  \u2514\u2500 DLT Pipeline (depends on CDC + Stream Generator)\n\nPhase 4: LTAP Sync (2 parallel)\n  \u251c\u2500 LTAP Sync\n  \u2514\u2500 Retail Ops DB Setup\n\nPhase 5: AI/Analytics (4 parallel - INDEPENDENT)\n  \u251c\u2500 Knowledge Retrieval (only needs Full Load)\n  \u251c\u2500 Ecommerce Intelligence (only needs Full Load)\n  \u251c\u2500 Customer 360 (only needs Full Load)\n  \u2514\u2500 Auto Documentation (needs Knowledge)\n\nPhase 6: Training Data (2 parallel - INDEPENDENT)\n  \u251c\u2500 Chat Extractor (needs Knowledge)\n  \u2514\u2500 Drive Extractor (needs Knowledge)\n\nPhase 7: ML Models (4 parallel - ALL INDEPENDENT)\n  \u251c\u2500 Churn Prediction\n  \u251c\u2500 Product Recommendation\n  \u251c\u2500 Demand Forecasting\n  \u2514\u2500 Next Purchase Prediction\n\nPhase 8: Deploy Apps\n  \u2514\u2500 Deploy BizApps (needs Retail Ops DB + ML models done)\n\nTotal: 17 tasks (down from 19), max 4 parallel, cleaner dependencies, faster execution.",
+  "tags": {
+    "Orchestration": "",
+    "Production": "",
+    "Master": "",
+    "Full-Pipeline": "",
+    "Optimized": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "00_Full_Load_Pipeline",
+      "depends_on": [],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/1_Canvas/2_Orchestration/Data_Platform/14_StartDBT_Full",
+        "source": "WORKSPACE"
+      },
+      "description": "Complete full load: Drop bronze \u2192 Generate data \u2192 Validate \u2192 DBT full refresh \u2192 Validate all layers"
+    },
+    {
+      "task_key": "02_Bronze_Stream_Data_Generator",
+      "depends_on": [
+        {
+          "task_key": "00_Full_Load_Pipeline"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/03_Streaming_Cdc/00_bronze_to_stream_generator",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "03_Streaming_CDC_Setup",
+      "depends_on": [
+        {
+          "task_key": "00_Full_Load_Pipeline"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/03_Streaming_Cdc/11_setup_silver_dlt_pipeline",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "04_Lakebase_Database_Setup",
+      "depends_on": [
+        {
+          "task_key": "00_Full_Load_Pipeline"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/06_Lakebase_LTAP/01_oltp_database_setup",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "05_DLT_Bronze_Silver_Pipeline",
+      "depends_on": [
+        {
+          "task_key": "02_Bronze_Stream_Data_Generator"
+        },
+        {
+          "task_key": "03_Streaming_CDC_Setup"
+        }
+      ],
+      "pipeline_task": {
+        "pipeline_id": "b111a433-e4f2-45e7-9faf-62372d0a5f0e"
+      }
+    },
+    {
+      "task_key": "06_Lakebase_LTAP_Sync",
+      "depends_on": [
+        {
+          "task_key": "04_Lakebase_Database_Setup"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/06_Lakebase_LTAP/03_oltp_to_olap_sync",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "07_Retail_Ops_Database_Setup",
+      "run_if": "ALL_SUCCESS",
+      "depends_on": [
+        {
+          "task_key": "04_Lakebase_Database_Setup"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Shared/dev/SkillAIPath/2_Data_Production/06_Lakebase_LTAP/02_retail_ops_database_setup",
+        "source": "WORKSPACE"
+      },
+      "description": "Initialize retail-ops-apps Lakebase schema"
+    },
+    {
+      "task_key": "08_Knowledge_Retrieval_System",
+      "depends_on": [
+        {
+          "task_key": "00_Full_Load_Pipeline"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/2_Rag_Pipeline/knowledge_retrieval_system",
+        "source": "WORKSPACE"
+      },
+      "description": "RAG system - only needs DBT gold tables"
+    },
+    {
+      "task_key": "09_Ecommerce_Intelligence",
+      "depends_on": [
+        {
+          "task_key": "00_Full_Load_Pipeline"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/2_Rag_Pipeline/ecommerce_intelligence",
+        "source": "WORKSPACE"
+      },
+      "description": "Ecommerce analytics - only needs DBT gold tables"
+    },
+    {
+      "task_key": "10_Customer_360",
+      "depends_on": [
+        {
+          "task_key": "00_Full_Load_Pipeline"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/2_Rag_Pipeline/customer_360",
+        "source": "WORKSPACE"
+      },
+      "description": "Customer 360 - only needs DBT gold tables"
+    },
+    {
+      "task_key": "11_Auto_Documentation",
+      "depends_on": [
+        {
+          "task_key": "08_Knowledge_Retrieval_System"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/3_AI_Agents/Knowledge_Hub/Auto_Documentation",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "12_Training_Data_Chat_Extractor",
+      "depends_on": [
+        {
+          "task_key": "08_Knowledge_Retrieval_System"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/3_AI_Agents/Knowledge_Hub/Training_Data_Extraction/log_collector/1_REAL_Chat_Extractor",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "13_Training_Data_Drive_Extractor",
+      "depends_on": [
+        {
+          "task_key": "08_Knowledge_Retrieval_System"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/3_AI_Agents/Knowledge_Hub/Training_Data_Extraction/log_collector/2_Google_Drive_Universal_Extractor",
+        "source": "WORKSPACE"
+      },
+      "description": "Parallel with Chat Extractor (different data sources)"
+    },
+    {
+      "task_key": "14_Churn_Prediction",
+      "depends_on": [
+        {
+          "task_key": "12_Training_Data_Chat_Extractor"
+        },
+        {
+          "task_key": "13_Training_Data_Drive_Extractor"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/1_MLOps/01_Churn_Prediction_Training",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "15_Product_Recommendation",
+      "depends_on": [
+        {
+          "task_key": "12_Training_Data_Chat_Extractor"
+        },
+        {
+          "task_key": "13_Training_Data_Drive_Extractor"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/1_MLOps/02_Product_Recommendation_Training",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "16_Demand_Forecasting",
+      "depends_on": [
+        {
+          "task_key": "12_Training_Data_Chat_Extractor"
+        },
+        {
+          "task_key": "13_Training_Data_Drive_Extractor"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/1_MLOps/03_Demand_Forecasting_Training",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "17_Next_Purchase_Prediction",
+      "depends_on": [
+        {
+          "task_key": "12_Training_Data_Chat_Extractor"
+        },
+        {
+          "task_key": "13_Training_Data_Drive_Extractor"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/1_MLOps/04_Next_Purchase_Prediction_Training",
+        "source": "WORKSPACE"
+      }
+    },
+    {
+      "task_key": "18_Deploy_BizApps",
+      "depends_on": [
+        {
+          "task_key": "07_Retail_Ops_Database_Setup"
+        },
+        {
+          "task_key": "14_Churn_Prediction"
+        },
+        {
+          "task_key": "15_Product_Recommendation"
+        },
+        {
+          "task_key": "16_Demand_Forecasting"
+        },
+        {
+          "task_key": "17_Next_Purchase_Prediction"
+        }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Shared/dev/SkillAIPath/4_Business_Intelligence/3_Live_Apps/04_deploy_apps_job",
+        "source": "WORKSPACE"
+      },
+      "description": "Deploy all 3 Retail Ops Apps (needs ML models + Lakebase ready)"
+    }
+  ]
+}

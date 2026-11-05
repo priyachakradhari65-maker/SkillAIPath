@@ -1,0 +1,25 @@
+Job #	Job Name	Job ID	Schedule	Category	Tags	Tasks	Notebook Path	Description	Status	Last Run	Next Run	Pod	Owner	Notes
+00	00_OnDemand_StartHere	1025115193288346	On-Demand	Documentation	Documentation, OnDemand, Setup	0	N/A
+01	01_OnDemand_DevOps	171383903125159	On-Demand	CI/CD	CI/CD, DevOps, GitHub, OnDemand, Setup	0	N/A
+02	02_OnDemand_EduFin_Core_Analytics	724503166169660	On-Demand	Analytics	Analytics, Education, Finance, OnDemand	0	N/A
+03	03_Daily_Lakehouse_Full_Load	696925780255294	Daily	ETL	Daily, ETL, Full-Load, Lakehouse	0	N/A
+04	04_Daily_Lakehouse_Incremental	249883739723757	Daily	ETL	Daily, ETL, Incremental, Lakehouse	0	N/A
+05	05_Daily_DBT_Full_Transformation	475929541183327	Daily	DBT	DBT, Daily, Full-Load, Transformation	0	N/A
+06	06_Daily_DBT_Incremental	906082583778195	Daily	DBT	DBT, Daily, Incremental, Transformation	0	N/A
+07	07_OnDemand_Genie_Space_Creator	367086729323724	On-Demand	Genie	Genie, OnDemand, Setup	0	N/A
+08	08_Daily_Streaming_CDC	405104580937343	Daily	CDC	CDC, Daily, Real-Time, Streaming	0	N/A
+09	09_Daily_Bronze_Silver_DLT	923253214821285	Daily	DLT	DLT, Daily, Medallion, Pipeline	0	N/A
+10	10_Daily_Knowledge_Retrieval_System	1019676027108696	Daily	AI	AI, Daily, Knowledge-Graph, RAG	0	N/A
+11	11_Daily_Ecommerce_Intelligence	3306513460846	Daily	Analytics	Analytics, BI, Daily, Ecommerce	0	N/A
+12	12_Daily_Customer_360	778140154865869	Daily	Analytics	Analytics, CRM, Customer, Daily	0	N/A
+13	13_Daily_Auto_Documentation	504744272397303	Daily	Automation	Automation, Daily, Documentation	0	N/A
+14	14_Weekly_Training_Data_Extraction	760325156976714	Weekly	Data-Prep	Data-Prep, Feature-Engineering, ML, Weekly	0	N/A
+15	15_Weekly_Churn_Prediction	684505024549623	Weekly	Customer	Customer, ML, Prediction, Weekly	0	N/A
+16	16_Weekly_Product_Recommendation	514677945822644	Weekly	Ecommerce	Ecommerce, ML, Recommendation, Weekly	0	N/A
+17	17_Weekly_Demand_Forecasting	978154014554805	Weekly	Forecasting	Forecasting, ML, Supply-Chain, Weekly	0	N/A
+18	18_Weekly_Next_Purchase_Prediction	324162142408562	Weekly	Customer	Customer, ML, Prediction, Weekly	0	N/A
+19	19_Daily_Incremental_Refresh	711447127242279	Daily	ETL	Daily, ETL, Incremental, Refresh	0	N/A
+20	20_Weekly_App_Deployment	446592268664671	Weekly	App	App, Deployment, DevOps, Weekly	0	N/A
+21	21_Daily_Lakebase_Sync	657585702383029	Daily	Integration	Daily, Integration, Lakebase, Sync	0	N/A
+22	22_Master_SkillAI_Weekly	565629005115033	Weekly	Master	Master, Orchestration, SkillAI, Weekly	0	N/A
+23	23_Monthly_Portfolio_GitHub_AutoCommit	345253483356623	Monthly	DevOps	DevOps, GitHub, Monthly, Portfolio	0	N/A

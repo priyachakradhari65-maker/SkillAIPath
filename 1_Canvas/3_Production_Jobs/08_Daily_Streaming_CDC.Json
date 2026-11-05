@@ -1,0 +1,21 @@
+{
+  "name": "08_Daily_Streaming_CDC",
+  "tags": {
+    "CDC": "",
+    "Daily": "",
+    "Real-Time": "",
+    "Streaming": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "Streaming_CDC_Setup",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/02_Medallion_Architecture/03_Streaming_Cdc/11_setup_silver_dlt_pipeline",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+Category	Topic	Description	File_Reference	Action_Required
+Task Allocation	Team Assignment Rules	StoryBuilders/ImpactMakers: 4 jobs/8 tasks, Data Eng: 9 jobs/42 tasks, ML: 5 jobs/6 tasks, AI Apps: 3 jobs/3 tasks, Pods: 4 jobs/26 tasks (cross-team coordination)	TASK_ALLOCATION_SYSTEM.md	Assign engineer to team based on skills/interests - reference README.md team descriptions
+Task Allocation	Task Distribution Logic	Tasks allocated based on actual job definitions in databricks.yml - each engineer owns complete job workflows, not isolated notebooks	TASK_ALLOCATION_SYSTEM.md	Load task list from 4_Operations/02_TeamTasks.tsv - filter by team - assign in dependency order
+Task Allocation	Cross-Team Dependencies	Pod 1+2 (Data Eng) builds bronze/silver first (days 1-7) → StoryBuilders/ImpactMakers starts day 8 → ML starts day 10 → AI Apps day 15 → Pods coordinates throughout	TASK_ALLOCATION_SYSTEM.md	Check 4_Operations/05_04_OperationsGuide.tsv for prerequisite tasks - coordinate with upstream teams
+Session Patterns	Session Structure (WHAT-WHY-HOW-WHEN-OPERATE-EXPLORE)	Every session: Clear WHAT (task statement) + WHY (business context) + HOW (technical approach) + WHEN (checkpoint criteria) + OPERATE (hands-on steps) + EXPLORE (discovery prompts)	SESSION_PATTERNS.md	Create daily mission document using template - populate all 6 sections before sending to engineer
+Session Patterns	Daily Mission Format	"Daily mission document structure ensures engineers understand context before executing - prevents ""just following instructions"" without learning"	SESSION_PATTERNS.md	Include: task goal, business why, technical how, observable checkpoints, step-by-step ops guide, discovery questions
+Session Patterns	60% Hands-on, 20% Troubleshooting, 20% Understanding	Coverage philosophy: 60% doing the work + 20% fixing what breaks + 20% connecting dots = real understanding through working	SESSION_PATTERNS.md	Engineer should spend majority of time executing (hands-on), good amount debugging (learning), minimal time on pure theory
+Sprint Planning	Sprint Breakdown by Team	StoryBuilders/ImpactMakers: 4 weeks (foundation + BI), Data Eng: 9 weeks (medallion + DBT + streaming), ML: 6 weeks (training + deployment), AI Apps: 4 weeks (RAG + agents), Pods: continuous coordination	SPRINT_PLANNING_GUIDE.md	Reference README.md for detailed week-by-week breakdown per team
+Sprint Planning	Weekly Planning Cadence	Biweekly sprint planning with team demos, blocker resolution, integration checkpoints, next sprint preview	SPRINT_PLANNING_GUIDE.md	Friday team demos (10 min each) + blocker resolution + integration checks + preview next sprint
+Sprint Planning	Checkpoint Criteria Definition	"Checkpoints defined as observable outcomes: ""✓ Data flows bronze→silver"", ""✓ Schema changes auto-handled"", ""✓ Job runs without errors"""	SPRINT_PLANNING_GUIDE.md	"Checkpoint must be testable: run a query, check a table, verify job success - not ""understand concept"""
+Coding Standards	Python Standards	PEP8 compliant, type hints for functions, docstrings required, max line length 100, use Black formatter	CODING_STANDARDS.md	Run Black on all Python code before committing - enforce with pre-commit hooks
+Coding Standards	SQL Standards	Databricks SQL style: explicit column lists (no SELECT *), CTE for readability, MERGE for upserts, parameterized queries via widgets	CODING_STANDARDS.md	Use SQL formatter (sqlfluff) for consistency - comment complex CTEs
+Coding Standards	Notebook Organization	Notebooks organized by team folders: 0_Core_StoryBuilders/ImpactMakers, 2_Data_Production, 3_AI_Platform, 4_Business_Intelligence - matches job task structure	CODING_STANDARDS.md	One notebook per logical task - avoid mega-notebooks - clear cell titles describing purpose
+Codebase Matrix	Job-Notebook Mapping	Each job in databricks.yml maps to specific notebooks - documented in 4_Operations/05_04_OperationsGuide.tsv with full lineage	CODEBASE_CONTENT_MATRIX.md	Open 4_Operations/05_04_OperationsGuide.tsv - find job name - see all constituent notebooks and tasks
+Codebase Matrix	Catalog Structure (sap_dev, sap_main)	sap_dev (9 schemas: bronze, gold, content_studio, default...) + sap_main (5 schemas: bronze, silver, gold, default...) - medallion architecture foundation	CODEBASE_CONTENT_MATRIX.md	Check Unity Catalog in workspace - verify schema structure matches documented architecture
+Codebase Matrix	Asset Inventory (250 notebooks, 28 jobs)	250 notebooks total: StoryBuilders/ImpactMakers 6, Data Production 111, AI Platform 69, BI & Assets 64 - all production-ready code	CODEBASE_CONTENT_MATRIX.md	All notebooks production-ready and tested - documented in session files with learning outcomes
+TSV Management	03_SprintTracking.tsv Usage	Individual engineer tracking: team assignment, current task/session, completion status, blockers, checkpoints achieved - updated daily	TSV_FILES_GUIDE.md	Update after each session completion - track actual vs planned progress
+TSV Management	SprintTracking.tsv Updates	Team-level progress tracking: sprint goals, weekly milestones, dependency status, integration checkpoints - biweekly reviews	TSV_FILES_GUIDE.md	Update after Friday team demos - adjust sprint plans based on progress
+TSV Management	4_Operations/05_04_OperationsGuide.tsv Reference	"Master index linking tasks → sessions → notebooks → jobs - single source of truth for ""what builds what"""	TSV_FILES_GUIDE.md	"Use as navigation map: ""I need to work on job X"" → find task → find session → find notebooks"
+
+
+# === CHECKPOINT/TASK/SESSION MAPPING (merged from former 05_CheckpointTaskSessionMapping.tsv → now 04_OperationsGuide.tsv) ===
+Milestone	Milestone_Name	Checkpoint	Checkpoint_Name	Sprint	Days	Tasks	Sessions	Notebooks
+M1	First_Production_Cycle	CP1_M1	DevOps Setup	SP1_CP1_M1	3	DEVOPS-001,DEVOPS-002,MED-001	Session_01,Session_02	1_First_Production_Cycle/00_Config/,1_First_Production_Cycle/01_Widgets/
+M1	First_Production_Cycle	CP2_M1	First PR Workflow	SP1_CP2_M1	2	PROD-001,DEVOPS-003	Session_03	All notebooks in feature branch
+M1	First_Production_Cycle	CP3_M1	GitHub Deployment	SP1_CP3_M1	4	DEVOPS-002,PROD-002,PROD-003	Session_04,Session_05	.github/workflows/
+M1	First_Production_Cycle	CP4_M1	Catalog Management	SP1_CP4_M1	2	MED-001,GOV-007	Session_06	1_First_Production_Cycle/00_Config/catalog_setup.py
+M2	Core_Analytics	CP1_M2	SQL Analysis	SP1_CP1_M2	5	BI-001,BI-002,BI-003,BI-004	Session_07,Session_08,Session_09	2_Core_Analytics/01_SQL_Queries/,2_Core_Analytics/02_Analysis/
+M2	Core_Analytics	CP2_M2	PySpark Notebooks	SP1_CP2_M2	5	ML-001,ML-002,ML-003	Session_10,Session_11	2_Core_Analytics/03_PySpark/
+M2	Core_StoryBuilders/ImpactMakers	CP3_M2	Prompt Engineering	SP1_CP3_M2	3	AGT-001,AGT-002	Session_12	N/A
+M2	Core_StoryBuilders/ImpactMakers	CP4_M2	Lakeview Dashboards	SP1_CP4_M2	7	BI-001,BI-002,BI-003,BI-004	Session_13,Session_14	Queries feed dashboards
+M2	Core_StoryBuilders/ImpactMakers	CP5_M2	Genie Agents	SP1_CP5_M2	5	AGT-003,AGT-004,AGT-005	Session_15	N/A
+M2	Core_StoryBuilders/ImpactMakers	CP6_M2	Portfolio Creation	SP1_CP6_M2	3	CONT-001,CONT-002	Session_16	N/A
+M3	Data_Production	CP1_M3	Lakehouse Full Load	SP1_CP1_M3	5	MED-002,MED-003,ING-001	Session_17,Session_18,Session_19	3_Data_Production/00_Bronze_Layer/,3_Data_Production/01_Silver_Dimensions/
+M3	Data_Production	CP2_M3	Incremental Load	SP1_CP2_M3	7	ING-003,ING-004,ING-005,STR-001	Session_20,Session_21,Session_22	3_Data_Production/04_Streaming/,3_Data_Production/00_Bronze_Layer/Auto_Loader/
+M3	Data_Production	CP3_M3	dbt Foundation	SP1_CP3_M3	5	DBT-001,DBT-002,DBT-003	Session_23,Session_24,Session_25	3_Data_Production/03_Dbt/
+M3	Data_Production	CP4_M3	dbt Incremental	SP1_CP4_M3	7	DBT-004,DBT-005,DBT-006	Session_26,Session_27,Session_28	3_Data_Production/03_Dbt/models/incremental/
+M3	Data_Production	CP5_M3	VDPs Visual Data Prep	SP1_CP5_M3	5	MISSING	MISSING	MISSING - No VDP notebooks exist
+M3	Data_Production	CP6_M3	Unity Catalog Governance	SP1_CP6_M3	7	GOV-001,GOV-002,GOV-003,GOV-004,GOV-005	Session_29,Session_30,Session_31	3_Data_Production/05_Unity_Catalog/
+M3	Data_Production	CP7_M3	Data Quality Monitoring	SP1_CP7_M3	7	PROD-001,PROD-002,PROD-003,PROD-004,MED-011,MED-012	Session_32,Session_33,Session_34	3_Data_Production/06_Quality_Monitoring/
+M3	Data_Production	CP8_M3	Lakebase	SP1_CP8_M3	5	MISSING	MISSING	MISSING - No Lakebase notebooks exist
+M4	AI_Platform	CP1_M4	ModelTrainers Cycle	SP1_CP1_M4	10	ML-001,ML-002,ML-003,ML-004,ML-005,ML-006	Session_35,Session_36,Session_37,Session_38	4_AI_Platform/01_MLOps/
+M4	AI_Platform	CP2_M4	RAG Flow	SP1_CP2_M4	10	RAG-001,RAG-002,RAG-003,RAG-004,RAG-005	Session_39,Session_40,Session_41	4_AI_Platform/02_RAG/
+M4	AI_Platform	CP3_M4	Agent Scheduling	SP1_CP3_M4	5	AGT-001,AGT-002,DEVOPS-002	Session_42	4_AI_Platform/03_Agents/
+M4	AI_Platform	CP4_M4	Agent Bricks	SP1_CP4_M4	7	MISSING	MISSING	MISSING - No Agent Bricks notebooks exist
+M5	Business_Intelligence	CP1_M5	Databricks Apps	SP1_CP1_M5	7	SUPP-001,SUPP-002,SUPP-003	Session_43,Session_44	5_Business_Intelligence/01_Databricks_Apps/
+M5	Business_Intelligence	CP2_M5	Lakeview Dashboards	SP1_CP2_M5	10	BI-001,BI-002,BI-003,BI-004,BI-005,BI-006	Session_45,Session_46	5_Business_Intelligence/02_Lakeview/
+M5	Business_Intelligence	CP3_M5	Power BI Integration	SP1_CP3_M5	5	MISSING	MISSING	MISSING - No Power BI notebooks exist
+M5	Business_Intelligence	CP4_M5	Genie Agents BI	SP1_CP4_M5	5	AGT-001,AGT-002,AGT-003	Session_47	Integrated with data platform
+M5	Business_Intelligence	CP5_M5	Genie One	SP1_CP5_M5	3	MISSING	MISSING	MISSING - No Genie One notebooks exist

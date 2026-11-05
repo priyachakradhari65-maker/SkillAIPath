@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T21	Single month data (Aug 2026) — no monthly history	P0	All	T20	Adjust data generator to produce repeat purchase patterns (60% customers with 2+ orders)	One-time customer rate < 40%	Engineer_10	30	Only 1 month of data. All ML models trained on single month. Foundation for all temporal analytics.

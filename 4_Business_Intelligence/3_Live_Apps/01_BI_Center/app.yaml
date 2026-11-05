@@ -1,0 +1,11 @@
+command:
+  - "python"
+  - "app.py"
+# Apps V2 automatically provides DATABRICKS_HOST, DATABRICKS_CLIENT_ID, DATABRICKS_CLIENT_SECRET
+# Do NOT set them explicitly - they cause auth conflicts
+env:
+  - name: WAREHOUSE_ID
+    value: ""  # Optional: set to specific warehouse ID, or leave empty for auto-detect
+resources:
+  cpu: "2"
+  memory: "4Gi"

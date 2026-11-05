@@ -1,0 +1,22 @@
+-- dbt Intermediate Model: Product Category Dimension
+-- Creates product category dimension
+
+{{
+  config(
+    materialized='table',
+    tags=['intermediate', 'dimension', 'product_category']
+  )
+}}
+
+WITH unique_categories AS (
+  SELECT DISTINCT
+    ProductCategory
+  FROM {{ source('bronze', 'sales') }}
+  WHERE ProductCategory IS NOT NULL
+)
+
+SELECT
+  ROW_NUMBER() OVER (ORDER BY ProductCategory) AS ProductCategorySK,
+  ROW_NUMBER() OVER (ORDER BY ProductCategory) AS ProductCategoryID,
+  ProductCategory
+FROM unique_categories

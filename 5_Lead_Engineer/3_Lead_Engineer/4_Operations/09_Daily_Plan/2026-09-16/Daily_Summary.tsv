@@ -1,0 +1,5 @@
+Date	Pod	Work_ID	Title	Priority	Engineer
+2026-09-16	Pod2_Architects	T38	mart_inventory_health 90-day metrics wit	P2	Engineer_02
+2026-09-16	Pod2_Architects	T42	DBT only 2 custom tests	P2	Engineer_03
+2026-09-16	Pod5_ModelTrainers	T32	Demand forecast negative values (min -12	P2	Engineer_07
+2026-09-16	Pod8_Gatekeepers	T43	content_studio 0 tables	P3	Engineer_09

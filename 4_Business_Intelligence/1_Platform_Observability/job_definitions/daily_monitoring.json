@@ -1,0 +1,62 @@
+{
+  "name": "BharatMart_Daily_Monitoring",
+  "description": "Daily monitoring orchestration: data quality, performance, and cost tracking",
+  "tags": {
+    "project": "BharatMart",
+    "category": "monitoring",
+    "frequency": "daily",
+    "environment": "dev"
+  },
+  "tasks": [
+    {
+      "task_key": "run_daily_monitoring",
+      "description": "Execute daily monitoring orchestration",
+      "notebook_task": {
+        "notebook_path": "/Shared/dev/SkillAIPath/4_Business_Intelligence/1_Monitoring_Observability/orchestrator",
+        "source": "WORKSPACE"
+      },
+      "libraries": [
+        {
+          "pypi": {
+            "package": "databricks-sdk>=0.18.0"
+          }
+        }
+      ],
+      "timeout_seconds": 3600,
+      "max_retries": 2,
+      "min_retry_interval_millis": 60000,
+      "retry_on_timeout": true
+    }
+  ],
+  "job_clusters": [
+    {
+      "job_cluster_key": "monitoring_cluster",
+      "new_cluster": {
+        "spark_version": "14.3.x-scala2.12",
+        "node_type_id": "i3.xlarge",
+        "num_workers": 2,
+        "spark_conf": {
+          "spark.databricks.delta.preview.enabled": "true"
+        },
+        "custom_tags": {
+          "project": "BharatMart",
+          "purpose": "monitoring"
+        }
+      }
+    }
+  ],
+  "schedule": {
+    "quartz_cron_expression": "0 0 6 * * ?",
+    "timezone_id": "UTC",
+    "pause_status": "UNPAUSED"
+  },
+  "email_notifications": {
+    "on_failure": [
+      "user@example.com"
+    ],
+    "on_success": [],
+    "no_alert_for_skipped_runs": false
+  },
+  "max_concurrent_runs": 1,
+  "format": "MULTI_TASK"
+}

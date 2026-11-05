@@ -1,0 +1,6 @@
+# SkillAI Execution Support Agent
+# Autonomous AI Assistant with User Tracking and Chat History
+
+command: ["streamlit", "run", "app.py", "--server.port=$DATABRICKS_APP_PORT"]
+
+

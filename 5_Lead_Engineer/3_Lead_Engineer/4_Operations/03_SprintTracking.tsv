@@ -1,0 +1,491 @@
+Sprint	Date	Pull Request Link	Engineer	Status	Task Description	Updates	Daily Win
+sap51_1708_2908	08/28/2026	Internal	Viresh	improve	RAG Pipeline Optimization	Code review feedback addressed	1
+sap51_1708_2908	08/28/2026	Internal	Vikas	dev	Job Orchestration Framework	In progress - 30% complete	1
+sap51_1708_2908	08/28/2026	Internal	Spandana	dev	Real-time Data Quality	In progress - 30% complete	1
+sap51_1708_2908	08/28/2026	Internal	Siddhartha	dev	Product Performance StoryBuilders/ImpactMakers	Integration tests passing	1
+sap51_1708_2908	08/28/2026	Internal	Rohini	dev	Documentation Agent	In progress - 60% complete	1
+sap51_1708_2908	08/28/2026	Internal	Priya	create	SCD Type 2 Implementation	Documentation updated	1
+sap51_1708_2908	08/28/2026	Internal	Mansi	dev	Demand Forecasting Pipeline	In progress - 60% complete	0
+sap51_1708_2908	08/28/2026	Internal	Avinash	create	Multi-Source Data Ingestion	In progress - 30% complete	1
+sap51_1708_2908	08/28/2026	Internal	Akshaya	create	Error Handling & Retry Logic	In progress - 75% complete	0
+sap51_1708_2908	08/28/2026	Internal	Afrin	improve	Customer 360 Dashboard	In progress - 85% complete	0
+sap51_1708_2908	08/27/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/96	Viresh	improve	Customer 360 App Enhancements	In progress - 45% complete	0
+sap51_1708_2908	08/27/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/97	Vikas	create	GitHub Actions Workflow	In progress - 75% complete	0
+sap51_1708_2908	08/27/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/98	Spandana	dev	DLT Expectations Setup	In progress - 85% complete	1
+sap51_1708_2908	08/27/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/99	Siddhartha	create	Customer RFM Analysis	In progress - 30% complete	0
+sap51_1708_2908	08/27/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/100	Rohini	create	Performance Agent Setup	Code review feedback addressed	1
+sap51_1708_2908	08/27/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/101	Priya	dev	Silver Layer Transformations	In progress - 60% complete	1
+sap51_1708_2908	08/27/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/102	Mansi	create	Product Recommendation Model	In progress - 60% complete	1
+sap51_1708_2908	08/27/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/103	Avinash	dev	AutoLoader Configuration	Documentation updated	1
+sap51_1708_2908	08/27/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/104	Akshaya	improve	Production Job Monitoring	In progress - 60% complete	1
+sap51_1708_2908	08/27/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/105	Afrin	dev	Sales StoryBuilders/ImpactMakers Dashboard	Integration tests passing	1
+sap51_1708_2908	08/26/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/86	Viresh	dev	Intelligence Hub App Integration	In progress - 45% complete	1
+sap51_1708_2908	08/26/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/87	Vikas	improve	CI/CD Pipeline Enhancement	In progress - 85% complete	1
+sap51_1708_2908	08/26/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/88	Spandana	create	Streaming CDC Implementation	Documentation updated	0
+sap51_1708_2908	08/26/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/89	Siddhartha	dev	Gold Layer Business Marts	In progress - 75% complete	0
+sap51_1708_2908	08/26/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/90	Rohini	dev	Data Quality Agent Implementation	In progress - 60% complete	1
+sap51_1708_2908	08/26/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/91	Priya	improve	DBT Test Coverage Expansion	In progress - 30% complete	0
+sap51_1708_2908	08/26/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/92	Mansi	dev	Churn Prediction Model Training	In progress - 75% complete	1
+sap51_1708_2908	08/26/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/93	Avinash	improve	Bronze Layer Schema Evolution	Unit tests added	1
+sap51_1708_2908	08/26/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/94	Akshaya	dev	Job Dependency Management	Code review feedback addressed	1
+sap51_1708_2908	08/26/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/95	Afrin	create	Executive KPI Dashboard	In progress - 85% complete	1
+sap51_1708_2908	08/25/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/83/changes	Viresh	dev	Develop Biz Apps with Lakebase	Unit tests added	1
+sap51_1708_2908	08/25/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/84	Vikas	dev	DAB Deployment Automation	In progress - 60% complete	1
+sap51_1708_2908	08/25/2026	Internal	Spandana	improve	CDC Changes DLT Pipelines	In progress - 45% complete	0
+sap51_1708_2908	08/25/2026	Internal	Siddhartha	improve	Core StoryBuilders/ImpactMakers	In progress - 60% complete	1
+sap51_1708_2908	08/25/2026	Internal	Rohini	create	AI Agents - Training Logs	Integration tests passing	1
+sap51_1708_2908	08/25/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/85	Priya	dev	DBT Cost Usage Tracking Auto Review	In progress - 60% complete	1
+sap51_1708_2908	08/25/2026	Internal	Mansi	create	ModelTrainers Models EndPoint Expose and Test	In progress - 60% complete	0
+sap51_1708_2908	08/25/2026	Internal	Avinash	create	Lakehouse Full Load - Manual	Integration tests passing	0
+sap51_1708_2908	08/25/2026	Internal	Akshaya	improve	Fix DevOps Jobs	In progress - 60% complete	0
+sap51_1708_2908	08/25/2026	Internal	Afrin	dev	Dashboard Upgrades - Review Feedbacks	In progress - 85% complete	0
+sap51_1708_2908	08/24/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/82	Viresh	dev	Unity Catalog Federation	In progress - 75% complete	1
+sap51_1708_2908	08/24/2026	Internal	Vikas	create	DevOps Documentation	In progress - 75% complete	1
+sap51_1708_2908	08/24/2026	Internal	Spandana	improve	Materialized Views Optimization	Unit tests added	1
+sap51_1708_2908	08/24/2026	Internal	Siddhartha	create	Metric Aggregations	In progress - 85% complete	1
+sap51_1708_2908	08/24/2026	Internal	Rohini	create	Agent Monitoring Dashboard	In progress - 45% complete	1
+sap51_1708_2908	08/24/2026	Internal	Priya	dev	DBT Incremental Patterns	In progress - 60% complete	1
+sap51_1708_2908	08/24/2026	Internal	Mansi	improve	MLflow Model Registry Setup	In progress - 75% complete	1
+sap51_1708_2908	08/24/2026	Internal	Avinash	improve	Data Generator Enhancements	In progress - 30% complete	1
+sap51_1708_2908	08/24/2026	Internal	Akshaya	improve	Workflow Automation	Integration tests passing	1
+sap51_1708_2908	08/24/2026	Internal	Afrin	improve	Dashboard Performance Tuning	In progress - 45% complete	1
+sap51_1708_2908	08/21/2026	Internal	Viresh	dev	Lakebase Postgres Sync Setup	In progress - 75% complete	0
+sap51_1708_2908	08/21/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/73	Vikas	improve	Checkpoint Framework Updates	Unit tests added	1
+sap51_1708_2908	08/21/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/74	Spandana	create	Bronze-Silver DLT Pipeline	In progress - 30% complete	0
+sap51_1708_2908	08/21/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/75	Siddhartha	improve	Ecommerce Intelligence Pipeline	In progress - 45% complete	1
+sap51_1708_2908	08/21/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/76	Rohini	improve	Multi-Agent Coordination	In progress - 75% complete	0
+sap51_1708_2908	08/21/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/77	Priya	improve	Data Quality Framework	In progress - 60% complete	1
+sap51_1708_2908	08/21/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/78	Mansi	improve	Feature Engineering Framework	Integration tests passing	1
+sap51_1708_2908	08/21/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/79	Avinash	dev	External API Integration	In progress - 60% complete	1
+sap51_1708_2908	08/21/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/80	Akshaya	dev	Job Scheduling Optimization	In progress - 60% complete	1
+sap51_1708_2908	08/21/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/81	Afrin	create	ML Model Monitoring Dashboard	In progress - 30% complete	0
+sap51_1708_2908	08/20/2026	Internal	Viresh	improve	RAG Pipeline Optimization	In progress - 85% complete	1
+sap51_1708_2908	08/20/2026	Internal	Vikas	dev	Job Orchestration Framework	In progress - 85% complete	1
+sap51_1708_2908	08/20/2026	Internal	Spandana	improve	Real-time Data Quality	In progress - 45% complete	0
+sap51_1708_2908	08/20/2026	Internal	Siddhartha	dev	Product Performance StoryBuilders/ImpactMakers	In progress - 45% complete	0
+sap51_1708_2908	08/20/2026	Internal	Rohini	dev	Documentation Agent	In progress - 75% complete	1
+sap51_1708_2908	08/20/2026	Internal	Priya	create	SCD Type 2 Implementation	In progress - 45% complete	1
+sap51_1708_2908	08/20/2026	Internal	Mansi	dev	Demand Forecasting Pipeline	In progress - 75% complete	1
+sap51_1708_2908	08/20/2026	Internal	Avinash	create	Multi-Source Data Ingestion	In progress - 75% complete	1
+sap51_1708_2908	08/20/2026	Internal	Akshaya	create	Error Handling & Retry Logic	In progress - 60% complete	1
+sap51_1708_2908	08/20/2026	Internal	Afrin	review	Customer 360 Dashboard	Code review feedback addressed	1
+sap51_1708_2908	08/19/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/63	Viresh	improve	Customer 360 App Enhancements	Code review feedback addressed	0
+sap51_1708_2908	08/19/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/64	Vikas	create	GitHub Actions Workflow	In progress - 75% complete	1
+sap51_1708_2908	08/19/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/65	Spandana	dev	DLT Expectations Setup	Documentation updated	0
+sap51_1708_2908	08/19/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/66	Siddhartha	create	Customer RFM Analysis	In progress - 85% complete	1
+sap51_1708_2908	08/19/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/67	Rohini	create	Performance Agent Setup	In progress - 30% complete	1
+sap51_1708_2908	08/19/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/68	Priya	dev	Silver Layer Transformations	In progress - 75% complete	0
+sap51_1708_2908	08/19/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/69	Mansi	create	Product Recommendation Model	In progress - 75% complete	0
+sap51_1708_2908	08/19/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/70	Avinash	dev	AutoLoader Configuration	Documentation updated	1
+sap51_1708_2908	08/19/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/71	Akshaya	improve	Production Job Monitoring	In progress - 30% complete	1
+sap51_1708_2908	08/19/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/72	Afrin	dev	Sales StoryBuilders/ImpactMakers Dashboard	In progress - 75% complete	1
+sap51_1708_2908	08/18/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/53	Viresh	dev	Intelligence Hub App Integration	In progress - 75% complete	0
+sap51_1708_2908	08/18/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/54	Vikas	improve	CI/CD Pipeline Enhancement	In progress - 30% complete	1
+sap51_1708_2908	08/18/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/55	Spandana	create	Streaming CDC Implementation	Unit tests added	0
+sap51_1708_2908	08/18/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/56	Siddhartha	dev	Gold Layer Business Marts	In progress - 60% complete	1
+sap51_1708_2908	08/18/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/57	Rohini	dev	Data Quality Agent Implementation	In progress - 75% complete	1
+sap51_1708_2908	08/18/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/58	Priya	improve	DBT Test Coverage Expansion	In progress - 85% complete	1
+sap51_1708_2908	08/18/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/59	Mansi	dev	Churn Prediction Model Training	In progress - 45% complete	0
+sap51_1708_2908	08/18/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/60	Avinash	improve	Bronze Layer Schema Evolution	Unit tests added	0
+sap51_1708_2908	08/18/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/61	Akshaya	dev	Job Dependency Management	Integration tests passing	1
+sap51_1708_2908	08/18/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/62	Afrin	create	Executive KPI Dashboard	In progress - 30% complete	1
+sap51_1708_2908	08/17/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/50/changes	Viresh	dev	Develop Biz Apps with Lakebase	Unit tests added	0
+sap51_1708_2908	08/17/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/51	Vikas	dev	DAB Deployment Automation	Unit tests added	1
+sap51_1708_2908	08/17/2026	Internal	Spandana	dev	CDC Changes DLT Pipelines	Code review feedback addressed	1
+sap51_1708_2908	08/17/2026	Internal	Siddhartha	improve	Core StoryBuilders/ImpactMakers	In progress - 45% complete	0
+sap51_1708_2908	08/17/2026	Internal	Rohini	create	AI Agents - Training Logs	Integration tests passing	1
+sap51_1708_2908	08/17/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/52	Priya	dev	DBT Cost Usage Tracking Auto Review	In progress - 85% complete	0
+sap51_1708_2908	08/17/2026	Internal	Mansi	testing	ModelTrainers Models EndPoint Expose and Test	Testing in progress	0
+sap51_1708_2908	08/17/2026	Internal	Avinash	create	Lakehouse Full Load - Manual	Documentation updated	1
+sap51_1708_2908	08/17/2026	Internal	Akshaya	improve	Fix DevOps Jobs	In progress - 85% complete	1
+sap51_1708_2908	08/17/2026	Internal	Afrin	dev	Dashboard Upgrades - Review Feedbacks	In progress - 75% complete	1
+sap51_0108_1408	08/14/2026	Internal	Viresh	improve	RAG Pipeline Optimization	In progress - 45% complete	1
+sap51_0108_1408	08/14/2026	Internal	Vikas	review	Job Orchestration Framework	Integration tests passing	1
+sap51_0108_1408	08/14/2026	Internal	Spandana	improve	Real-time Data Quality	In progress - 45% complete	0
+sap51_0108_1408	08/14/2026	Internal	Siddhartha	dev	Product Performance StoryBuilders/ImpactMakers	In progress - 85% complete	1
+sap51_0108_1408	08/14/2026	Internal	Rohini	dev	Documentation Agent	In progress - 75% complete	1
+sap51_0108_1408	08/14/2026	Internal	Priya	create	SCD Type 2 Implementation	Documentation updated	1
+sap51_0108_1408	08/14/2026	Internal	Mansi	dev	Demand Forecasting Pipeline	In progress - 45% complete	0
+sap51_0108_1408	08/14/2026	Internal	Avinash	create	Multi-Source Data Ingestion	In progress - 30% complete	0
+sap51_0108_1408	08/14/2026	Internal	Akshaya	create	Error Handling & Retry Logic	Code review feedback addressed	1
+sap51_0108_1408	08/14/2026	Internal	Afrin	improve	Customer 360 Dashboard	Integration tests passing	1
+sap51_0108_1408	08/13/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/40	Viresh	improve	Customer 360 App Enhancements	In progress - 85% complete	1
+sap51_0108_1408	08/13/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/41	Vikas	create	GitHub Actions Workflow	In progress - 60% complete	1
+sap51_0108_1408	08/13/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/42	Spandana	create	DLT Expectations Setup	In progress - 45% complete	0
+sap51_0108_1408	08/13/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/43	Siddhartha	create	Customer RFM Analysis	In progress - 85% complete	1
+sap51_0108_1408	08/13/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/44	Rohini	dev	Performance Agent Setup	In progress - 85% complete	0
+sap51_0108_1408	08/13/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/45	Priya	dev	Silver Layer Transformations	In progress - 85% complete	1
+sap51_0108_1408	08/13/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/46	Mansi	create	Product Recommendation Model	In progress - 85% complete	1
+sap51_0108_1408	08/13/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/47	Avinash	dev	AutoLoader Configuration	In progress - 75% complete	1
+sap51_0108_1408	08/13/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/48	Akshaya	improve	Production Job Monitoring	In progress - 45% complete	0
+sap51_0108_1408	08/13/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/49	Afrin	dev	Sales StoryBuilders/ImpactMakers Dashboard	Documentation updated	1
+sap51_0108_1408	08/12/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/30	Viresh	dev	Intelligence Hub App Integration	In progress - 30% complete	1
+sap51_0108_1408	08/12/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/31	Vikas	improve	CI/CD Pipeline Enhancement	Unit tests added	0
+sap51_0108_1408	08/12/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/32	Spandana	create	Streaming CDC Implementation	Unit tests added	1
+sap51_0108_1408	08/12/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/33	Siddhartha	dev	Gold Layer Business Marts	In progress - 75% complete	1
+sap51_0108_1408	08/12/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/34	Rohini	dev	Data Quality Agent Implementation	Documentation updated	1
+sap51_0108_1408	08/12/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/35	Priya	improve	DBT Test Coverage Expansion	Integration tests passing	1
+sap51_0108_1408	08/12/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/36	Mansi	dev	Churn Prediction Model Training	In progress - 85% complete	0
+sap51_0108_1408	08/12/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/37	Avinash	improve	Bronze Layer Schema Evolution	In progress - 60% complete	1
+sap51_0108_1408	08/12/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/38	Akshaya	dev	Job Dependency Management	In progress - 60% complete	0
+sap51_0108_1408	08/12/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/39	Afrin	dev	Executive KPI Dashboard	Code review feedback addressed	1
+sap51_0108_1408	08/11/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/27/changes	Viresh	blocked	Develop Biz Apps with Lakebase	Blocked by data availability	1
+sap51_0108_1408	08/11/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/28	Vikas	dev	DAB Deployment Automation	In progress - 60% complete	1
+sap51_0108_1408	08/11/2026	Internal	Spandana	dev	CDC Changes DLT Pipelines	In progress - 85% complete	1
+sap51_0108_1408	08/11/2026	Internal	Siddhartha	improve	Core StoryBuilders/ImpactMakers	In progress - 45% complete	0
+sap51_0108_1408	08/11/2026	Internal	Rohini	create	AI Agents - Training Logs	Documentation updated	1
+sap51_0108_1408	08/11/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/29	Priya	dev	DBT Cost Usage Tracking Auto Review	In progress - 75% complete	1
+sap51_0108_1408	08/11/2026	Internal	Mansi	create	ModelTrainers Models EndPoint Expose and Test	In progress - 30% complete	1
+sap51_0108_1408	08/11/2026	Internal	Avinash	create	Lakehouse Full Load - Manual	In progress - 75% complete	1
+sap51_0108_1408	08/11/2026	Internal	Akshaya	improve	Fix DevOps Jobs	In progress - 30% complete	1
+sap51_0108_1408	08/11/2026	Internal	Afrin	dev	Dashboard Upgrades - Review Feedbacks	Documentation updated	1
+sap51_0108_1408	08/10/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/26	Viresh	dev	Unity Catalog Federation	In progress - 45% complete	0
+sap51_0108_1408	08/10/2026	Internal	Vikas	create	DevOps Documentation	In progress - 75% complete	1
+sap51_0108_1408	08/10/2026	Internal	Spandana	improve	Materialized Views Optimization	In progress - 60% complete	1
+sap51_0108_1408	08/10/2026	Internal	Siddhartha	create	Metric Aggregations	In progress - 85% complete	0
+sap51_0108_1408	08/10/2026	Internal	Rohini	create	Agent Monitoring Dashboard	Documentation updated	0
+sap51_0108_1408	08/10/2026	Internal	Priya	dev	DBT Incremental Patterns	Unit tests added	1
+sap51_0108_1408	08/10/2026	Internal	Mansi	create	MLflow Model Registry Setup	Unit tests added	1
+sap51_0108_1408	08/10/2026	Internal	Avinash	improve	Data Generator Enhancements	In progress - 45% complete	1
+sap51_0108_1408	08/10/2026	Internal	Akshaya	improve	Workflow Automation	Integration tests passing	0
+sap51_0108_1408	08/10/2026	Internal	Afrin	improve	Dashboard Performance Tuning	In progress - 75% complete	1
+sap51_0108_1408	08/07/2026	Internal	Viresh	dev	Lakebase Postgres Sync Setup	In progress - 60% complete	0
+sap51_0108_1408	08/07/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/17	Vikas	improve	Checkpoint Framework Updates	In progress - 85% complete	1
+sap51_0108_1408	08/07/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/18	Spandana	create	Bronze-Silver DLT Pipeline	In progress - 30% complete	1
+sap51_0108_1408	08/07/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/19	Siddhartha	improve	Ecommerce Intelligence Pipeline	In progress - 60% complete	1
+sap51_0108_1408	08/07/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/20	Rohini	improve	Multi-Agent Coordination	Code review feedback addressed	1
+sap51_0108_1408	08/07/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/21	Priya	improve	Data Quality Framework	In progress - 30% complete	1
+sap51_0108_1408	08/07/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/22	Mansi	improve	Feature Engineering Framework	In progress - 60% complete	1
+sap51_0108_1408	08/07/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/23	Avinash	dev	External API Integration	In progress - 30% complete	0
+sap51_0108_1408	08/07/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/24	Akshaya	dev	Job Scheduling Optimization	In progress - 85% complete	1
+sap51_0108_1408	08/07/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/25	Afrin	create	ML Model Monitoring Dashboard	Integration tests passing	1
+sap51_0108_1408	08/06/2026	Internal	Viresh	create	RAG Pipeline Optimization	Documentation updated	0
+sap51_0108_1408	08/06/2026	Internal	Vikas	dev	Job Orchestration Framework	In progress - 75% complete	1
+sap51_0108_1408	08/06/2026	Internal	Spandana	improve	Real-time Data Quality	Documentation updated	1
+sap51_0108_1408	08/06/2026	Internal	Siddhartha	dev	Product Performance StoryBuilders/ImpactMakers	In progress - 85% complete	1
+sap51_0108_1408	08/06/2026	Internal	Rohini	dev	Documentation Agent	In progress - 85% complete	1
+sap51_0108_1408	08/06/2026	Internal	Priya	create	SCD Type 2 Implementation	In progress - 45% complete	0
+sap51_0108_1408	08/06/2026	Internal	Mansi	dev	Demand Forecasting Pipeline	Documentation updated	1
+sap51_0108_1408	08/06/2026	Internal	Avinash	create	Multi-Source Data Ingestion	In progress - 75% complete	1
+sap51_0108_1408	08/06/2026	Internal	Akshaya	create	Error Handling & Retry Logic	In progress - 75% complete	1
+sap51_0108_1408	08/06/2026	Internal	Afrin	improve	Customer 360 Dashboard	In progress - 30% complete	1
+sap51_0108_1408	08/05/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/7	Viresh	improve	Customer 360 App Enhancements	In progress - 45% complete	1
+sap51_0108_1408	08/05/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/8	Vikas	create	GitHub Actions Workflow	Integration tests passing	1
+sap51_0108_1408	08/05/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/9	Spandana	create	DLT Expectations Setup	In progress - 30% complete	0
+sap51_0108_1408	08/05/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/10	Siddhartha	create	Customer RFM Analysis	Documentation updated	1
+sap51_0108_1408	08/05/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/11	Rohini	create	Performance Agent Setup	Integration tests passing	0
+sap51_0108_1408	08/05/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/12	Priya	dev	Silver Layer Transformations	In progress - 45% complete	0
+sap51_0108_1408	08/05/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/13	Mansi	create	Product Recommendation Model	In progress - 85% complete	1
+sap51_0108_1408	08/05/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/14	Avinash	dev	AutoLoader Configuration	In progress - 85% complete	1
+sap51_0108_1408	08/05/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/15	Akshaya	improve	Production Job Monitoring	In progress - 85% complete	1
+sap51_0108_1408	08/05/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/16	Afrin	improve	Sales StoryBuilders/ImpactMakers Dashboard	In progress - 30% complete	1
+sap51_0108_1408	08/04/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/0	Viresh	dev	Intelligence Hub App Integration	In progress - 30% complete	0
+sap51_0108_1408	08/04/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/1	Vikas	dev	CI/CD Pipeline Enhancement	In progress - 75% complete	1
+sap51_0108_1408	08/04/2026	Internal	Spandana	create	Streaming CDC Implementation	In progress - 30% complete	1
+sap51_0108_1408	08/04/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/2	Siddhartha	dev	Gold Layer Business Marts	In progress - 75% complete	0
+sap51_0108_1408	08/04/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/3	Rohini	dev	Data Quality Agent Implementation	In progress - 75% complete	1
+sap51_0108_1408	08/04/2026	Internal	Priya	improve	DBT Test Coverage Expansion	Code review feedback addressed	1
+sap51_0108_1408	08/04/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/4	Mansi	dev	Churn Prediction Model Training	In progress - 75% complete	1
+sap51_0108_1408	08/04/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/5	Avinash	dev	Bronze Layer Schema Evolution	Code review feedback addressed	1
+sap51_0108_1408	08/04/2026	https://github.com/SkillAIPath11/SkillAIPath/pull/6	Akshaya	dev	Job Dependency Management	Unit tests added	1
+sap51_0108_1408	08/04/2026	Internal	Afrin	create	Executive KPI Dashboard	In progress - 60% complete	1
+sap51_0108_1408	08/03/2026	Internal	Viresh	dev	Develop Biz Apps with Lakebase	Unit tests added	0
+sap51_0108_1408	08/03/2026	Internal	Vikas	dev	DAB Deployment Automation	Documentation updated	1
+sap51_0108_1408	08/03/2026	Internal	Spandana	dev	CDC Changes DLT Pipelines	In progress - 30% complete	1
+sap51_0108_1408	08/03/2026	Internal	Siddhartha	improve	Core StoryBuilders/ImpactMakers	Code review feedback addressed	0
+sap51_0108_1408	08/03/2026	Internal	Rohini	create	AI Agents - Training Logs	Code review feedback addressed	1
+sap51_0108_1408	08/03/2026	Internal	Priya	dev	DBT Cost Usage Tracking Auto Review	Integration tests passing	1
+sap51_0108_1408	08/03/2026	Internal	Mansi	create	ModelTrainers Models EndPoint Expose and Test	In progress - 45% complete	0
+sap51_0108_1408	08/03/2026	Internal	Avinash	create	Lakehouse Full Load - Manual	In progress - 75% complete	1
+sap51_0108_1408	08/03/2026	Internal	Akshaya	improve	Fix DevOps Jobs	In progress - 60% complete	1
+sap51_0108_1408	08/03/2026	Internal	Afrin	dev	Dashboard Upgrades - Review Feedbacks	In progress - 85% complete	1
+sap51_1607_3007	07/30/2026	Internal	Viresh	completed	Lakebase Postgres Sync Setup	Completed and deployed	1
+sap51_1607_3007	07/30/2026	Internal	Vikas	improve	Checkpoint Framework Updates	In progress - 45% complete	1
+sap51_1607_3007	07/30/2026	Internal	Spandana	create	Bronze-Silver DLT Pipeline	In progress - 45% complete	1
+sap51_1607_3007	07/30/2026	Internal	Siddhartha	improve	Ecommerce Intelligence Pipeline	In progress - 45% complete	1
+sap51_1607_3007	07/30/2026	Internal	Rohini	improve	Multi-Agent Coordination	In progress - 45% complete	1
+sap51_1607_3007	07/30/2026	Internal	Priya	improve	Data Quality Framework	In progress - 85% complete	0
+sap51_1607_3007	07/30/2026	Internal	Mansi	improve	Feature Engineering Framework	Integration tests passing	1
+sap51_1607_3007	07/30/2026	Internal	Avinash	dev	External API Integration	In progress - 30% complete	0
+sap51_1607_3007	07/30/2026	Internal	Akshaya	dev	Job Scheduling Optimization	In progress - 30% complete	1
+sap51_1607_3007	07/30/2026	Internal	Afrin	create	ML Model Monitoring Dashboard	Integration tests passing	0
+sap51_1607_3007	07/29/2026	Internal	Viresh	improve	RAG Pipeline Optimization	In progress - 75% complete	0
+sap51_1607_3007	07/29/2026	Internal	Vikas	improve	Job Orchestration Framework	In progress - 75% complete	1
+sap51_1607_3007	07/29/2026	Internal	Spandana	improve	Real-time Data Quality	Code review feedback addressed	1
+sap51_1607_3007	07/29/2026	Internal	Siddhartha	dev	Product Performance StoryBuilders/ImpactMakers	In progress - 85% complete	1
+sap51_1607_3007	07/29/2026	Internal	Rohini	dev	Documentation Agent	In progress - 45% complete	1
+sap51_1607_3007	07/29/2026	Internal	Priya	create	SCD Type 2 Implementation	Unit tests added	1
+sap51_1607_3007	07/29/2026	Internal	Mansi	dev	Demand Forecasting Pipeline	In progress - 75% complete	0
+sap51_1607_3007	07/29/2026	Internal	Avinash	create	Multi-Source Data Ingestion	Integration tests passing	1
+sap51_1607_3007	07/29/2026	Internal	Akshaya	create	Error Handling & Retry Logic	In progress - 85% complete	0
+sap51_1607_3007	07/29/2026	Internal	Afrin	improve	Customer 360 Dashboard	In progress - 30% complete	0
+sap51_1607_3007	07/28/2026	Internal	Viresh	improve	Customer 360 App Enhancements	Unit tests added	1
+sap51_1607_3007	07/28/2026	Internal	Vikas	improve	GitHub Actions Workflow	In progress - 45% complete	0
+sap51_1607_3007	07/28/2026	Internal	Spandana	dev	DLT Expectations Setup	Code review feedback addressed	0
+sap51_1607_3007	07/28/2026	Internal	Siddhartha	dev	Customer RFM Analysis	In progress - 30% complete	1
+sap51_1607_3007	07/28/2026	Internal	Rohini	create	Performance Agent Setup	Unit tests added	0
+sap51_1607_3007	07/28/2026	Internal	Priya	dev	Silver Layer Transformations	In progress - 85% complete	1
+sap51_1607_3007	07/28/2026	Internal	Mansi	create	Product Recommendation Model	Documentation updated	1
+sap51_1607_3007	07/28/2026	Internal	Avinash	dev	AutoLoader Configuration	Code review feedback addressed	1
+sap51_1607_3007	07/28/2026	Internal	Akshaya	improve	Production Job Monitoring	Documentation updated	1
+sap51_1607_3007	07/28/2026	Internal	Afrin	improve	Sales StoryBuilders/ImpactMakers Dashboard	Integration tests passing	1
+sap51_1607_3007	07/27/2026	Internal	Viresh	dev	Intelligence Hub App Integration	In progress - 85% complete	0
+sap51_1607_3007	07/27/2026	Internal	Vikas	improve	CI/CD Pipeline Enhancement	Integration tests passing	0
+sap51_1607_3007	07/27/2026	Internal	Spandana	create	Streaming CDC Implementation	In progress - 85% complete	0
+sap51_1607_3007	07/27/2026	Internal	Siddhartha	dev	Gold Layer Business Marts	In progress - 30% complete	1
+sap51_1607_3007	07/27/2026	Internal	Rohini	dev	Data Quality Agent Implementation	In progress - 30% complete	0
+sap51_1607_3007	07/27/2026	Internal	Priya	improve	DBT Test Coverage Expansion	In progress - 30% complete	1
+sap51_1607_3007	07/27/2026	Internal	Mansi	dev	Churn Prediction Model Training	In progress - 75% complete	1
+sap51_1607_3007	07/27/2026	Internal	Avinash	improve	Bronze Layer Schema Evolution	In progress - 75% complete	1
+sap51_1607_3007	07/27/2026	Internal	Akshaya	dev	Job Dependency Management	In progress - 75% complete	1
+sap51_1607_3007	07/27/2026	Internal	Afrin	create	Executive KPI Dashboard	In progress - 75% complete	1
+sap51_1607_3007	07/24/2026	Internal	Viresh	dev	Develop Biz Apps with Lakebase	In progress - 75% complete	0
+sap51_1607_3007	07/24/2026	Internal	Vikas	dev	DAB Deployment Automation	In progress - 75% complete	1
+sap51_1607_3007	07/24/2026	Internal	Spandana	dev	CDC Changes DLT Pipelines	In progress - 85% complete	1
+sap51_1607_3007	07/24/2026	Internal	Siddhartha	improve	Core StoryBuilders/ImpactMakers	In progress - 75% complete	0
+sap51_1607_3007	07/24/2026	Internal	Rohini	dev	AI Agents - Training Logs	In progress - 75% complete	1
+sap51_1607_3007	07/24/2026	Internal	Priya	dev	DBT Cost Usage Tracking Auto Review	In progress - 85% complete	1
+sap51_1607_3007	07/24/2026	Internal	Mansi	create	ModelTrainers Models EndPoint Expose and Test	In progress - 85% complete	1
+sap51_1607_3007	07/24/2026	Internal	Avinash	create	Lakehouse Full Load - Manual	In progress - 85% complete	0
+sap51_1607_3007	07/24/2026	Internal	Akshaya	improve	Fix DevOps Jobs	Integration tests passing	1
+sap51_1607_3007	07/24/2026	Internal	Afrin	dev	Dashboard Upgrades - Review Feedbacks	In progress - 60% complete	1
+sap51_1607_3007	07/23/2026	Internal	Viresh	dev	Unity Catalog Federation	Unit tests added	1
+sap51_1607_3007	07/23/2026	Internal	Vikas	create	DevOps Documentation	Code review feedback addressed	1
+sap51_1607_3007	07/23/2026	Internal	Spandana	improve	Materialized Views Optimization	In progress - 75% complete	1
+sap51_1607_3007	07/23/2026	Internal	Siddhartha	create	Metric Aggregations	Unit tests added	1
+sap51_1607_3007	07/23/2026	Internal	Rohini	dev	Agent Monitoring Dashboard	In progress - 75% complete	1
+sap51_1607_3007	07/23/2026	Internal	Priya	dev	DBT Incremental Patterns	In progress - 85% complete	0
+sap51_1607_3007	07/23/2026	Internal	Mansi	create	MLflow Model Registry Setup	In progress - 85% complete	0
+sap51_1607_3007	07/23/2026	Internal	Avinash	improve	Data Generator Enhancements	In progress - 60% complete	1
+sap51_1607_3007	07/23/2026	Internal	Akshaya	improve	Workflow Automation	In progress - 75% complete	0
+sap51_1607_3007	07/23/2026	Internal	Afrin	improve	Dashboard Performance Tuning	In progress - 85% complete	0
+sap51_1607_3007	07/22/2026	Internal	Viresh	create	Lakebase Postgres Sync Setup	In progress - 75% complete	1
+sap51_1607_3007	07/22/2026	Internal	Vikas	improve	Checkpoint Framework Updates	In progress - 60% complete	1
+sap51_1607_3007	07/22/2026	Internal	Spandana	create	Bronze-Silver DLT Pipeline	Code review feedback addressed	0
+sap51_1607_3007	07/22/2026	Internal	Siddhartha	improve	Ecommerce Intelligence Pipeline	In progress - 60% complete	1
+sap51_1607_3007	07/22/2026	Internal	Rohini	improve	Multi-Agent Coordination	Documentation updated	0
+sap51_1607_3007	07/22/2026	Internal	Priya	improve	Data Quality Framework	In progress - 45% complete	1
+sap51_1607_3007	07/22/2026	Internal	Mansi	improve	Feature Engineering Framework	Unit tests added	1
+sap51_1607_3007	07/22/2026	Internal	Avinash	dev	External API Integration	In progress - 85% complete	1
+sap51_1607_3007	07/22/2026	Internal	Akshaya	dev	Job Scheduling Optimization	Unit tests added	1
+sap51_1607_3007	07/22/2026	Internal	Afrin	create	ML Model Monitoring Dashboard	In progress - 30% complete	1
+sap51_1607_3007	07/21/2026	Internal	Viresh	improve	RAG Pipeline Optimization	In progress - 75% complete	1
+sap51_1607_3007	07/21/2026	Internal	Vikas	dev	Job Orchestration Framework	In progress - 30% complete	1
+sap51_1607_3007	07/21/2026	Internal	Spandana	improve	Real-time Data Quality	In progress - 30% complete	1
+sap51_1607_3007	07/21/2026	Internal	Siddhartha	dev	Product Performance StoryBuilders/ImpactMakers	In progress - 60% complete	0
+sap51_1607_3007	07/21/2026	Internal	Rohini	completed	Documentation Agent	Completed and deployed	1
+sap51_1607_3007	07/21/2026	Internal	Priya	create	SCD Type 2 Implementation	In progress - 75% complete	0
+sap51_1607_3007	07/21/2026	Internal	Mansi	create	Demand Forecasting Pipeline	Documentation updated	0
+sap51_1607_3007	07/21/2026	Internal	Avinash	create	Multi-Source Data Ingestion	In progress - 85% complete	1
+sap51_1607_3007	07/21/2026	Internal	Akshaya	create	Error Handling & Retry Logic	In progress - 75% complete	1
+sap51_1607_3007	07/21/2026	Internal	Afrin	improve	Customer 360 Dashboard	Unit tests added	1
+sap51_1607_3007	07/20/2026	Internal	Viresh	improve	Customer 360 App Enhancements	Code review feedback addressed	1
+sap51_1607_3007	07/20/2026	Internal	Vikas	create	GitHub Actions Workflow	In progress - 75% complete	1
+sap51_1607_3007	07/20/2026	Internal	Spandana	dev	DLT Expectations Setup	Documentation updated	0
+sap51_1607_3007	07/20/2026	Internal	Siddhartha	create	Customer RFM Analysis	In progress - 60% complete	1
+sap51_1607_3007	07/20/2026	Internal	Rohini	create	Performance Agent Setup	Documentation updated	1
+sap51_1607_3007	07/20/2026	Internal	Priya	dev	Silver Layer Transformations	In progress - 60% complete	1
+sap51_1607_3007	07/20/2026	Internal	Mansi	create	Product Recommendation Model	In progress - 75% complete	1
+sap51_1607_3007	07/20/2026	Internal	Avinash	dev	AutoLoader Configuration	Code review feedback addressed	1
+sap51_1607_3007	07/20/2026	Internal	Akshaya	improve	Production Job Monitoring	In progress - 60% complete	1
+sap51_1607_3007	07/20/2026	Internal	Afrin	dev	Sales StoryBuilders/ImpactMakers Dashboard	In progress - 85% complete	1
+sap51_1607_3007	07/17/2026	Internal	Viresh	dev	Intelligence Hub App Integration	In progress - 60% complete	1
+sap51_1607_3007	07/17/2026	Internal	Vikas	dev	CI/CD Pipeline Enhancement	Unit tests added	1
+sap51_1607_3007	07/17/2026	Internal	Spandana	create	Streaming CDC Implementation	In progress - 30% complete	1
+sap51_1607_3007	07/17/2026	Internal	Siddhartha	dev	Gold Layer Business Marts	Code review feedback addressed	1
+sap51_1607_3007	07/17/2026	Internal	Rohini	dev	Data Quality Agent Implementation	In progress - 60% complete	1
+sap51_1607_3007	07/17/2026	Internal	Priya	improve	DBT Test Coverage Expansion	In progress - 85% complete	1
+sap51_1607_3007	07/17/2026	Internal	Mansi	dev	Churn Prediction Model Training	In progress - 60% complete	1
+sap51_1607_3007	07/17/2026	Internal	Avinash	improve	Bronze Layer Schema Evolution	In progress - 45% complete	1
+sap51_1607_3007	07/17/2026	Internal	Akshaya	dev	Job Dependency Management	In progress - 75% complete	0
+sap51_1607_3007	07/17/2026	Internal	Afrin	create	Executive KPI Dashboard	Unit tests added	1
+sap51_1607_3007	07/16/2026	Internal	Viresh	dev	Develop Biz Apps with Lakebase	Unit tests added	1
+sap51_1607_3007	07/16/2026	Internal	Vikas	dev	DAB Deployment Automation	In progress - 30% complete	1
+sap51_1607_3007	07/16/2026	Internal	Spandana	dev	CDC Changes DLT Pipelines	In progress - 45% complete	1
+sap51_1607_3007	07/16/2026	Internal	Siddhartha	dev	Core StoryBuilders/ImpactMakers	In progress - 30% complete	0
+sap51_1607_3007	07/16/2026	Internal	Rohini	create	AI Agents - Training Logs	In progress - 45% complete	1
+sap51_1607_3007	07/16/2026	Internal	Priya	improve	DBT Cost Usage Tracking Auto Review	In progress - 30% complete	0
+sap51_1607_3007	07/16/2026	Internal	Mansi	create	ModelTrainers Models EndPoint Expose and Test	Unit tests added	1
+sap51_1607_3007	07/16/2026	Internal	Avinash	create	Lakehouse Full Load - Manual	In progress - 45% complete	1
+sap51_1607_3007	07/16/2026	Internal	Akshaya	improve	Fix DevOps Jobs	In progress - 60% complete	1
+sap51_1607_3007	07/16/2026	Internal	Afrin	dev	Dashboard Upgrades - Review Feedbacks	Unit tests added	1
+sap51_0107_1507	07/15/2026	Internal	Viresh	create	Lakebase Postgres Sync Setup	In progress - 30% complete	0
+sap51_0107_1507	07/15/2026	Internal	Vikas	improve	Checkpoint Framework Updates	In progress - 45% complete	1
+sap51_0107_1507	07/15/2026	Internal	Spandana	create	Bronze-Silver DLT Pipeline	In progress - 60% complete	1
+sap51_0107_1507	07/15/2026	Internal	Siddhartha	improve	Ecommerce Intelligence Pipeline	In progress - 30% complete	1
+sap51_0107_1507	07/15/2026	Internal	Rohini	improve	Multi-Agent Coordination	Integration tests passing	0
+sap51_0107_1507	07/15/2026	Internal	Priya	dev	Data Quality Framework	In progress - 75% complete	0
+sap51_0107_1507	07/15/2026	Internal	Mansi	improve	Feature Engineering Framework	In progress - 60% complete	1
+sap51_0107_1507	07/15/2026	Internal	Avinash	dev	External API Integration	In progress - 75% complete	1
+sap51_0107_1507	07/15/2026	Internal	Akshaya	dev	Job Scheduling Optimization	In progress - 85% complete	0
+sap51_0107_1507	07/15/2026	Internal	Afrin	create	ML Model Monitoring Dashboard	In progress - 85% complete	1
+sap51_0107_1507	07/14/2026	Internal	Viresh	create	RAG Pipeline Optimization	Code review feedback addressed	0
+sap51_0107_1507	07/14/2026	Internal	Vikas	dev	Job Orchestration Framework	In progress - 85% complete	1
+sap51_0107_1507	07/14/2026	Internal	Spandana	improve	Real-time Data Quality	In progress - 45% complete	0
+sap51_0107_1507	07/14/2026	Internal	Siddhartha	dev	Product Performance StoryBuilders/ImpactMakers	In progress - 75% complete	0
+sap51_0107_1507	07/14/2026	Internal	Rohini	dev	Documentation Agent	Documentation updated	1
+sap51_0107_1507	07/14/2026	Internal	Priya	review	SCD Type 2 Implementation	Integration tests passing	1
+sap51_0107_1507	07/14/2026	Internal	Mansi	dev	Demand Forecasting Pipeline	In progress - 60% complete	1
+sap51_0107_1507	07/14/2026	Internal	Avinash	create	Multi-Source Data Ingestion	In progress - 45% complete	1
+sap51_0107_1507	07/14/2026	Internal	Akshaya	testing	Error Handling & Retry Logic	Testing in progress	1
+sap51_0107_1507	07/14/2026	Internal	Afrin	improve	Customer 360 Dashboard	In progress - 45% complete	1
+sap51_0107_1507	07/13/2026	Internal	Viresh	create	Customer 360 App Enhancements	In progress - 85% complete	1
+sap51_0107_1507	07/13/2026	Internal	Vikas	create	GitHub Actions Workflow	In progress - 60% complete	1
+sap51_0107_1507	07/13/2026	Internal	Spandana	dev	DLT Expectations Setup	In progress - 85% complete	1
+sap51_0107_1507	07/13/2026	Internal	Siddhartha	create	Customer RFM Analysis	In progress - 60% complete	1
+sap51_0107_1507	07/13/2026	Internal	Rohini	improve	Performance Agent Setup	In progress - 75% complete	1
+sap51_0107_1507	07/13/2026	Internal	Priya	improve	Silver Layer Transformations	In progress - 75% complete	1
+sap51_0107_1507	07/13/2026	Internal	Mansi	create	Product Recommendation Model	In progress - 30% complete	1
+sap51_0107_1507	07/13/2026	Internal	Avinash	dev	AutoLoader Configuration	Documentation updated	1
+sap51_0107_1507	07/13/2026	Internal	Akshaya	improve	Production Job Monitoring	In progress - 60% complete	0
+sap51_0107_1507	07/13/2026	Internal	Afrin	dev	Sales StoryBuilders/ImpactMakers Dashboard	In progress - 60% complete	0
+sap51_0107_1507	07/10/2026	Internal	Viresh	dev	Intelligence Hub App Integration	In progress - 30% complete	0
+sap51_0107_1507	07/10/2026	Internal	Vikas	dev	CI/CD Pipeline Enhancement	In progress - 75% complete	1
+sap51_0107_1507	07/10/2026	Internal	Spandana	create	Streaming CDC Implementation	In progress - 75% complete	1
+sap51_0107_1507	07/10/2026	Internal	Siddhartha	dev	Gold Layer Business Marts	Integration tests passing	1
+sap51_0107_1507	07/10/2026	Internal	Rohini	dev	Data Quality Agent Implementation	In progress - 45% complete	0
+sap51_0107_1507	07/10/2026	Internal	Priya	improve	DBT Test Coverage Expansion	Integration tests passing	1
+sap51_0107_1507	07/10/2026	Internal	Mansi	dev	Churn Prediction Model Training	In progress - 85% complete	1
+sap51_0107_1507	07/10/2026	Internal	Avinash	dev	Bronze Layer Schema Evolution	In progress - 45% complete	1
+sap51_0107_1507	07/10/2026	Internal	Akshaya	dev	Job Dependency Management	Code review feedback addressed	1
+sap51_0107_1507	07/10/2026	Internal	Afrin	create	Executive KPI Dashboard	Unit tests added	1
+sap51_0107_1507	07/09/2026	Internal	Viresh	dev	Develop Biz Apps with Lakebase	In progress - 75% complete	1
+sap51_0107_1507	07/09/2026	Internal	Vikas	dev	DAB Deployment Automation	In progress - 30% complete	1
+sap51_0107_1507	07/09/2026	Internal	Spandana	testing	CDC Changes DLT Pipelines	Documentation updated	1
+sap51_0107_1507	07/09/2026	Internal	Siddhartha	improve	Core StoryBuilders/ImpactMakers	In progress - 45% complete	1
+sap51_0107_1507	07/09/2026	Internal	Rohini	create	AI Agents - Training Logs	In progress - 85% complete	1
+sap51_0107_1507	07/09/2026	Internal	Priya	dev	DBT Cost Usage Tracking Auto Review	Integration tests passing	0
+sap51_0107_1507	07/09/2026	Internal	Mansi	create	ModelTrainers Models EndPoint Expose and Test	In progress - 60% complete	0
+sap51_0107_1507	07/09/2026	Internal	Avinash	create	Lakehouse Full Load - Manual	In progress - 30% complete	1
+sap51_0107_1507	07/09/2026	Internal	Akshaya	improve	Fix DevOps Jobs	Code review feedback addressed	1
+sap51_0107_1507	07/09/2026	Internal	Afrin	dev	Dashboard Upgrades - Review Feedbacks	In progress - 30% complete	1
+sap51_0107_1507	07/08/2026	Internal	Viresh	dev	Unity Catalog Federation	In progress - 45% complete	1
+sap51_0107_1507	07/08/2026	Internal	Vikas	create	DevOps Documentation	In progress - 45% complete	0
+sap51_0107_1507	07/08/2026	Internal	Spandana	improve	Materialized Views Optimization	In progress - 45% complete	1
+sap51_0107_1507	07/08/2026	Internal	Siddhartha	create	Metric Aggregations	In progress - 45% complete	1
+sap51_0107_1507	07/08/2026	Internal	Rohini	testing	Agent Monitoring Dashboard	Testing in progress	0
+sap51_0107_1507	07/08/2026	Internal	Priya	testing	DBT Incremental Patterns	Testing in progress	1
+sap51_0107_1507	07/08/2026	Internal	Mansi	create	MLflow Model Registry Setup	In progress - 45% complete	1
+sap51_0107_1507	07/08/2026	Internal	Avinash	improve	Data Generator Enhancements	In progress - 85% complete	1
+sap51_0107_1507	07/08/2026	Internal	Akshaya	improve	Workflow Automation	In progress - 60% complete	1
+sap51_0107_1507	07/08/2026	Internal	Afrin	improve	Dashboard Performance Tuning	In progress - 75% complete	1
+sap51_0107_1507	07/07/2026	Internal	Viresh	create	Lakebase Postgres Sync Setup	Documentation updated	0
+sap51_0107_1507	07/07/2026	Internal	Vikas	improve	Checkpoint Framework Updates	In progress - 45% complete	1
+sap51_0107_1507	07/07/2026	Internal	Spandana	create	Bronze-Silver DLT Pipeline	In progress - 30% complete	0
+sap51_0107_1507	07/07/2026	Internal	Siddhartha	improve	Ecommerce Intelligence Pipeline	In progress - 75% complete	1
+sap51_0107_1507	07/07/2026	Internal	Rohini	improve	Multi-Agent Coordination	In progress - 45% complete	1
+sap51_0107_1507	07/07/2026	Internal	Priya	improve	Data Quality Framework	In progress - 60% complete	1
+sap51_0107_1507	07/07/2026	Internal	Mansi	improve	Feature Engineering Framework	Documentation updated	0
+sap51_0107_1507	07/07/2026	Internal	Avinash	dev	External API Integration	In progress - 85% complete	1
+sap51_0107_1507	07/07/2026	Internal	Akshaya	dev	Job Scheduling Optimization	Unit tests added	0
+sap51_0107_1507	07/07/2026	Internal	Afrin	create	ML Model Monitoring Dashboard	In progress - 60% complete	1
+sap51_0107_1507	07/06/2026	Internal	Viresh	improve	RAG Pipeline Optimization	In progress - 85% complete	1
+sap51_0107_1507	07/06/2026	Internal	Vikas	dev	Job Orchestration Framework	In progress - 75% complete	1
+sap51_0107_1507	07/06/2026	Internal	Spandana	improve	Real-time Data Quality	In progress - 85% complete	1
+sap51_0107_1507	07/06/2026	Internal	Siddhartha	dev	Product Performance StoryBuilders/ImpactMakers	In progress - 30% complete	0
+sap51_0107_1507	07/06/2026	Internal	Rohini	dev	Documentation Agent	In progress - 85% complete	1
+sap51_0107_1507	07/06/2026	Internal	Priya	create	SCD Type 2 Implementation	In progress - 85% complete	0
+sap51_0107_1507	07/06/2026	Internal	Mansi	dev	Demand Forecasting Pipeline	In progress - 60% complete	1
+sap51_0107_1507	07/06/2026	Internal	Avinash	create	Multi-Source Data Ingestion	In progress - 75% complete	0
+sap51_0107_1507	07/06/2026	Internal	Akshaya	create	Error Handling & Retry Logic	In progress - 60% complete	0
+sap51_0107_1507	07/06/2026	Internal	Afrin	improve	Customer 360 Dashboard	In progress - 75% complete	1
+sap51_0107_1507	07/03/2026	Internal	Viresh	improve	Customer 360 App Enhancements	In progress - 45% complete	1
+sap51_0107_1507	07/03/2026	Internal	Vikas	create	GitHub Actions Workflow	Code review feedback addressed	1
+sap51_0107_1507	07/03/2026	Internal	Spandana	dev	DLT Expectations Setup	In progress - 45% complete	1
+sap51_0107_1507	07/03/2026	Internal	Siddhartha	create	Customer RFM Analysis	Unit tests added	1
+sap51_0107_1507	07/03/2026	Internal	Rohini	create	Performance Agent Setup	In progress - 75% complete	1
+sap51_0107_1507	07/03/2026	Internal	Priya	dev	Silver Layer Transformations	In progress - 85% complete	0
+sap51_0107_1507	07/03/2026	Internal	Mansi	create	Product Recommendation Model	In progress - 75% complete	0
+sap51_0107_1507	07/03/2026	Internal	Avinash	testing	AutoLoader Configuration	Testing in progress	0
+sap51_0107_1507	07/03/2026	Internal	Akshaya	improve	Production Job Monitoring	In progress - 45% complete	1
+sap51_0107_1507	07/03/2026	Internal	Afrin	dev	Sales StoryBuilders/ImpactMakers Dashboard	In progress - 85% complete	1
+sap51_0107_1507	07/02/2026	Internal	Viresh	dev	Intelligence Hub App Integration	In progress - 85% complete	1
+sap51_0107_1507	07/02/2026	Internal	Vikas	improve	CI/CD Pipeline Enhancement	In progress - 45% complete	1
+sap51_0107_1507	07/02/2026	Internal	Spandana	create	Streaming CDC Implementation	Documentation updated	1
+sap51_0107_1507	07/02/2026	Internal	Siddhartha	dev	Gold Layer Business Marts	In progress - 85% complete	1
+sap51_0107_1507	07/02/2026	Internal	Rohini	dev	Data Quality Agent Implementation	In progress - 45% complete	0
+sap51_0107_1507	07/02/2026	Internal	Priya	improve	DBT Test Coverage Expansion	In progress - 75% complete	1
+sap51_0107_1507	07/02/2026	Internal	Mansi	review	Churn Prediction Model Training	Unit tests added	0
+sap51_0107_1507	07/02/2026	Internal	Avinash	improve	Bronze Layer Schema Evolution	In progress - 60% complete	1
+sap51_0107_1507	07/02/2026	Internal	Akshaya	improve	Job Dependency Management	In progress - 45% complete	1
+sap51_0107_1507	07/02/2026	Internal	Afrin	create	Executive KPI Dashboard	Code review feedback addressed	1
+sap51_0107_1507	07/01/2026	Internal	Viresh	dev	Develop Biz Apps with Lakebase	Code review feedback addressed	0
+sap51_0107_1507	07/01/2026	Internal	Vikas	dev	DAB Deployment Automation	In progress - 75% complete	1
+sap51_0107_1507	07/01/2026	Internal	Spandana	dev	CDC Changes DLT Pipelines	In progress - 30% complete	1
+sap51_0107_1507	07/01/2026	Internal	Siddhartha	improve	Core StoryBuilders/ImpactMakers	Documentation updated	1
+sap51_0107_1507	07/01/2026	Internal	Rohini	create	AI Agents - Training Logs	In progress - 30% complete	0
+sap51_0107_1507	07/01/2026	Internal	Priya	dev	DBT Cost Usage Tracking Auto Review	In progress - 45% complete	0
+sap51_0107_1507	07/01/2026	Internal	Mansi	create	ModelTrainers Models EndPoint Expose and Test	Code review feedback addressed	0
+sap51_0107_1507	07/01/2026	Internal	Avinash	create	Lakehouse Full Load - Manual	In progress - 45% complete	1
+sap51_0107_1507	07/01/2026	Internal	Akshaya	improve	Fix DevOps Jobs	In progress - 30% complete	0
+sap51_0107_1507	07/01/2026	Internal	Afrin	dev	Dashboard Upgrades - Review Feedbacks	In progress - 85% complete	1
+
+
+# === ENGINEER TEMPLATE (merged from former 04_EngineerTemplate.tsv → now 03_SprintTracking.tsv) ===
+Date	Task Description	PR Link	Discord Updates	Review	Self Assess Win
+08/14/2026	Optimize job performance and resource allocation		Sent	Closed	1
+08/14/2026	Update documentation and runbook	https://github.com/SkillAIPath11/SkillAIPath/pull/16	Sent	Closed	0
+08/13/2026	Debug and fix identified issues	https://github.com/SkillAIPath11/SkillAIPath/pull/15	Not Sent	Closed	0
+08/13/2026	Execute full pipeline end-to-end test run	https://github.com/SkillAIPath11/SkillAIPath/pull/14	Sent	Closed	0
+08/12/2026	Run integration tests on dev environment	https://github.com/SkillAIPath11/SkillAIPath/pull/12	Not Sent	Closed	1
+08/12/2026	Validate data lineage and quality metrics	https://github.com/SkillAIPath11/SkillAIPath/pull/13	Not Sent	Closed	1
+08/11/2026	Implement checkpoint framework for job tracking	https://github.com/SkillAIPath11/SkillAIPath/pull/10	Sent	Closed	1
+08/11/2026	Add error handling and retry logic	https://github.com/SkillAIPath11/SkillAIPath/pull/11	Sent	Closed	1
+08/10/2026	Build master orchestration job (Job_20_Master)	https://github.com/SkillAIPath11/SkillAIPath/pull/8	Sent	Open	0
+08/10/2026	Define job dependencies and execution order	https://github.com/SkillAIPath11/SkillAIPath/pull/9	Sent	Closed	0
+08/07/2026	Develop DLT streaming pipeline for CDC		Sent	Open	0
+08/07/2026	Configure AutoLoader for incremental ingestion	https://github.com/SkillAIPath11/SkillAIPath/pull/7	Not Sent	Closed	1
+08/06/2026	Develop Gold business marts job (Job_08)	https://github.com/SkillAIPath11/SkillAIPath/pull/5	Sent	Closed	0
+08/06/2026	Create data quality checks and expectations	https://github.com/SkillAIPath11/SkillAIPath/pull/6	Sent	Closed	0
+08/05/2026	Implement DBT models for Silver layer	https://github.com/SkillAIPath11/SkillAIPath/pull/4	Sent	Open	1
+08/05/2026	Develop Silver transformation job (Job_05)	https://github.com/SkillAIPath11/SkillAIPath/pull/3	Sent	Closed	1
+08/04/2026	Create unit tests for Bronze ingestion logic	https://github.com/SkillAIPath11/SkillAIPath/pull/2	Sent	Closed	1
+08/04/2026	Develop Bronze layer ingestion job (Job_00)	https://github.com/SkillAIPath11/SkillAIPath/pull/1	Sent	Open	0
+08/03/2026	Setup development environment and branch for sprint		Sent	N/A	1
+08/03/2026	Review job requirements and architecture documentation		Sent	N/A	1
+07/31/2026	Run smoke tests and validation	https://github.com/SkillAIPath11/SkillAIPath/pull/31	Sent	Closed	0
+07/31/2026	Deploy to staging environment		Sent	Closed	1
+07/30/2026	Merge all jobs into unified DAB bundle	https://github.com/SkillAIPath11/SkillAIPath/pull/30	Sent	Closed	1
+07/30/2026	Code review and address feedback	https://github.com/SkillAIPath11/SkillAIPath/pull/29	Sent	Closed	1
+07/29/2026	Update documentation and runbook	https://github.com/SkillAIPath11/SkillAIPath/pull/28	Sent	Open	1
+07/29/2026	Optimize job performance and resource allocation		Sent	Closed	1
+07/28/2026	Debug and fix identified issues		Sent	Closed	1
+07/28/2026	Execute full pipeline end-to-end test run	https://github.com/SkillAIPath11/SkillAIPath/pull/27	Not Sent	Open	1
+07/27/2026	Validate data lineage and quality metrics	https://github.com/SkillAIPath11/SkillAIPath/pull/26	Not Sent	Closed	0
+07/27/2026	Run integration tests on dev environment	https://github.com/SkillAIPath11/SkillAIPath/pull/25	Not Sent	Closed	0
+07/24/2026	Implement checkpoint framework for job tracking	https://github.com/SkillAIPath11/SkillAIPath/pull/24	Sent	Open	0
+07/24/2026	Add error handling and retry logic		Sent	Closed	1
+07/23/2026	Define job dependencies and execution order	https://github.com/SkillAIPath11/SkillAIPath/pull/23	Sent	Closed	1
+07/23/2026	Build master orchestration job (Job_20_Master)		Sent	Open	1
+07/22/2026	Configure AutoLoader for incremental ingestion	https://github.com/SkillAIPath11/SkillAIPath/pull/22	Not Sent	Open	1
+07/22/2026	Develop DLT streaming pipeline for CDC	https://github.com/SkillAIPath11/SkillAIPath/pull/21	Sent	Closed	1
+07/21/2026	Create data quality checks and expectations	https://github.com/SkillAIPath11/SkillAIPath/pull/20	Not Sent	Closed	1
+07/21/2026	Develop Gold business marts job (Job_08)		Sent	Open	0
+07/20/2026	Implement DBT models for Silver layer	https://github.com/SkillAIPath11/SkillAIPath/pull/19	Sent	Closed	0
+07/20/2026	Develop Silver transformation job (Job_05)	https://github.com/SkillAIPath11/SkillAIPath/pull/18	Sent	Closed	1
+07/17/2026	Create unit tests for Bronze ingestion logic	https://github.com/SkillAIPath11/SkillAIPath/pull/17	Sent	Open	1
+07/17/2026	Develop Bronze layer ingestion job (Job_00)		Sent	Closed	1
+07/16/2026	Review job requirements and architecture documentation		Sent	N/A	1
+07/16/2026	Setup development environment and branch for sprint		Sent	N/A	0
+07/15/2026	Code review and address feedback	https://github.com/SkillAIPath11/SkillAIPath/pull/43	Not Sent	Closed	1
+07/15/2026	Merge all jobs into unified DAB bundle		Sent	Closed	1
+07/14/2026	Update documentation and runbook		Sent	Closed	1
+07/14/2026	Optimize job performance and resource allocation	https://github.com/SkillAIPath11/SkillAIPath/pull/42	Sent	Closed	0
+07/13/2026	Execute full pipeline end-to-end test run	https://github.com/SkillAIPath11/SkillAIPath/pull/40	Not Sent	Closed	1
+07/13/2026	Debug and fix identified issues	https://github.com/SkillAIPath11/SkillAIPath/pull/41	Sent	Closed	1
+07/10/2026	Run integration tests on dev environment		Sent	Closed	0
+07/10/2026	Validate data lineage and quality metrics		Sent	Closed	1
+07/09/2026	Implement checkpoint framework for job tracking		Sent	Open	1
+07/09/2026	Add error handling and retry logic	https://github.com/SkillAIPath11/SkillAIPath/pull/39	Not Sent	Closed	1
+07/08/2026	Build master orchestration job (Job_20_Master)	https://github.com/SkillAIPath11/SkillAIPath/pull/38	Sent	Closed	1
+07/08/2026	Define job dependencies and execution order		Not Sent	Closed	1
+07/07/2026	Develop DLT streaming pipeline for CDC		Sent	Open	1
+07/07/2026	Configure AutoLoader for incremental ingestion	https://github.com/SkillAIPath11/SkillAIPath/pull/37	Not Sent	Open	0
+07/06/2026	Develop Gold business marts job (Job_08)	https://github.com/SkillAIPath11/SkillAIPath/pull/36	Sent	Closed	1
+07/06/2026	Create data quality checks and expectations		Not Sent	Closed	1
+07/03/2026	Implement DBT models for Silver layer	https://github.com/SkillAIPath11/SkillAIPath/pull/35	Sent	Open	1
+07/03/2026	Develop Silver transformation job (Job_05)	https://github.com/SkillAIPath11/SkillAIPath/pull/34	Sent	Open	0
+07/02/2026	Create unit tests for Bronze ingestion logic	https://github.com/SkillAIPath11/SkillAIPath/pull/33	Sent	Closed	1
+07/02/2026	Develop Bronze layer ingestion job (Job_00)	https://github.com/SkillAIPath11/SkillAIPath/pull/32	Not Sent	Open	1
+07/01/2026	Review job requirements and architecture documentation		Sent	N/A	0
+07/01/2026	Setup development environment and branch for sprint		Sent	N/A	1

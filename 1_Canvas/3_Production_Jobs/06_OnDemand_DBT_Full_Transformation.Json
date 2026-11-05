@@ -1,0 +1,36 @@
+{
+  "name": "06_OnDemand_DBT_Full_Transformation",
+  "tags": {
+    "Daily": "",
+    "DBT": "",
+    "Full-Load": "",
+    "Transformation": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "generate_bronze_data",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/1_Canvas/1_Setup/2_data_generator",
+        "source": "WORKSPACE",
+        "base_parameters": {
+          "mode": "full"
+        }
+      }
+    },
+    {
+      "task_key": "dbt_full_refresh",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/2_Data_Production/03_Dbt/StartHere_DBT",
+        "source": "WORKSPACE"
+      },
+      "depends_on": [
+        {
+          "task_key": "generate_bronze_data"
+        }
+      ]
+    }
+  ]
+}

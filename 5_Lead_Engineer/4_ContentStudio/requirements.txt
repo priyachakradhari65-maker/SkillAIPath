@@ -1,0 +1,8 @@
+gradio==4.44.0
+pandas==2.2.0
+requests==2.31.0
+uvicorn[standard]==0.30.0
+fastapi==0.115.0
+databricks-sdk>=0.20.0
+pyspark>=3.5.0
+cryptography>=41.0.0

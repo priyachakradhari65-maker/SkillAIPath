@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T35	RFM misleading with one-time buyers	P2	Bronze		Adjust rolling window calculations to use available data (8-day) or wait for 90-day accumulation	Metrics use min(available_days, 90) for window calculations	Engineer_01	15	

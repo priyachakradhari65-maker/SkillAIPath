@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T40	AI Gateway 18+ notebooks config unknown	P2	AI Gateway			dbt test --select tag:custom returns 17+ tests	Engineer_05	15	

@@ -1,0 +1,81 @@
+# SkillAIPath Data Warehouse - dbt Project Configuration
+# Production-ready architecture with single ownership per layer
+
+name: 'sap_dw'
+version: '2.0.0'
+config-version: 2
+
+profile: 'sap_dw'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  sap_dw:
+    +materialized: table
+    +file_format: delta
+    +tags: ["sap"]
+    
+    # Staging Layer: Light transformations on bronze sources
+    # Bronze is OWNED by Databricks ingestion (not dbt)
+    # Staging reads from bronze using source()
+    staging:
+      +schema: staging
+      +materialized: view  # Views for staging (no data duplication)
+      +tags: ["staging", "bronze-to-silver"]
+    
+    # Intermediate Layer: Business logic + dimensional model (THIS IS SILVER)
+    # Single ownership: dbt owns silver layer
+    # Contains dim_*, fact_*, and int_* models
+    intermediate:
+      +schema: silver
+      +materialized: incremental
+      +incremental_strategy: merge
+      +on_schema_change: append_new_columns
+      +tags: ["intermediate", "silver"]
+      
+      # Dimensional models use table materialization
+      # Each model defines its own unique_key for incremental strategy
+    
+    # Marts Layer: Analytics-ready gold tables
+    # Single ownership: dbt owns gold layer
+    # Contains mart_* models for business intelligence
+    marts:
+      +schema: gold
+      +materialized: table
+      +tags: ["marts", "gold", "analytics"]
+
+seeds:
+  sap_dw:
+    +schema: reference
+    +quote_columns: false
+    +tags: ["reference_data"]
+
+snapshots:
+  sap_dw:
+    +target_schema: silver_snapshots
+    +strategy: timestamp
+    +unique_key: id
+    +updated_at: updated_at
+
+vars:
+  surrogate_key_treat_nulls_as_empty_strings: true
+  start_date: '2020-01-01'
+  end_date: '2026-12-31'
+  default_warehouse_id: 'WH001'
+  default_currency: 'INR'
+
+on-run-start:
+  - "{{ log('🚀 Starting SkillAIPath dbt run (v2.0 - Production Architecture)...', info=True) }}"
+
+on-run-end:
+  - "{{ log('✅ SkillAIPath dbt run completed successfully!', info=True) }}"

@@ -1,0 +1,715 @@
+domain:
+  name: learning_platform
+  description: Auto-generated from legacy data files
+  catalog: sap_dev
+  created_at: '2026-07-31T17:36:21.866708'
+bronze:
+  sources:
+  - name: dim_batchoverview
+    source_file: lp_dim_batchoverview.csv
+    format: csv
+    table_type: dimension
+    schema:
+    - name: batchid
+      type: BIGINT
+      nullable: &id001 !!python/object/apply:numpy._core.multiarray.scalar
+      - &id002 !!python/object/apply:numpy.dtype
+        args:
+        - b1
+        - false
+        - true
+        state: !!python/tuple
+        - 3
+        - '|'
+        - null
+        - null
+        - null
+        - -1
+        - -1
+        - 0
+      - !!binary |
+        AA==
+      description: Auto-detected from lp_dim_batchoverview.csv
+    - name: batchname
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_batchoverview.csv
+    - name: owner
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_batchoverview.csv
+    - name: startdate
+      type: DATE
+      nullable: *id001
+      description: Auto-detected from lp_dim_batchoverview.csv
+    - name: enddate
+      type: DATE
+      nullable: *id001
+      description: Auto-detected from lp_dim_batchoverview.csv
+    - name: assignedlearners
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_batchoverview.csv
+    - name: Resources
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_batchoverview.csv
+  - name: dim_date
+    source_file: lp_dim_date.csv
+    format: csv
+    table_type: dimension
+    schema:
+    - name: Date
+      type: DATE
+      nullable: *id001
+      description: Auto-detected from lp_dim_date.csv
+    - name: Year
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_date.csv
+    - name: Month
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_date.csv
+    - name: DayofMonth
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_date.csv
+    - name: DateFormate
+      type: DATE
+      nullable: *id001
+      description: Auto-detected from lp_dim_date.csv
+    - name: Week
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_date.csv
+    - name: DateID
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_date.csv
+    - name: LastWeekDate
+      type: DATE
+      nullable: &id003 !!python/object/apply:numpy._core.multiarray.scalar
+      - *id002
+      - !!binary |
+        AQ==
+      description: Auto-detected from lp_dim_date.csv
+    - name: WeekName
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_date.csv
+    - name: LastMonthName
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_date.csv
+    - name: refreshdateid
+      type: DOUBLE
+      nullable: *id003
+      description: Auto-detected from lp_dim_date.csv
+    - name: islatestrefreshdate
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_date.csv
+  - name: dim_entrylevel
+    source_file: lp_dim_entrylevel.csv
+    format: csv
+    table_type: dimension
+    schema:
+    - name: entrylevelid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_entrylevel.csv
+    - name: entrylevelsalary
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_entrylevel.csv
+    - name: perhourincome
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_entrylevel.csv
+    - name: entrylevelname
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_entrylevel.csv
+    - name: entryleveldescription
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_entrylevel.csv
+  - name: dim_member
+    source_file: lp_dim_member.csv
+    format: csv
+    table_type: dimension
+    schema:
+    - name: memberid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: membername
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: shortname
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: organizationemail
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: microsoftemail
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: personalemail
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: isemployee
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: isowner
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: islearner
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: employmentdate
+      type: DATE
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: city
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: address
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: designation
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: project
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: entrylevel
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: contactnumber
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: dateofjoining
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: dob
+      type: DATE
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+    - name: worktime
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_member.csv
+  - name: dim_project
+    source_file: lp_dim_project.csv
+    format: csv
+    table_type: dimension
+    schema:
+    - name: projectid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_project.csv
+    - name: project
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_project.csv
+    - name: project_start_date
+      type: DATE
+      nullable: *id001
+      description: Auto-detected from lp_dim_project.csv
+    - name: project_end_date
+      type: DATE
+      nullable: *id001
+      description: Auto-detected from lp_dim_project.csv
+  - name: dim_sessions
+    source_file: lp_dim_sessions.csv
+    format: csv
+    table_type: dimension
+    schema:
+    - name: sessionid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_sessions.csv
+    - name: sessiontitle
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_sessions.csv
+    - name: date
+      type: DATE
+      nullable: *id001
+      description: Auto-detected from lp_dim_sessions.csv
+    - name: sessionno
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_sessions.csv
+    - name: batchname
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_sessions.csv
+    - name: owner
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_sessions.csv
+    - name: attendees
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_sessions.csv
+    - name: resources
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_sessions.csv
+  - name: dim_status
+    source_file: lp_dim_status.csv
+    format: csv
+    table_type: dimension
+    schema:
+    - name: statusid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_status.csv
+    - name: status
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_status.csv
+  - name: dim_task
+    source_file: lp_dim_task.csv
+    format: csv
+    table_type: dimension
+    schema:
+    - name: taskid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_dim_task.csv
+    - name: taskname
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_dim_task.csv
+  - name: fact_member
+    source_file: lp_fact_member.csv
+    format: csv
+    table_type: fact
+    schema:
+    - name: memberid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_member.csv
+    - name: projectid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_member.csv
+    - name: entrylevelid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_member.csv
+    - name: joiningdateid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_member.csv
+    - name: entrylevelsalary
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_member.csv
+  - name: fact_salary
+    source_file: lp_fact_salary.csv
+    format: csv
+    table_type: fact
+    schema:
+    - name: memberid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_salary.csv
+    - name: dateid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_salary.csv
+    - name: perdayhour
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_salary.csv
+    - name: runninghours
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_salary.csv
+    - name: runningsalary
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_salary.csv
+    - name: perdayincome
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_salary.csv
+    - name: currentmonth_hours
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_salary.csv
+    - name: currentmonth_runninghours
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_salary.csv
+    - name: monthlyrunningsalary
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_salary.csv
+  - name: fact_session
+    source_file: lp_fact_session.csv
+    format: csv
+    table_type: fact
+    schema:
+    - name: batchid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_session.csv
+    - name: sessionid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_session.csv
+    - name: dateid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_session.csv
+    - name: sessionno
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_session.csv
+    - name: learners
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_fact_session.csv
+    - name: attendance
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_fact_session.csv
+    - name: memberid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_session.csv
+    - name: ownerid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_session.csv
+  - name: fact_task
+    source_file: lp_fact_task.csv
+    format: csv
+    table_type: fact
+    schema:
+    - name: memberid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_task.csv
+    - name: taskid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_task.csv
+    - name: taskstatusid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_task.csv
+    - name: hourperday
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_task.csv
+    - name: mtd_runninghours
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_task.csv
+    - name: taskissues
+      type: STRING
+      nullable: *id003
+      description: Auto-detected from lp_fact_task.csv
+    - name: taskupdates
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_fact_task.csv
+    - name: taskstartdateid
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_fact_task.csv
+    - name: taskenddateid
+      type: DATE
+      nullable: *id001
+      description: Auto-detected from lp_fact_task.csv
+    - name: Plannedhour
+      type: DOUBLE
+      nullable: *id003
+      description: Auto-detected from lp_fact_task.csv
+  - name: refresh_date
+    source_file: lp_refresh_date.csv
+    format: csv
+    table_type: dimension
+    schema:
+    - name: refreshdate
+      type: DATE
+      nullable: *id001
+      description: Auto-detected from lp_refresh_date.csv
+  - name: salaryinfo
+    source_file: lp_salaryinfo.csv
+    format: csv
+    table_type: dimension
+    schema:
+    - name: member
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_salaryinfo.csv
+    - name: taskdate
+      type: DATE
+      nullable: *id001
+      description: Auto-detected from lp_salaryinfo.csv
+    - name: perdayhour
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_salaryinfo.csv
+    - name: runninghours
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_salaryinfo.csv
+    - name: runningsalary
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_salaryinfo.csv
+    - name: perdayincome
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_salaryinfo.csv
+    - name: currentmonth_hours
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_salaryinfo.csv
+    - name: currentmonth_runninghours
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_salaryinfo.csv
+    - name: monthlyrunningsalary
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_salaryinfo.csv
+    - name: 'Unnamed: 9'
+      type: DOUBLE
+      nullable: *id003
+      description: Auto-detected from lp_salaryinfo.csv
+    - name: 'Unnamed: 10'
+      type: DOUBLE
+      nullable: *id003
+      description: Auto-detected from lp_salaryinfo.csv
+    - name: 'Unnamed: 11'
+      type: STRING
+      nullable: *id003
+      description: Auto-detected from lp_salaryinfo.csv
+    - name: 'Unnamed: 12'
+      type: DOUBLE
+      nullable: *id003
+      description: Auto-detected from lp_salaryinfo.csv
+  - name: stg_avilabilitynovdec
+    source_file: lp_stg_avilabilitynovdec.csv
+    format: csv
+    table_type: dimension
+    schema:
+    - name: Date
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_stg_avilabilitynovdec.csv
+    - name: Member
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_stg_avilabilitynovdec.csv
+    - name: Plannedhour
+      type: BIGINT
+      nullable: *id001
+      description: Auto-detected from lp_stg_avilabilitynovdec.csv
+    - name: Actualhour
+      type: DOUBLE
+      nullable: *id003
+      description: Auto-detected from lp_stg_avilabilitynovdec.csv
+    - name: Month
+      type: STRING
+      nullable: *id001
+      description: Auto-detected from lp_stg_avilabilitynovdec.csv
+  ingestion_method: auto_loader
+  checkpoint_location: /mnt/sap_dev/checkpoints/bronze
+silver:
+  models:
+  - name: enriched_fact_member
+    description: Enriched fact_member with dimension joins
+    source: bronze.fact_member
+    joins: []
+    transformations:
+    - type: quality_check
+      rule: None IS NOT NULL
+      action: filter
+    materialization: incremental
+  - name: enriched_fact_salary
+    description: Enriched fact_salary with dimension joins
+    source: bronze.fact_salary
+    joins: []
+    transformations:
+    - type: quality_check
+      rule: None IS NOT NULL
+      action: filter
+    materialization: incremental
+  - name: enriched_fact_session
+    description: Enriched fact_session with dimension joins
+    source: bronze.fact_session
+    joins: []
+    transformations:
+    - type: quality_check
+      rule: None IS NOT NULL
+      action: filter
+    materialization: incremental
+  - name: enriched_fact_task
+    description: Enriched fact_task with dimension joins
+    source: bronze.fact_task
+    joins: []
+    transformations:
+    - type: quality_check
+      rule: None IS NOT NULL
+      action: filter
+    materialization: incremental
+  - name: dim_batchoverview
+    description: 'Dimension: dim_batchoverview'
+    source: bronze.dim_batchoverview
+    scd_type: 2
+    materialization: table
+  - name: dim_date
+    description: 'Dimension: dim_date'
+    source: bronze.dim_date
+    scd_type: 2
+    materialization: table
+  - name: dim_entrylevel
+    description: 'Dimension: dim_entrylevel'
+    source: bronze.dim_entrylevel
+    scd_type: 2
+    materialization: table
+  - name: dim_member
+    description: 'Dimension: dim_member'
+    source: bronze.dim_member
+    scd_type: 2
+    materialization: table
+  - name: dim_project
+    description: 'Dimension: dim_project'
+    source: bronze.dim_project
+    scd_type: 2
+    materialization: table
+  - name: dim_sessions
+    description: 'Dimension: dim_sessions'
+    source: bronze.dim_sessions
+    scd_type: 2
+    materialization: table
+  - name: dim_status
+    description: 'Dimension: dim_status'
+    source: bronze.dim_status
+    scd_type: 2
+    materialization: table
+  - name: dim_task
+    description: 'Dimension: dim_task'
+    source: bronze.dim_task
+    scd_type: 2
+    materialization: table
+  - name: refresh_date
+    description: 'Dimension: refresh_date'
+    source: bronze.refresh_date
+    scd_type: 2
+    materialization: table
+  - name: salaryinfo
+    description: 'Dimension: salaryinfo'
+    source: bronze.salaryinfo
+    scd_type: 2
+    materialization: table
+  - name: stg_avilabilitynovdec
+    description: 'Dimension: stg_avilabilitynovdec'
+    source: bronze.stg_avilabilitynovdec
+    scd_type: 2
+    materialization: table
+  quality_checks:
+  - name: row_count
+    threshold: 0
+    severity: error
+  - name: freshness
+    max_hours: 24
+    severity: warn
+gold:
+  metrics:
+  - name: total_fact_member_count
+    description: Total count of fact_member records
+    expression: COUNT(DISTINCT None)
+    source: silver.enriched_fact_member
+  - name: total_memberid
+    description: Total sum of memberid
+    expression: SUM(memberid)
+    source: silver.enriched_fact_member
+  - name: avg_memberid
+    description: Average memberid
+    expression: AVG(memberid)
+    source: silver.enriched_fact_member
+  - name: total_projectid
+    description: Total sum of projectid
+    expression: SUM(projectid)
+    source: silver.enriched_fact_member
+  - name: avg_projectid
+    description: Average projectid
+    expression: AVG(projectid)
+    source: silver.enriched_fact_member
+  - name: total_entrylevelid
+    description: Total sum of entrylevelid
+    expression: SUM(entrylevelid)
+    source: silver.enriched_fact_member
+  - name: avg_entrylevelid
+    description: Average entrylevelid
+    expression: AVG(entrylevelid)
+    source: silver.enriched_fact_member
+  - name: total_joiningdateid
+    description: Total sum of joiningdateid
+    expression: SUM(joiningdateid)
+    source: silver.enriched_fact_member
+  - name: avg_joiningdateid
+    description: Average joiningdateid
+    expression: AVG(joiningdateid)
+    source: silver.enriched_fact_member
+  - name: total_entrylevelsalary
+    description: Total sum of entrylevelsalary
+    expression: SUM(entrylevelsalary)
+    source: silver.enriched_fact_member
+  aggregation_level: daily
+  retention_days: 730
+dashboards:
+- name: Learning_Platform Executive Dashboard
+  description: Auto-generated dashboard from legacy data
+  table: sap_dev.gold.mart_fact_member
+  widgets:
+  - type: counter
+    title: Total Fact Member
+    metric: COUNT(DISTINCT None)
+    position:
+      x: 0
+      y: 0
+      width: 2
+      height: 2
+governance:
+  owner: user@example.com
+  sensitivity: internal
+  tags:
+  - learning_platform
+  - student_analytics
+  - auto_generated
+  retention_days: 365
+  data_classification: confidential
+scheduling:
+  refresh_frequency: daily
+  refresh_time: 02:00
+  timezone: UTC
+  email_on_failure:
+  - user@example.com

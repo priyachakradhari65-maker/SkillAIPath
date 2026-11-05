@@ -1,0 +1,2 @@
+Work_ID	Title	Priority	Layer	Depends_On	Fix_Instructions	Verify_SQL	Engineer	Estimated_Min	Business_Impact
+T17	No CI/CD	P3	P3		ALTER TABLE to change TaxRate from bigint to DECIMAL(5,4)	TaxRate column type = DECIMAL(5,4)	Engineer_09	15	

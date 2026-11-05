@@ -1,0 +1,21 @@
+{
+  "name": "14_Daily_Customer_360",
+  "tags": {
+    "Daily": "",
+    "Customer": "",
+    "Analytics": "",
+    "360": ""
+  },
+  "max_concurrent_runs": 1,
+  "timeout_seconds": 0,
+  "format": "MULTI_TASK",
+  "tasks": [
+    {
+      "task_key": "12DailyCustomer360",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Shared/dev/SkillAIPath/3_AI_Platform/2_Rag_Pipeline/customer_360",
+        "source": "WORKSPACE"
+      }
+    }
+  ]
+}

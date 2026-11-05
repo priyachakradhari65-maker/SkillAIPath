@@ -1,0 +1,967 @@
+{
+  "datasets": [
+    {
+      "name": "po_details",
+      "displayName": "Purchase Order Details",
+      "queryLines": [
+        "SELECT\n",
+        "  fp.PurchaseID,\n",
+        "  fp.PurchaseDate,\n",
+        "  ws.WholeSalerName as Vendor,\n",
+        "  p.ProductName as Product,\n",
+        "  wh.WareHouseName as Warehouse,\n",
+        "  fp.Quantity,\n",
+        "  fp.UnitCost,\n",
+        "  fp.NetAmount as POValue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_purchase fp\n",
+        "    INNER JOIN sap_dev.silver.dim_wholesaler ws\n",
+        "      ON fp.WholesalerSK = ws.WholeSalerSK\n",
+        "    INNER JOIN sap_dev.silver.dim_product p\n",
+        "      ON fp.ProductSK = p.ProductSK\n",
+        "    INNER JOIN sap_dev.silver.dim_warehouse wh\n",
+        "      ON fp.WarehouseSK = wh.WareHouseSK\n",
+        "ORDER BY\n",
+        "  fp.NetAmount DESC"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "vendor_count",
+      "displayName": "Vendor PO Count",
+      "queryLines": [
+        "SELECT\n",
+        "  ws.WholeSalerName,\n",
+        "  COUNT(fp.PurchaseID) as POCount\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_purchase fp\n",
+        "    INNER JOIN sap_dev.silver.dim_wholesaler ws\n",
+        "      ON fp.WholesalerSK = ws.WholeSalerSK\n",
+        "GROUP BY\n",
+        "  ws.WholeSalerName\n",
+        "ORDER BY\n",
+        "  POCount DESC"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "daily_trend",
+      "displayName": "Daily Purchase Trend",
+      "queryLines": [
+        "SELECT\n",
+        "  PurchaseDate,\n",
+        "  SUM(NetAmount) as DailyValue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_purchase\n",
+        "GROUP BY\n",
+        "  PurchaseDate\n",
+        "ORDER BY\n",
+        "  PurchaseDate"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "warehouse_value",
+      "displayName": "Top 10 Warehouse Purchase Value",
+      "queryLines": [
+        "SELECT\n",
+        "  wh.WareHouseName,\n",
+        "  SUM(fp.NetAmount) as TotalValue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_purchase fp\n",
+        "    INNER JOIN sap_dev.silver.dim_warehouse wh\n",
+        "      ON fp.WarehouseSK = wh.WareHouseSK\n",
+        "GROUP BY\n",
+        "  wh.WareHouseName\n",
+        "ORDER BY\n",
+        "  TotalValue DESC\n",
+        "LIMIT 10"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "kpis",
+      "displayName": "KPI Metrics",
+      "queryLines": [
+        "SELECT\n",
+        "  SUM(NetAmount) as TotalPurchaseValue,\n",
+        "  COUNT(DISTINCT PurchaseID) as TotalPurchaseOrders,\n",
+        "  AVG(NetAmount) as AvgPOValue,\n",
+        "  COUNT(DISTINCT WholesalerSK) as ActiveVendors\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_purchase"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "vendor_value",
+      "displayName": "Vendor Purchase Value",
+      "queryLines": [
+        "SELECT\n",
+        "  ws.WholeSalerName,\n",
+        "  SUM(fp.NetAmount) as TotalValue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_purchase fp\n",
+        "    INNER JOIN sap_dev.silver.dim_wholesaler ws\n",
+        "      ON fp.WholesalerSK = ws.WholeSalerSK\n",
+        "GROUP BY\n",
+        "  ws.WholeSalerName\n",
+        "ORDER BY\n",
+        "  TotalValue DESC"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "top_products",
+      "displayName": "Top Products by Value",
+      "queryLines": [
+        "SELECT\n",
+        "  p.ProductName,\n",
+        "  SUM(fp.NetAmount) as TotalValue\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_purchase fp\n",
+        "    INNER JOIN sap_dev.silver.dim_product p\n",
+        "      ON fp.ProductSK = p.ProductSK\n",
+        "GROUP BY\n",
+        "  p.ProductName\n",
+        "ORDER BY\n",
+        "  TotalValue DESC\n",
+        "LIMIT 10"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "filter_products",
+      "displayName": "Product Filter Options",
+      "queryLines": [
+        "SELECT DISTINCT\n",
+        "  p.ProductName\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_purchase fp\n",
+        "    INNER JOIN sap_dev.silver.dim_product p\n",
+        "      ON fp.ProductSK = p.ProductSK\n",
+        "ORDER BY\n",
+        "  p.ProductName"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    },
+    {
+      "name": "filter_vendors",
+      "displayName": "Vendor Filter Options",
+      "queryLines": [
+        "SELECT\n",
+        "  ws.WholeSalerName\n",
+        "FROM\n",
+        "  sap_dev.silver.fact_purchase fp\n",
+        "    INNER JOIN sap_dev.silver.dim_wholesaler ws\n",
+        "      ON fp.WholesalerSK = ws.WholeSalerSK\n",
+        "GROUP BY\n",
+        "  ws.WholeSalerName"
+      ],
+      "catalog": "sap_dev",
+      "schema": "silver"
+    }
+  ],
+  "pages": [
+    {
+      "name": "de87f574",
+      "displayName": "Page 1",
+      "layout": [
+        {
+          "widget": {
+            "name": "total_purchase_value",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpis",
+                  "fields": [
+                    {
+                      "name": "TotalPurchaseValue",
+                      "expression": "`TotalPurchaseValue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Total Purchase Value",
+                "showTitle": true
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "TotalPurchaseValue",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "total_purchase_orders",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpis",
+                  "fields": [
+                    {
+                      "name": "TotalPurchaseOrders",
+                      "expression": "`TotalPurchaseOrders`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Total Purchase Orders",
+                "showTitle": true
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "TotalPurchaseOrders",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "avg_po_value",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpis",
+                  "fields": [
+                    {
+                      "name": "AvgPOValue",
+                      "expression": "`AvgPOValue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Average PO Value",
+                "showTitle": true
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "AvgPOValue",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "active_vendors",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpis",
+                  "fields": [
+                    {
+                      "name": "ActiveVendors",
+                      "expression": "`ActiveVendors`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Active Vendors",
+                "showTitle": true
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "ActiveVendors",
+                  "rowNumber": 0,
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "vendor_value",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "vendor_value",
+                  "fields": [
+                    {
+                      "name": "WholeSalerName",
+                      "expression": "`WholeSalerName`"
+                    },
+                    {
+                      "name": "sum(TotalValue)",
+                      "expression": "SUM(`TotalValue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Purchase Value by Vendor",
+                "showTitle": true
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "WholeSalerName",
+                  "displayName": "WholeSalerName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(TotalValue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "TotalValue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "WholeSalerName",
+                  "displayName": "WholeSalerName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "vendor_count",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "vendor_count",
+                  "fields": [
+                    {
+                      "name": "WholeSalerName",
+                      "expression": "`WholeSalerName`"
+                    },
+                    {
+                      "name": "sum(POCount)",
+                      "expression": "SUM(`POCount`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Purchase Orders by Vendor",
+                "showTitle": true
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "WholeSalerName",
+                  "displayName": "WholeSalerName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(POCount)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "POCount",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "WholeSalerName",
+                  "displayName": "WholeSalerName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 3,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "top_products",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "top_products",
+                  "fields": [
+                    {
+                      "name": "ProductName",
+                      "expression": "`ProductName`"
+                    },
+                    {
+                      "name": "sum(TotalValue)",
+                      "expression": "SUM(`TotalValue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Top 10 Products by Value",
+                "showTitle": true
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "ProductName",
+                  "displayName": "ProductName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(TotalValue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "TotalValue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "ProductName",
+                  "displayName": "ProductName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "warehouse_value",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "warehouse_value",
+                  "fields": [
+                    {
+                      "name": "WareHouseName",
+                      "expression": "`WareHouseName`"
+                    },
+                    {
+                      "name": "sum(TotalValue)",
+                      "expression": "SUM(`TotalValue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Purchase Value by Warehouse",
+                "showTitle": true
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "WareHouseName",
+                  "displayName": "WareHouseName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(TotalValue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "TotalValue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "WareHouseName",
+                  "displayName": "WareHouseName",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 8,
+            "width": 6,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "daily_trend",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "daily_trend",
+                  "fields": [
+                    {
+                      "name": "daily(PurchaseDate)",
+                      "expression": "DATE_TRUNC(\"DAY\", `PurchaseDate`)"
+                    },
+                    {
+                      "name": "sum(DailyValue)",
+                      "expression": "SUM(`DailyValue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Daily Purchase Trend",
+                "showTitle": true
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "daily(PurchaseDate)",
+                  "format": {
+                    "type": "date",
+                    "date": "year-month-day"
+                  },
+                  "displayName": "Day",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(DailyValue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "DailyValue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 13,
+            "width": 12,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "po_details",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "po_details",
+                  "fields": [
+                    {
+                      "name": "PurchaseID",
+                      "expression": "`PurchaseID`"
+                    },
+                    {
+                      "name": "PurchaseDate",
+                      "expression": "`PurchaseDate`"
+                    },
+                    {
+                      "name": "Vendor",
+                      "expression": "`Vendor`"
+                    },
+                    {
+                      "name": "Product",
+                      "expression": "`Product`"
+                    },
+                    {
+                      "name": "Warehouse",
+                      "expression": "`Warehouse`"
+                    },
+                    {
+                      "name": "Quantity",
+                      "expression": "`Quantity`"
+                    },
+                    {
+                      "name": "UnitCost",
+                      "expression": "`UnitCost`"
+                    },
+                    {
+                      "name": "POValue",
+                      "expression": "`POValue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Purchase Order Details",
+                "showTitle": true
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "PurchaseID"
+                  },
+                  {
+                    "fieldName": "PurchaseDate",
+                    "format": {
+                      "type": "date",
+                      "date": "year-month-day"
+                    }
+                  },
+                  {
+                    "fieldName": "Vendor"
+                  },
+                  {
+                    "fieldName": "Product"
+                  },
+                  {
+                    "fieldName": "Warehouse"
+                  },
+                  {
+                    "fieldName": "Quantity",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none"
+                    }
+                  },
+                  {
+                    "fieldName": "UnitCost",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "INR",
+                      "abbreviation": "compact",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      }
+                    }
+                  },
+                  {
+                    "fieldName": "POValue",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "INR",
+                      "abbreviation": "compact",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      }
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 18,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "filter_vendor",
+            "queries": [
+              {
+                "name": "dashboards/01f1949f9f341c70838c447559d1d4e2/datasets/01f194a4445919efb130467b561a9282_WholeSalerName",
+                "query": {
+                  "datasetName": "filter_vendors",
+                  "fields": [
+                    {
+                      "name": "WholeSalerName",
+                      "expression": "`WholeSalerName`"
+                    },
+                    {
+                      "name": "WholeSalerName_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Filter by Vendor",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "WholeSalerName",
+                    "queryName": "dashboards/01f1949f9f341c70838c447559d1d4e2/datasets/01f194a4445919efb130467b561a9282_WholeSalerName"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 26,
+            "width": 4,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "filter_product",
+            "queries": [
+              {
+                "name": "dashboards/01f1949f9f341c70838c447559d1d4e2/datasets/01f194a43ee912188910a298e02e1d65_ProductName",
+                "query": {
+                  "datasetName": "filter_products",
+                  "fields": [
+                    {
+                      "name": "ProductName",
+                      "expression": "`ProductName`"
+                    },
+                    {
+                      "name": "ProductName_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Filter by Product",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "ProductName",
+                    "queryName": "dashboards/01f1949f9f341c70838c447559d1d4e2/datasets/01f194a43ee912188910a298e02e1d65_ProductName"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 26,
+            "width": 4,
+            "height": 4
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}

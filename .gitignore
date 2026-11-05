@@ -1,0 +1,4 @@
+
+# Files with secrets - excluded for GitHub Push Protection
+**/diesel-ellipse-505304-d0-f359e9488ed5.json
+3_AI_Platform/3_AI_Agents/02_Knowledge_Hub/knowledge_base.json*
